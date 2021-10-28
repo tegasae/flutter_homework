@@ -1,5 +1,11 @@
 name: homework1
 
 environment:
-  sdk: '>=2.13.0 <3.0.0'
+  sdk: '>=2.14.0 <3.0.0'
 
+dependencies:
+  test: ^1.19.2
+
+
+#dart_eval: ^0.0.4
+#  analyzer: ^2.4.0

@@ -14,6 +14,7 @@ class Point {
 
   @override
   operator ==(point) => this.x == (point as Point).x && this.y==point.y && this.z==point.z;
+  operator -(Point point) => distanceTo(point);
 
   double distanceTo(Point point) {
     if (this==point) {
