@@ -8,7 +8,7 @@ double _power(double n,int power) {
 }
 
 extension nthRoot on num {
-  double sqrt_new(int s,[double precision=0.1]) {
+  double calculateRoot(int s,[double precision=0.1]) {
     double x0 = 0;
     double x1 = 1;
 
@@ -17,7 +17,17 @@ extension nthRoot on num {
     int i = 0;
     while ((x1 - x0).abs() > precision) {
       x0 = x1;
+
       x1=((s-1)*x0+(this/_power(x0,s-1)))/s;
+
+
+      if (x1==double.infinity) {
+        print('11111');
+        throw ArgumentError('1111');
+      }
+
+      print(x1);
+
     }
     return (x1*(1/precision)+0.5*precision).round()*precision;
   }

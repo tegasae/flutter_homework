@@ -1,3 +1,6 @@
+//Упражнение 4
+//Есть коллекция слов. Реализуйте метод, возвращающий Map.
+// Данный Map должен соотносить слово и количество его вхождений в данную коллекцию.
 class CounterWords {
   static Map<String, int> counter(List<String> list) {
       var collectionWords=<String, int>{};
