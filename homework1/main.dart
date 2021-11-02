@@ -15,36 +15,57 @@ import 'package:homework1/exercise9.dart' as Exercise9;
 
 
 main() {
-  /*
+  //exercise1
+  group('Упражнение 1 ', () {
+    int number=105;
+    int number1=60;
+    int zero=0;
+    var calculate=Exercise1.Calculate(number);
+    int gcd=calculate.gcd(number1);
+    int lcm=calculate.lcm(number1);
+
+    List<int> simpleNumber=calculate.factorizeTrivial();
+    test('Наибольший общий делитель для  $number и $number1 равен $gcd', () {
+      expect(gcd, equals(15));
+    });
+    test('Наименьшее общее кратное для  $number и $number1 равен $lcm', () {
+      expect(lcm, equals(420));
+    });
+    test('Простые множители для  $number $simpleNumber', () {
+      expect(simpleNumber, equals([3,5,7]));
+    });
+    test('Исключение что аргумент неверный при $zero', () {
+      expect(()=>Exercise1.Calculate(zero), equals(throwsA(TypeMatcher<ArgumentError>())));
+    });
+
+  });
+
+
   //exercise2
-  group('Упражнение 2, перевод чисел из десятичной системы в двоичную и обратно', () {
+  group('Упражнение 2', () {
     var zero=0;
-    var n1024=1024;
+    var d256=256;
     var b256=100000000;
     var notBin=123;
-    test('Перевод десятичного числа '+ zero.toString()+ 'в двоичное ', () {
-      expect(Exercise2.DecBin.dec2bin(zero), equals(0));
+    test('Перевод десятичного числа $d256 в двоичное $b256', () {
+      expect(Exercise2.DecBin.dec2bin(d256), equals(b256));
     });
-    test('Перевод десятичного числа '+n1024.toString()+' в двоичное ', () {
-      expect(Exercise2.DecBin.dec2bin(n1024), equals(10000000000));
+
+    test('Перевод двоичного числа $b256 в десятичное $d256', () {
+      expect(Exercise2.DecBin.bin2dec(b256), equals(d256));
     });
-    test('Перевод отрицательного десятичного числа '+(-1*n1024).toString()+' в двоичное ', () {
-      expect(()=>Exercise2.DecBin.dec2bin(-1024), throwsA(TypeMatcher<ArgumentError>()));
+    test('Перевод отрицательного десятичного числа -$d256 в двоичное ', () {
+      expect(()=>Exercise2.DecBin.dec2bin(-1*d256), throwsA(TypeMatcher<ArgumentError>()));
     });
-    test('Перевод двоичного числа '+zero.toString()+' в десятичное ', () {
-      expect(Exercise2.DecBin.bin2dec(zero), equals(0));
-    });
-    test('Перевод двоичного числа '+b256.toString()+' в десятичное ', () {
-      expect(Exercise2.DecBin.bin2dec(b256), equals(256));
-    });
-    test('Перевод двоичного числа, которое содержит не только 0 или 1 '+notBin.toString()+' в десятичное ', () {
+
+    test('Перевод двоичного числа, которое содержит не только 0 или 1 $notBin в десятичное', () {
       expect(() => Exercise2.DecBin.bin2dec(notBin), throwsA(TypeMatcher<ArgumentError>()));
     });
   });
 
 
   //exercise3
-  group('Упражнение 3, поиск чисел в строке и возвращение коллекции чисел', () {
+  group('Упражнение 3 ', () {
     var str1='str1 123 text 456 end of str';
     var str2='1 str2 123 text 456 end of str';
     var str3='str3 12.3 text 45.6 end of str';
@@ -175,11 +196,6 @@ main() {
   });
 
 */
-  var n=Exercise1.Calculate(2);
-
-  //n.factorizeTrivial(864);
-  //print(n.simpleNumbers);
-  n.factorize(864);
 
 
 }
