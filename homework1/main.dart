@@ -2,19 +2,20 @@ import 'dart:math';
 
 import 'package:test/test.dart';
 
-import 'package:homework1/exercise1.dart';
+import 'package:homework1/exercise1.dart' as Exercise1;
 import 'package:homework1/exercise2.dart' as Exercise2;
 import 'package:homework1/exercise3.dart' as Exercise3;
 import 'package:homework1/exercise4.dart' as Exercise4;
 import 'package:homework1/exercise5.dart' as Exercise5;
 import 'package:homework1/exercise6.dart' as Exercise6;
 import 'package:homework1/exercise7.dart' as Exercise7;
-import 'package:homework1/exercise8.dart';
+import 'package:homework1/exercise8.dart' as Exercise8;
 import 'package:homework1/exercise9.dart' as Exercise9;
 
 
 
 main() {
+  /*
   //exercise2
   group('Упражнение 2, перевод чисел из десятичной системы в двоичную и обратно', () {
     var zero=0;
@@ -142,10 +143,10 @@ main() {
   //exercise7
   group('Упражнение 7, вычисление корня любой степени из числа', ()
   {
-    num n1=4.0;
-    num n2=-4.0;
-    var root2=2;
-    var root3=3;
+    num n1 = 4.0;
+    num n2 = -4.0;
+    var root2 = 2;
+    var root3 = 3;
 
 
     test('Корень ', () {
@@ -159,17 +160,27 @@ main() {
     test('Корень ', () {
       expect(Exercise7.nthRoot(n1).calculateRoot(0), equals(2.0));
     });
+  });
 
+  //exercise9
+  group('Упражнение 9, вычисление интеграла', ()
+  {
+    double f(double x) {
+      return 1 / x;
+    }
+    double e=0.001;
+    var sinx = Exercise9.Integral(sin).trapezoid(0, pi,e=0.001);
 
 
   });
 
+*/
+  var n=Exercise1.Calculate(2);
 
-  double y;
-  y=Exercise9.Integral.trapezoid(sin, 0, 3.14);
-  print(y);
+  //n.factorizeTrivial(864);
+  //print(n.simpleNumbers);
+  n.factorize(864);
 
-  y=Exercise9.Integral.trapezoid(log, -1, 1);
-  print(y);
+
 }
 
