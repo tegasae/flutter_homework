@@ -15,14 +15,15 @@ import 'package:homework1/exercise9.dart' as Exercise9;
 
 
 main() {
+
   //exercise1
   group('Упражнение 1 ', () {
-    int number=105;
-    int number1=60;
-    int zero=0;
-    var calculate=Exercise1.Calculate(number);
-    int gcd=calculate.gcd(number1);
-    int lcm=calculate.lcm(number1);
+    const number=105;
+    const number1=60;
+    const zero=0;
+    final calculate=Exercise1.Calculate(number);
+    final int gcd=calculate.gcd(number1);
+    final int lcm=calculate.lcm(number1);
 
     List<int> simpleNumber=calculate.factorizeTrivial();
     test('Наибольший общий делитель для  $number и $number1 равен $gcd', () {
@@ -43,10 +44,9 @@ main() {
 
   //exercise2
   group('Упражнение 2', () {
-    var zero=0;
-    var d256=256;
-    var b256=100000000;
-    var notBin=123;
+    const d256=256;
+    const b256=100000000;
+    const notBin=123;
     test('Перевод десятичного числа $d256 в двоичное $b256', () {
       expect(Exercise2.DecBin.dec2bin(d256), equals(b256));
     });
@@ -58,7 +58,7 @@ main() {
       expect(()=>Exercise2.DecBin.dec2bin(-1*d256), throwsA(TypeMatcher<ArgumentError>()));
     });
 
-    test('Перевод двоичного числа, которое содержит не только 0 или 1 $notBin в десятичное', () {
+    test('Перевод двоичного числа, которое содержит не только 0 или 1 $notBin в десятичное, получаем исключение', () {
       expect(() => Exercise2.DecBin.bin2dec(notBin), throwsA(TypeMatcher<ArgumentError>()));
     });
   });
@@ -66,68 +66,40 @@ main() {
 
   //exercise3
   group('Упражнение 3 ', () {
-    var str1='str1 123 text 456 end of str';
-    var str2='1 str2 123 text 456 end of str';
-    var str3='str3 12.3 text 45.6 end of str';
-    var str4='str4 -123 text +45.6 end of str';
-    var str5='str5';
-    var str6='';
+    const str1='1 str1 123 text 456 text -12.3 456 end of str';
+    const str2='str1';
 
-    test('Поиск чисел в строке '+ str1, (){
-      expect(Exercise3.NumbersCollection.getNumbers(str1),equals([123,456]));
+    const n1=[1, 123, 456, -12.3, 456];
+    const n2=[];
+    test('Поиск чисел в строке $str1, должно быть $n1', (){
+      expect(Exercise3.NumbersCollection.getNumbers(str1),equals(n1));
     });
 
-    test('Поиск чисел в строке '+ str2 + ' с первым символом числом', (){
-      expect(Exercise3.NumbersCollection.getNumbers(str2),equals([1, 123,456]));
+    test('Поиск чисел в строке str2, должно быть $n2', (){
+      expect(Exercise3.NumbersCollection.getNumbers(str2),equals(n2));
     });
-
-    test('Поиск чисел в строке '+ str3 + ' с дробными числами', (){
-      expect(Exercise3.NumbersCollection.getNumbers(str3),equals([12.3,45.6]));
-    });
-    test('Поиск чисел в строке '+ str4 + ' с положительными и отриацательными числами', (){
-      expect(Exercise3.NumbersCollection.getNumbers(str4),equals([-123,45.6]));
-    });
-    test('Поиск чисел в строке '+ str5 + ' без чисел', (){
-      expect(Exercise3.NumbersCollection.getNumbers(str5),equals([]));
-    });
-    test('Поиск чисел в строке '+ str6 + ', которая пустая', (){
-      expect(Exercise3.NumbersCollection.getNumbers(str6),equals([]));
-    });
-
-
   });
+
+
 
   //exercise4
-  group('Упражнение 4, подсчет количества слов', () {
-    List<String> list1=['word1','word2','word3'];
-    List<String> list2=['word1','word2','word3','word1','word2'];;
-    List<String> list3=[];
-
-
-    test('Подсчет слов в коллекции '+ list1.toString(), (){
-      expect(Exercise4.CounterWords.counter(list1),equals({'word1': 1, 'word2': 1, 'word3': 1}));
+  group('Упражнение 4', () {
+    const List<String> list1=['word1','word2','word3','word1','word4'];
+    const Map<String,int> count1={'word1': 2, 'word2': 1, 'word3': 1,'word4':1};
+    test('Подсчет слов в коллекции $list1, должно быть $count1', (){
+      expect(Exercise4.CounterWords.counter(list1),equals(count1));
     });
-    test('Подсчет слов в коллекции '+ list2.toString(), (){
-      expect(Exercise4.CounterWords.counter(list2),equals({'word1': 2, 'word2': 2, 'word3': 1}));
-    });
-    test('Подсчет слов в пустой коллекции '+ list3.toString(), (){
-      expect(Exercise4.CounterWords.counter(list3),equals({}));
-    });
-
-  });
+   });
 
   //exercise5
-  group('Упражнение 5, подсчет количества цифр', ()
+
+  group('Упражнение 5', ()
   {
-    List<String> listOfWords1 = ['one, two, zero, zero'];
-    List<String> listOfWords2 = ['one, two, zero, word1,zero','word1, word2, word3','one, word1'];
+    final List<String> listOfWords1 = ['one, two, zero, word1, zero','word1, word2, word3','one, word1'];
 
-
-    test('Подсчет цифр в коллекции ' + listOfWords1.toString(), () {
-      expect(Exercise5.CounterNumbers.counterNumbers(listOfWords1), equals([[1, 2, 0]]));
-    });
-    test('Подсчет цифр в коллекции ' + listOfWords2.toString(), () {
-      expect(Exercise5.CounterNumbers.counterNumbers(listOfWords2), equals([[1, 2, 0],[],[1]]));
+    const lists1=[[1,2,0],[],[1]];
+    test('Подсчет цифр в коллекции $listOfWords1, должно быть $lists1', () {
+      expect(Exercise5.CounterNumbers.counterNumbers(listOfWords1), equals(lists1));
     });
 
   });
@@ -135,32 +107,34 @@ main() {
   //exercise6
   group('Упражнение 6, расчет расстояний между точками', ()
   {
-    var p0 = Exercise6.Point.zero();
-    var p1 = Exercise6.Point.one();
-    var p  = Exercise6.Point(1.5,2.5,3.5);
+    final p0 = Exercise6.Point.zero();
+    final p1 = Exercise6.Point.one();
+    final pn  = Exercise6.Point(1,1,2);
 
-    var pEqual=Exercise6.Point(1.5,2.5,3.5);
+    final pEqual=Exercise6.Point(1,1,2);
 
-    test('Расстояние между точками ' + p0.toString() +' и '+p1.toString(), () {
-      expect(p0.distanceTo(p1), equals(1.7320508075688772));
+    const distance01=1.7320508075688772;
+    const distance0n=1;
+    const distanceZero=0;
+
+    test('Расстояние между точками $p0 $p1 равно $distance01', () {
+      expect(p0.distanceTo(p1), equals(distance01));
     });
 
-    test('Расстояние между точками ' + p0.toString() +' и '+p.toString(), () {
-      expect(p0.distanceTo(p), equals(4.55521678957215));
+    test('Расстояние между точками $p1 и $pn равно $distance0n', () {
+      expect(p0.distanceTo(pn), equals(distance0n));
     });
 
-    test('Расстояние между точками ' + p0.toString() +' и '+p.toString(), () {
-      expect(p0.distanceTo(p), equals(4.55521678957215));
-    });
-    test('Расстояние между точками ' + p.toString() +' и '+pEqual.toString(), () {
-      expect(p.distanceTo(pEqual), equals(0));
+
+    test('Расстояние между точками $pn и $pEqual равно distanceZero', () {
+      expect(pn.distanceTo(pEqual), equals(distanceZero));
     });
 
-    test('Расстояние между точками ' + p0.toString() +' и '+p1.toString() + ' при помощи перезагрузки оператора', () {
-      expect(p0-p1, equals(1.7320508075688772));
+    test('Расстояние между точками $p0 $p1 используя перегруженный оператор "-" равно $distance01', () {
+      expect(p0-p1, equals(distance01));
     });
   });
-
+/*
   //exercise7
   group('Упражнение 7, вычисление корня любой степени из числа', ()
   {
