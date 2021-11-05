@@ -11,9 +11,14 @@
 //значение после @. Проверьте реализованные методы на практике.
 
 class User {
-  final String _email;
+  late String _email;
 
-  User(this._email);
+  User(String _email) {
+    if (!_email.contains('@')) {
+      throw new ArgumentError('Должен быть @');
+    }
+    this._email=_email;
+  }
   String get email => this._email;
 
   @override

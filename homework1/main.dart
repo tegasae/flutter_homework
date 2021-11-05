@@ -111,66 +111,120 @@ main() {
     final p1 = Exercise6.Point.one();
     final pn  = Exercise6.Point(1,1,2);
 
-    final pEqual=Exercise6.Point(1,1,2);
+    final pEqual=Exercise6.Point(1,1,2.0);
 
     const distance01=1.7320508075688772;
-    const distance0n=1;
+
+    const distance1n=1;
     const distanceZero=0;
 
     test('Расстояние между точками $p0 $p1 равно $distance01', () {
       expect(p0.distanceTo(p1), equals(distance01));
     });
-
-    test('Расстояние между точками $p1 и $pn равно $distance0n', () {
-      expect(p0.distanceTo(pn), equals(distance0n));
+    test('Расстояние между точками $p1 и $pn равно $distance1n', () {
+      expect(p1.distanceTo(pn), equals(distance1n));
     });
-
-
     test('Расстояние между точками $pn и $pEqual равно distanceZero', () {
       expect(pn.distanceTo(pEqual), equals(distanceZero));
     });
-
     test('Расстояние между точками $p0 $p1 используя перегруженный оператор "-" равно $distance01', () {
       expect(p0-p1, equals(distance01));
     });
   });
-/*
+
+
+
   //exercise7
-  group('Упражнение 7, вычисление корня любой степени из числа', ()
+  group('Упражнение 7 ', ()
   {
-    num n1 = 4.0;
-    num n2 = -4.0;
-    var root2 = 2;
-    var root3 = 3;
+    const n4 = 4.0;
+    const n4Negative = -4.0;
+    const n8=8;
 
+    const root2 = 2;
+    const root3 = 3;
 
-    test('Корень ', () {
-      expect(Exercise7.nthRoot(n1).calculateRoot(root2), equals(2.0));
+    const result4=2;
+    const result8=2;
+
+    test('Из $n4 извлекаем корень $root2 равно $result4', () {
+      expect(Exercise7.nthRoot(n4).calculateRoot(root2), equals(result4));
     });
 
-    test('Корень ', () {
-      expect(Exercise7.nthRoot(n2).calculateRoot(0), equals(2.0));
+    test('Из $n8 извлекаем корень $root3 равно $result8', () {
+      expect(Exercise7.nthRoot(n8).calculateRoot(root3), equals(result8));
     });
 
-    test('Корень ', () {
-      expect(Exercise7.nthRoot(n1).calculateRoot(0), equals(2.0));
+    test('Из $n4Negative извлекаем корень $root2, получаем исключение', () {
+      expect(() => Exercise7.nthRoot(n4Negative).calculateRoot(root2), throwsA(TypeMatcher<ArgumentError>()));
     });
+
+
+  });
+
+  //exercise8
+  group('Упражнение 8', ()
+  {
+
+    var adminUser=Exercise8.AdminUser('admin@admin.ru');
+    var generalUser1=Exercise8.GeneralUser('user1@user.ru');
+    var generalUser2=Exercise8.GeneralUser('user2@user.ru');
+    var userManager=Exercise8.UserManager<Exercise8.User>();
+
+    userManager.addUser(adminUser);
+    userManager.addUser(generalUser1);
+    userManager.addUser(generalUser2);
+
+    const list1=['admin.ru','user1@user.ru','user2@user.ru'];
+    const list2=['admin.ru','user2@user.ru'];
+
+    final result1=userManager.getEmails();
+    userManager.delUser(generalUser1);
+    final result2=userManager.getEmails();
+
+    test('Список $result1 равен $list1', () {
+      expect(result1, equals(list1));
+    });
+
+    test('Список $result2 после удаления пользователя равен $list2', () {
+      expect(result2, equals(list2));
+    });
+
+
   });
 
   //exercise9
-  group('Упражнение 9, вычисление интеграла', ()
+  group('Упражнение 9', ()
   {
-    double f(double x) {
-      return 1 / x;
-    }
-    double e=0.001;
-    var sinx = Exercise9.Integral(sin).trapezoid(0, pi,e=0.001);
+    const fSin=sin;
+    const fLn=log;
+
+    const x0=0.0;
+    const xPi=pi;
+    const x1=1.0;
+
+    const sinResult=2.0;
+
+    var e=0.001;
+
+    test('Интеграл для $fSin на [$x0, $xPi] равен $sinResult-$e $sinResult+$e', () {
+      expect(Exercise9.Integral(fSin).trapezoid(x0,xPi, e), allOf([lessThan(sinResult+e),greaterThan(sinResult-e)]));
+    });
+
+    test('Интеграл $fLn на [$x0, $x1] не определен, получаем исключение', () {
+      expect(() => Exercise9.Integral(fLn).trapezoid(x0, x1), throwsA(TypeMatcher<Exercise9.ValueNotDefinedException>()));
+    });
 
 
   });
 
-*/
-
-
+  var adminUser=Exercise8.AdminUser('admin@admin.ru');
+  var generalUser1=Exercise8.GeneralUser('user1@user.ru');
+  var generalUser2=Exercise8.GeneralUser('user2@user.ru');
+  var userManager=Exercise8.UserManager<Exercise8.User>();
+  userManager.addUser(adminUser);
+  userManager.addUser(generalUser1);
+  userManager.addUser(generalUser2);
+  print(userManager.getEmails());
 }
 
