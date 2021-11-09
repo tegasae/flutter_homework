@@ -54,9 +54,6 @@ main() {
     test('Перевод двоичного числа $b256 в десятичное $d256', () {
       expect(Exercise2.DecBin.bin2dec(b256), equals(d256));
     });
-    test('Перевод отрицательного десятичного числа -$d256 в двоичное ', () {
-      expect(()=>Exercise2.DecBin.dec2bin(-1*d256), throwsA(TypeMatcher<ArgumentError>()));
-    });
 
     test('Перевод двоичного числа, которое содержит не только 0 или 1 $notBin в десятичное, получаем исключение', () {
       expect(() => Exercise2.DecBin.bin2dec(notBin), throwsA(TypeMatcher<ArgumentError>()));
@@ -71,11 +68,11 @@ main() {
 
     const n1=[1, 123, 456, -12.3, 456];
     const n2=[];
-    test('Поиск чисел в строке $str1, должно быть $n1', (){
+    test('Поиск чисел в строке "$str1", должно быть $n1', (){
       expect(Exercise3.NumbersCollection.getNumbers(str1),equals(n1));
     });
 
-    test('Поиск чисел в строке str2, должно быть $n2', (){
+    test('Поиск чисел в строке "str2", должно быть $n2', (){
       expect(Exercise3.NumbersCollection.getNumbers(str2),equals(n2));
     });
   });
@@ -124,7 +121,7 @@ main() {
     test('Расстояние между точками $p1 и $pn равно $distance1n', () {
       expect(p1.distanceTo(pn), equals(distance1n));
     });
-    test('Расстояние между точками $pn и $pEqual равно distanceZero', () {
+    test('Расстояние между точками $pn и $pEqual равно $distanceZero', () {
       expect(pn.distanceTo(pEqual), equals(distanceZero));
     });
     test('Расстояние между точками $p0 $p1 используя перегруженный оператор "-" равно $distance01', () {
