@@ -18,9 +18,9 @@ class DecBin {
       number = (number / 2).floor();
       p *= 10;
     }
-
     return result;
   }
+
   //перевод из двоичной в десятичную
   //интересно было попробовать средствами языка
   static int bin2dec(int number) {

@@ -21,14 +21,16 @@ class Integral {
     double step=(end-start)*e;
 
     while (true) {
+
       x=start;
       while (x < end) {
         s1 += ((f(x+step) + f(x)) / 2) * (step);
-        if ((s1==double.infinity) || (s1==double.nan)) {
-          throw new ValueNotDefinedException('Значение фунции не определено');
+        if ((s1==double.infinity) || (s1==-double.infinity)|| (s1==double.nan)) {
+          throw new ValueNotDefinedException('Значение фунции не определено для $x');
         }
         x+=step;
       }
+
       if ((s1-s0).abs()<=e) {
         break;
       }

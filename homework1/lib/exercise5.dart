@@ -8,7 +8,7 @@
 
 //enum digitName {zero,one,two,three,four,five,six,seven,eight,nine}
 class CounterNumbers {
-  static var _digitName=['zero','one','two','three','four','five','six','seven','eight','nine'];
+  static const _digitName=['zero','one','two','three','four','five','six','seven','eight','nine'];
 
   static List<List<int>> counterNumbers(List<String> stringsList) {
     List<List<int>> result=[];

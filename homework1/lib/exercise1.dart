@@ -1,13 +1,18 @@
 import 'dart:math';
 
 class Calculate {
-  int number=0;
-  List<int> simpleNumbers=[];
+  late final int _number;
+  List<int> _simpleNumbers=[];
 
-  Calculate(this.number);
+  Calculate(int number) {
+    if (number<=0) {
+      throw new ArgumentError('Only greater than 0');
+    }
+    this._number=number;
+  }
 
   int gcd(int secondNumber) {
-    int max=this.number;
+    int max=this._number;
     int min=secondNumber;
     int result;
     int swap;
@@ -25,14 +30,33 @@ class Calculate {
       }
     }
   }
+
   int lcm(int secondNumber) {
-    return ((this.number*secondNumber).abs()/this.gcd(secondNumber)).toInt();
+    return ((this._number*secondNumber).abs()/this.gcd(secondNumber)).toInt();
   }
 
-  bool _perfectSquare(int x) {
-    int n=sqrt(x).toInt();
-    return n*n==x;
+  List<int> factorizeTrivial() {
+    int n=this._number;
+    int divisor = 2;
+    while (divisor * divisor <= n) {
+      if (n % divisor == 0) {
+        n = n ~/ divisor;
+        _simpleNumbers.add(divisor);
+      }
+      else {
+        divisor += 1;
+      }
+    }
+    if (n != 1) {
+      _simpleNumbers.add(n);
+    }
+    return _simpleNumbers;
   }
+
+  //bool _perfectSquare(int x) {
+  //  int n=sqrt(x).toInt();
+  //  return n*n==x;
+  //}
   /*int factorizeFerma(int n) {
     if ((n==1) || (n==2)) {
       return n;
@@ -55,25 +79,7 @@ class Calculate {
 
 }
 */
-  void factorizeTrivial(int n) {
-    int divisor = 2;
-    while (divisor * divisor <= n) {
-      if (n % divisor == 0) {
-        n = n ~/ divisor;
-        simpleNumbers.add(divisor);
-        print(divisor);
-      }
-      else {
-        divisor += 1;
-      }
-    }
-    if (n != 1) {
-      simpleNumbers.add(n);
-      print(n);
-    }
-
-  }
-
+ /*
   int factorizeFerma(int n) {
 
     int x = sqrt(n).toInt();
@@ -118,6 +124,10 @@ class Calculate {
     //print(n~/n1);
     return 0;
   }
+
+  */
+
 }
+
 
 
