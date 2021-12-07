@@ -1,0 +1,4 @@
+#Wed Nov 24 11:39:59 MSK 2021
+base.0=/home/sae/homework/tabs/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
