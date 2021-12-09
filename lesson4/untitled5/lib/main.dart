@@ -60,10 +60,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             Column(
-              children: <Widget>[
-                const Text('Right'),
-                const MyTextButtonSub(),
-                const MyText(),
+              children: const <Widget>[
+                Text('Right'),
+                MyTextButtonSub(),
+                MyText(),
               ],
             )
           ],
