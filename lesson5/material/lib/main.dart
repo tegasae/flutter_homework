@@ -145,19 +145,19 @@ class _ScaffoldExampleState extends State<ScaffoldExample> {
           onPressed: (){},
           label: Text("Open"),
           icon: Icon(Icons.add),),
-      // bottomSheet:
-      //   BottomSheet(
-      //
-      //     builder: (context)=> Container(
-      //       color: Colors.greenAccent,
-      //       height: 300,
-      //       child:
-      //         Center(
-      //           child: Text('BOTTOM SHEET')
-      //         ),
-      //     ),
-      //     onClosing: () {},
-      //   ),
+        // bottomSheet:
+        //   BottomSheet(
+        //
+        //     builder: (context)=> Container(
+        //       color: Colors.greenAccent,
+        //       height: 300,
+        //       child:
+        //         Center(
+        //           child: Text('BOTTOM SHEET')
+        //         ),
+        //     ),
+        //     onClosing: () {},
+        //   ),
     );
   }
 }
