@@ -66,7 +66,10 @@ class _BottomNavigationExampleState extends State<BottomNavigationExample>
       });
     });
   }
-
+  int setIndex() {
+    print('setIndex');
+    return _currentTabIndex;
+  }
   @override
   Widget build(BuildContext build) {
     return Scaffold(
@@ -94,9 +97,12 @@ class _BottomNavigationExampleState extends State<BottomNavigationExample>
           setState((){
             _tabController.index=index;
             _currentTabIndex=index;
+            print('on Tap');
+            print(index);
           });
         },
-        currentIndex: _currentTabIndex,
+        //currentIndex: _currentTabIndex,
+          currentIndex: setIndex(),
         items: [
           for (final item in _tabBar)
            BottomNavigationBarItem(label: item.title,icon: item.icon)

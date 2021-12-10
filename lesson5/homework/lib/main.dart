@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage>
   int _currentTabIndex=0;
 
   final GlobalKey<ScaffoldState> scaffoldKey= GlobalKey<ScaffoldState>();
-  PersistentBottomSheetController ?_controller=null;
+  PersistentBottomSheetController ?_controller;
 
 
 
@@ -65,9 +65,50 @@ class _HomePageState extends State<HomePage>
     if (_controller==null) {
       _controller=scaffoldKey.currentState!.showBottomSheet(
               (context) => Container(
-                color: Colors.deepOrange,
+                color: Colors.white,
                 height: 200,
-                child: Center(child: Text('Bottom here'),),
+                child: Column(
+
+                  children: [
+                    Row(
+                     children: [
+                       Expanded(
+                         child:
+                         Container(color: Colors.yellow,
+                             child:Padding(
+                               padding: EdgeInsets.all(16.0),
+                               child: Align(
+                                   alignment: Alignment.topLeft,
+                                   child:
+                                   ElevatedButton(onPressed: (){}, child: Text('Оплатить'))
+                               ),
+                              ),
+                             )
+
+                         ),
+                       ),
+                       Expanded(
+                         child:
+                         Container(color: Colors.green,child:
+                         Center(
+                             child:
+                             ElevatedButton(onPressed: (){}, child: Text('Оплатить'))
+                         )
+                         ),
+                       )
+                     ],
+                    ),
+                    Expanded(
+                      child:
+                      Container(color: Colors.green,child:
+                        Center(
+                            child:
+                            ElevatedButton(onPressed: (){}, child: Text('Оплатить'))
+                        )
+                      ),
+                    ),
+                  ],
+                ),
               ));
     } else {
       _controller!.close();
@@ -89,7 +130,10 @@ class _HomePageState extends State<HomePage>
       });
     });
   }
-
+  int setIndex() {
+    print('setIndex');
+    return _currentTabIndex;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,15 +160,17 @@ class _HomePageState extends State<HomePage>
 
         ],
       ),
-
       bottomNavigationBar: BottomNavigationBar(
           onTap: (index) {
             setState((){
               _tabController.index=index;
               _currentTabIndex=index;
+              print('on Tap');
+              print(index);
             });
           },
-          currentIndex: _currentTabIndex,
+          //currentIndex: _currentTabIndex,
+          currentIndex: setIndex(),
           items: [
             for (final item in _tabBar)
               BottomNavigationBarItem(label: item.title,icon: item.icon)
@@ -133,6 +179,7 @@ class _HomePageState extends State<HomePage>
       floatingActionButton:
         FloatingActionButton(
           onPressed: toggleBottomSheet,
+          child: const Icon(Icons.add)
         ),
 
     );
