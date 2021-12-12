@@ -23,8 +23,19 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
+          textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                  primary: Colors.white70,
+                  onSurface: Colors.blue,
+                  backgroundColor: Colors.grey,
+                  textStyle: const TextStyle(
+                      //fontSize: 24,
+                      //fontWeight: FontWeight.bold,
+                      //fontStyle: FontStyle.italic,
+                  )))
+
       ),
-      home: HomePage()
+      home: const HomePage()
     );
   }
 }
@@ -60,56 +71,16 @@ class _HomePageState extends State<HomePage>
   PersistentBottomSheetController ?_controller;
 
 
-
+  void offBottomSheet() {
+    if (_controller!=null) {
+      _controller!.close();
+      _controller=null;
+    }
+  }
   void toggleBottomSheet() {
     if (_controller==null) {
       _controller=scaffoldKey.currentState!.showBottomSheet(
-              (context) => Container(
-                color: Colors.white,
-                height: 200,
-                child: Column(
-
-                  children: [
-                    Row(
-                     children: [
-                       Expanded(
-                         child:
-                         Container(color: Colors.yellow,
-                             child:Padding(
-                               padding: EdgeInsets.all(16.0),
-                               child: Align(
-                                   alignment: Alignment.topLeft,
-                                   child:
-                                   ElevatedButton(onPressed: (){}, child: Text('Оплатить'))
-                               ),
-                              ),
-                             )
-
-                         ),
-                       ),
-                       Expanded(
-                         child:
-                         Container(color: Colors.green,child:
-                         Center(
-                             child:
-                             ElevatedButton(onPressed: (){}, child: Text('Оплатить'))
-                         )
-                         ),
-                       )
-                     ],
-                    ),
-                    Expanded(
-                      child:
-                      Container(color: Colors.green,child:
-                        Center(
-                            child:
-                            ElevatedButton(onPressed: (){}, child: Text('Оплатить'))
-                        )
-                      ),
-                    ),
-                  ],
-                ),
-              ));
+              (context) => _BottomSheet());
     } else {
       _controller!.close();
       _controller=null;
@@ -127,11 +98,13 @@ class _HomePageState extends State<HomePage>
       print('Listener');
       setState(() {
         _currentTabIndex=_tabController.index;
+        //_currentTabIndex=0;
       });
     });
   }
   int setIndex() {
     print('setIndex');
+
     return _currentTabIndex;
   }
 
@@ -140,33 +113,22 @@ class _HomePageState extends State<HomePage>
 
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(title: const Text('Flutter Demo Home Page')),
-      drawer: Drawer(child: Text('Drawer')),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          Container(
-              color: Colors.green,
-              child: const Center(child: Text('1'))
-          ),
-          Container(
-              color: Colors.yellow,
-              child: const Center(child: Text('2'))
-          ),
-          Container(
-              color: Colors.purple,
-              child: const Center(child: Text('3'))
-          )
-
-        ],
+      appBar: AppBar(
+          title: const Text('Flutter Demo Home Page'),
+          actions: const [
+            _EndDrawerAction(),
+          ],
       ),
+      drawer: _Drawer(),
+      endDrawer: _EndDrawer(),
+      body: GestureDetector(onTap: () {print('On tap');offBottomSheet();},
+          child: MyInheritedWidget(tabController: _tabController,
+          child:_TabBarView())),
       bottomNavigationBar: BottomNavigationBar(
           onTap: (index) {
             setState((){
               _tabController.index=index;
               _currentTabIndex=index;
-              print('on Tap');
-              print(index);
             });
           },
           //currentIndex: _currentTabIndex,
@@ -176,6 +138,7 @@ class _HomePageState extends State<HomePage>
               BottomNavigationBarItem(label: item.title,icon: item.icon)
           ]
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton:
         FloatingActionButton(
           onPressed: toggleBottomSheet,
@@ -183,5 +146,169 @@ class _HomePageState extends State<HomePage>
         ),
 
     );
+  }
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+}
+
+
+
+class _Drawer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+        child: SafeArea(
+            child: Column(
+              children: [
+                const DrawerHeader(
+                    child: CircleAvatar(
+                        radius: 60,
+                        backgroundColor: Colors.green,
+                        backgroundImage:
+                        AssetImage('assets/images/drawer.jpg')
+                    )),
+                const ListTile(
+                  title: Text('Home'),
+                  leading: Icon(Icons.home),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                ),
+                const ListTile(
+                  title: Text('Profile'),
+                  leading: Icon(Icons.account_box_rounded),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                ),
+                const ListTile(
+                  title: Text('Images'),
+                  leading: Icon(Icons.image),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                ),
+                Expanded(
+                    child: Container(
+                      alignment: Alignment.bottomCenter,
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: TextButton(
+                                      child: const Text('Выход'), onPressed: () {}))),
+                          Align(
+                              alignment: Alignment.bottomRight,
+                              child: TextButton(
+                                  child: const Text('Регистрация'), onPressed: () {}))
+                        ],
+                      ),
+                    ))
+              ],
+            )));
+  }
+}
+
+
+
+
+//for enddrawer
+class _EndDrawerAction extends StatelessWidget {
+  const _EndDrawerAction({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+          onPressed: (){
+          Scaffold.of(context).openEndDrawer();
+        },
+        icon: const Icon(Icons.person));
+  }
+}
+
+class _EndDrawer extends StatelessWidget {
+  
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+        child:
+           Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const [
+                      CircleAvatar(
+                          radius: 60,
+                          //backgroundColor: Colors.green,ts
+                          backgroundImage: AssetImage('assets/images/enddrawer.jpg')//NetworkImage('https://picsum.photos/1200/500')
+                      ),
+                    Text('Text')]
+           )
+    );
+  }
+}
+
+
+//for bottom sheet
+class _BottomSheet extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        color: Colors.white30,
+        //margin: const EdgeInsets.all(10.0),
+        height: 150,
+        child: Column(
+          children: [
+            Container(
+                padding: const EdgeInsets.all(30.0),
+                child: Row(children: const [
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: Icon(Icons.credit_card)),
+                  Align(alignment: Alignment.centerLeft, child: Text('Сумма')),
+                  Expanded(
+                      //flex: 4,
+                      child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Text('200 руб')))
+                ])),
+            Container(
+                constraints: BoxConstraints(maxHeight: 50.0),
+                child: TextButton(
+                    child: const Text('Оплатить'), onPressed: () {})),
+          ],
+        ));
+  }
+}
+
+
+class _TabBarView extends  StatelessWidget {
+
+  
+  @override
+  Widget build(BuildContext context) {
+    final myInheritedWidget = MyInheritedWidget.of(context);
+    return TabBarView(
+        //controller: widget.tabController,
+      controller: myInheritedWidget.tabController,
+    children: const [
+    Center(child: Text('Photo')),
+    Center(child: Text('Chat')),
+    Center(child: Text('Album'))
+
+    ],
+    );
+  }
+}
+
+class MyInheritedWidget extends InheritedWidget {
+  final TabController tabController;
+  const MyInheritedWidget({Key? key, required this.tabController, required Widget child}): super(key: key, child: child);
+
+  @override
+  bool updateShouldNotify(MyInheritedWidget oldWidget) => oldWidget.tabController!=tabController;
+
+  static of(BuildContext context) {
+    final MyInheritedWidget? result=context.dependOnInheritedWidgetOfExactType<MyInheritedWidget>();
+    return result;
   }
 }
