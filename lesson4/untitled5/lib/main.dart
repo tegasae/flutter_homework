@@ -79,6 +79,7 @@ class MyTextButtonAdd extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('ButtonAdd');
     var counter=context.watch<Counter>();
     return TextButton(onPressed: () {counter.add();}, child: const Text('Add'));
   }
@@ -89,6 +90,7 @@ class MyTextButtonSub extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('ButtonSub');
     Counter counter=context.watch<Counter>();
     return TextButton(onPressed: (){counter.sub();}, child: const Text('Sub'));
   }
@@ -99,6 +101,7 @@ class MyText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('MyText');
     return Consumer<Counter>(builder: (context,counter,child) {return Text('${counter.count}');});
   }
 }

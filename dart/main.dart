@@ -26,7 +26,7 @@ class Point3 extends Point {
   }
 }
 
-int getParameters(int x,{String name='n',required String str}) {
+int getParameters(int x,{String name='n',String str}) {
   print(x);
   print(name);
   print(str);

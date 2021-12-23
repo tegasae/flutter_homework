@@ -281,24 +281,47 @@ class _BottomSheet extends StatelessWidget {
 }
 
 
-class _TabBarView extends  StatelessWidget {
+class _TabBarView extends  StatefulWidget {
 
   
+
+  @override
+  _TabBarViewState createState()=>_TabBarViewState();
+}
+
+class _TabBarViewState extends State<_TabBarView> {
   @override
   Widget build(BuildContext context) {
     final myInheritedWidget = MyInheritedWidget.of(context);
     return TabBarView(
-        //controller: widget.tabController,
+      //controller: widget.tabController,
       controller: myInheritedWidget.tabController,
-    children: const [
-    Center(child: Text('Photo')),
-    Center(child: Text('Chat')),
-    Center(child: Text('Album'))
+      children: [
+        //Center(child: Text('Photo')),
+          ListView.builder(itemBuilder: (BuildContext context, int index) {
+              return ListTile(title: Text(index.toString()));
+        }),
+        const Center(child: Text('Chat')),
+        const Center(child: Text('Album'))
 
-    ],
+      ],
     );
   }
+
 }
+
+class _ClientListView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(itemBuilder: (BuildContext context, int index) {
+      return ListTile(title: Text(index.toString()));
+    },
+
+    );
+  }
+
+}
+
 
 class MyInheritedWidget extends InheritedWidget {
   final TabController tabController;
