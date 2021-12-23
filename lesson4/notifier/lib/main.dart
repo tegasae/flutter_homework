@@ -47,6 +47,8 @@ class _ExampleValueNotifierState extends State<ExampleValueNotifier> {
                             child: TextButton(child: Text('counter setState'),
                                 onPressed: () {
                                   setState(() {
+                                    print('setState');
+                                    print(widget);
                                     counter++;
                                   });
                                 }),
@@ -71,6 +73,7 @@ class _ExampleValueNotifierState extends State<ExampleValueNotifier> {
                                 child: ValueListenableBuilder<int>(
                                   valueListenable: counterNofifier,
                                   builder: (context,value,child) {
+                                    print(value.runtimeType);
                                     return Text(value.toString());
                                   },
                                 )
