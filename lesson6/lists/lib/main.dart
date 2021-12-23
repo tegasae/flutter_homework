@@ -115,23 +115,44 @@ class ListViewSeparator extends StatefulWidget {
   _ListViewSeparatorState createState()=>_ListViewSeparatorState();
 }
 
-class _ListViewSeparatorState extends State<ListViewSeparator> {
-  List<MyCard> myCard=[];
+class _ListViewSeparatorState extends State<ListViewSeparator> with AutomaticKeepAliveClientMixin{
+  final ScrollController _scrollController=ScrollController();
+  //List<MyCard> myCard=[];
+  List<MyCard> myCard=[for (int i=0;i<10;i++) MyCard(title: i.toString())];
   @override
   void initState() {
     super.initState();
-    for (int i=0;i<25;i++) {
-      myCard.add(MyCard(title:i.toString()));
-    }
+    //for (int i=0;i<25;i++) {
+    //  myCard.add(MyCard(title:i.toString()));
+    //}
+    _scrollController.addListener((
+
+        ) {
+      if (_scrollController.offset >= _scrollController.position.maxScrollExtent &&
+          !_scrollController.position.outOfRange) {
+        setState(() {
+          print('Bottom');
+          setState(() {
+
+          });
+        });
+      }
+    });
+    
   }
   @override
   Widget build(BuildContext context) {
+      super.build(context);
       return ListView.separated(
+                  controller: _scrollController,
                   itemBuilder: (BuildContext context,int index) {
                     print(widget);
                     if (index==myCard.length-1) {
-                      myCard.add(MyCard(title: (myCard.length + 1).toString()));
-
+                      int len=myCard.length;
+                      for (int i=0;i<10;i++) {
+                        //myCard.add(MyCard(title: (myCard.length + 1).toString()));
+                        myCard=[...myCard,MyCard(title: (len+i).toString())];
+                      }
                     }
                     print('length ${myCard.length}');
                     //return MyCard(title: index.toString());
@@ -140,6 +161,9 @@ class _ListViewSeparatorState extends State<ListViewSeparator> {
                   separatorBuilder: (BuildContext context,int index)=>const Divider(),
                   itemCount: myCard.length);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
 }
 
