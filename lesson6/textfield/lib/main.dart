@@ -101,7 +101,7 @@ class _MyTextFieldState extends State<MyTextField> {
                  borderRadius: BorderRadius.circular(25.0),
                ),
                helperText: '123',
-               hintText: '456',
+               hintText: '456'  ,
                hintStyle: TextStyle(fontSize: 20.0, color: Colors.redAccent),
                labelText: textLabel,
                suffixIcon: const Icon(Icons.search, color: Colors.purple),
