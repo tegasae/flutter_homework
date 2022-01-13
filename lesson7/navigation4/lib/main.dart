@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
+
 
 void main() {
   runApp(const MyApp());
@@ -13,22 +15,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
+
         primarySwatch: Colors.blue,
       ),
-      initialRoute: null,
+      initialRoute: '/',
       //onUnknownRoute: (context)=> const NotFound(),
       routes: {
         '/': (context)=> const StartScreen(),
-        '/generate': (context)=>const GenerateNumber(),
+        '/generate': (context)=>GenerateNumber(),
         '/get' : (context) =>const GetNumber()
       },
     );
@@ -44,24 +38,37 @@ class StartScreen extends StatelessWidget {
       appBar: AppBar(
           title: const Text('Start Screen')
       ),
-      body: Center(child: ElevatedButton(onPressed: (){Navigator.pushNamed(context, '/generate');},child: const Text('Generate Number'))),
+      body: Center(child: ElevatedButton(
+          onPressed: (){
+            //Navigator.pushNamed(context, '/generate');},
+            Navigator.pushReplacementNamed(context, '/generate');},
+            //Navigator.popAndPushNamed(context, '/generate');},
+          child: const Text('Generate Number'))),
     );
   }
 }
 
 class GenerateNumber extends StatelessWidget {
-  const GenerateNumber({Key? key}) : super(key: key);
-
+  GenerateNumber({Key? key}) : super(key: key);
+  //int generateInt() {
+  //    return Random().nextInt(100);
+  //}
+  int rand=Random().nextInt(100);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Generate Number'),
       ),
-      body: Center(child: ElevatedButton(onPressed: (){
-        Navigator.pop(context);
-        Navigator.pushNamed(context, '/get');
-        },child: const Text('Get Number'))),
+      body: Column(children: [
+        Center(child: Text("$rand")),
+        Center(child: ElevatedButton(onPressed: () async {
+        //Navigator.pop(context);
+        final result=await Navigator.pushNamed(context, '/get',arguments: rand);
+        print(result);
+         //Navigator.pushNamed(context,'/get');
+        },child: const Text('Get Number')))]
+      ),
     );
   }
 }
@@ -70,14 +77,31 @@ class GetNumber extends StatelessWidget {
   const GetNumber({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    int rand=0;
+    try {
+      rand = ModalRoute
+          .of(context)!
+          .settings
+          .arguments as int;
+    } catch(e) {
+      rand=0;
+    }
+    print(rand);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Get Number')
       ),
-      body: Center(child: ElevatedButton(onPressed: (){
-        Navigator.pop(context);
-        Navigator.pushNamed(context, '/generate');
-        },child: const Text('Generate Number')))
+      body: Column(children:
+        [
+          Center(child: Text("$rand")),
+          Center(child: ElevatedButton(onPressed: (){
+            Navigator.pop(context,'data');
+            //Navigator.pushNamed(context, '/generate');
+            //Navigator.pushNamedAndRemoveUntil(context, '/generate', ModalRoute.withName('/'));
+        }   ,child: const Text('Generate Number'))
+          )
+        ]
+      )
     );
   }
 }
