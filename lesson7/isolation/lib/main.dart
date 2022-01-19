@@ -30,16 +30,25 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
-  String name='information';
-
+  late Future<int> arg;
+  bool f=false;
   Widget informationWidget() {
+    if (f==false) {
+      return Text('123');
+    }
     return FutureBuilder<int>(
         future: pauseFunction(10),
         builder: (context,snapshot) {
-          if (snapshot.connectionState==ConnectionState.none) {
-            return Text('None');
+          print('2');
+          if (snapshot.hasData) {
+            print(snapshot.data);
+            return Text('${snapshot.data}');
           }
-          return Text('Done');
+          if (snapshot.hasError) {
+            return Text('Error');
+          }
+          print('3');
+          return const CircularProgressIndicator();
         });
   }
   @override
@@ -56,8 +65,12 @@ class _StartPageState extends State<StartPage> {
         ),
         TextButton(
           onPressed: () {
+            //arg=pauseFunction(10);
             setState(() {
-              name='123';
+              f=true;
+              print(1);
+              //arg=pauseFunction(10);
+              //arg=pauseFunction(10);
             });
           },
           child: const Text('Send to FutureBuilder')
