@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       // routes: {
       //   '/': (BuildContext context) => const HomePage()
       // },
-      onGenerateRoute: (RouteSettings settings) {
+          onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
           case HomePage.pageName:
             return MaterialPageRoute(builder: (BuildContext context) {return const HomePage();});
