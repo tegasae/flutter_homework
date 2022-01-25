@@ -1,11 +1,13 @@
 
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+
 
 void main() {
   runApp(const MyApp());
@@ -31,11 +33,23 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-       initialRoute: HomePage.pageName,
-      routes: {
-        HomePage.pageName: (context)=>HomePage(),
-        AlbumPage.pageName: (context)=>AlbumPage()
-      }
+        initialRoute: HomePage.pageName,
+        routes: {
+          HomePage.pageName: (context)=>HomePage(),
+          //AlbumPage.pageName: (context)=>AlbumPage()
+        },
+        onGenerateRoute: (RouteSettings settings) {
+          print(settings.name);
+          if (settings.name=='/album') {
+            print(Navigator.canPop(context));
+            return MaterialPageRoute(builder: (BuildContext context)=>AlbumPage());
+          }
+          if (settings.name==Group.pageName) {
+            print(settings.arguments);
+            return MaterialPageRoute(builder: (BuildContext context)=>Group(album: settings.arguments as Album));
+          }
+          return null;
+        },
       //home: HomePage(),
     );
   }
@@ -57,12 +71,7 @@ class MyDrawer extends StatefulWidget {
 
 class _MyDrawerState extends State<MyDrawer> {
 
-  @override
-  void initState() {
-    super.initState();
-    print('Init State1');
 
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,11 +102,13 @@ Widget getListTile(String title,int index,String routeName) {
           widget.index=index;
         });
         //Navigator.pop(context);
-        Navigator.pushNamed(context, routeName);
+        Navigator.pushNamed(context, routeName,arguments: {'index':index});
+
       },
     );
 }
 }
+Widget drawer=MyDrawer();
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -111,13 +122,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
-      appBar: AppBar(title: const Text('Home'),
+      appBar: AppBar( toolbarHeight: 200,title: const Text('Home'),
         automaticallyImplyLeading: true),
-      drawer: MyDrawer(),
+      //drawer: MyDrawer(),
+        drawer: drawer,
       body: Column(
         children: [
           const Text('Home'),
-          TextButton(onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {return const AlbumPage();}));}, child: Text('Album'))
+          //TextButton(onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {return const AlbumPage();}));}, child: Text('Album'))
         ],
       )
     )
@@ -136,12 +148,12 @@ class AlbumPage extends StatefulWidget {
 
 class _AlbumPageState extends State<AlbumPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  late Future<List<Album>> albums;
   @override
   void initState() {
     super.initState();
     print('init');
-    Albums.readAlbums();
+    albums=Albums.readAlbums('assets/artists.json');
 
   }
   @override
@@ -149,68 +161,87 @@ class _AlbumPageState extends State<AlbumPage> {
 
     return SafeArea(child: Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(
-            toolbarHeight: 150,
-            leading: Column(
-              children: [
-                IconButton(
-                   icon: Icon(Icons.arrow_back),
-                   onPressed: () => Navigator.pop(context),
-                 ),
-                  IconButton(
-                      icon: Icon(Icons.menu),
-                      onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-      ),
-      Builder(builder: (context) {
-        return IconButton(onPressed: (){Scaffold.of(context).openDrawer();}, icon: Icon(Icons.settings));
-      })
-              ],
-            ),
-            title: const Text('Album'),
-          automaticallyImplyLeading: true),
-        drawer: MyDrawer(),
+        appBar:
+          AppBar(
+              toolbarHeight: 200,
+              flexibleSpace: Text('123'),
+              leadingWidth: 100,
+              leading: Column(
+                children: [
+                  TextButton.icon(onPressed: ()=> Navigator.pushReplacementNamed(context, HomePage.pageName), icon:  Icon(Icons.arrow_left,color: Colors.white,), label: Text('123',textDirection: TextDirection.ltr,style: TextStyle(color: Colors.green))),
+                  Builder(builder: (context) {
+                      return Align(alignment: Alignment.topLeft, child: IconButton(onPressed: (){Scaffold.of(context).openDrawer();}, icon: Icon(Icons.menu)));
+                })
+                ],
+              ),
+              title: const Text('Album'),
+            automaticallyImplyLeading: true),
+
+        //drawer: MyDrawer(),
+        drawer: drawer,
         body: getData()
     ));
   }
 
   Widget getData() {
 
-    // var n=Albums.readAlbums('assets/artists.json');
-    // print(n);
-    return FutureBuilder<String>(
-        //future: compute(Albums.parseALbum,''),
-        future: Albums.data,
+    return FutureBuilder<List<Album>>(
+        //future: compute(Albums.readAlbums,assetBundle),
+        future: albums,
         builder: (context,snapshot) {
           if (snapshot.connectionState==ConnectionState.done) {
+            if (snapshot.hasData) {
+              //return Text('${snapshot.data}');
 
-          print('Done compute');
-          print(snapshot.hasData);
-          if (snapshot.hasData) {
 
-          print('Data compute1');
+              return ListView.builder(
+                  itemCount: snapshot.data?.length,
+                  itemBuilder: (BuildContext context, int index) {
 
-          print('null');
+                    //return ListTile(title: Text('123'));
+                    return ListTile(
+                        title: Text(snapshot.data![index].name),
+                        onTap: () {
+                          Navigator.pushNamed(context, Group.pageName,arguments: snapshot.data![index]);
+                        },
 
-          print(snapshot.data);
-
-            return Text('${snapshot.data}');
-            //return Text('1234');
+                    );
+                  }
+              );
           }
-          if (snapshot.hasError) {
-          print(snapshot.error);
-          return Text('Error');
+            if (snapshot.hasError) {
+              return Text('Error');
+            }
           }
-          }
-          print('Wait compute');
           return const CircularProgressIndicator();
         }
     );
-    //return Text('123');
+
     
   }
-  static String generateText(int count) {
-    sleep(Duration(seconds: 10));
-    return "Album";
+
+}
+
+class Group extends StatelessWidget {
+  Group({Key? key, required this.album}) : super(key: key);
+  Album album;
+  static String pageName='/group';
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child:
+        Scaffold(
+          appBar: AppBar(title: Text(album.name)),
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                Center(child: Text(album.name,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold))),
+                Text(album.about)
+              ],
+            ),
+          ),
+        )
+    );
   }
 }
 
@@ -220,44 +251,29 @@ class Album {
   String link;
   String about;
   Album(this.name, this.link, this.about);
+  Album.fromJson(Map<String, dynamic> json)
+      : name = json['name'],
+        link= json['link'],
+        about=json['about'];
+
 }
 
-//Map<String, Album> albums={};
 
 class Albums {
-  static Map<String, dynamic> listAlbums={};
-  static late Future<String> data;
-  static Future<String> readAlbums() async {
-
-    String assetsPath='assets/artists.json';
-
-    // final response = await http
-    //      .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
-    // print(response.body);
-    // print(assetsPath);
-    //final nn=await bundle.loadString(assetsPath);
-    //print(nn);
-    //final file = await File(assetsPath!);
-    //final nn=await file.readAsString();
-    final nn=rootBundle.loadString(assetsPath);//.then((file) => file);
-    print(nn);
-    data=nn;
-    print('data');
-    return nn;
+    static List<Album> listAlbums=[];
 
 
-    // if (listAlbums.isEmpty) {
-    //
-    // }
-    //
-    //final nn=await rootBundle.loadString(assetsPath);
+    static Future<List<Album>> readAlbums(String assetsPath) async {
 
-    //return nn;
+
+    final String nn=await rootBundle.loadString(assetsPath);//.then((file) => file);
+
+    List<dynamic> n=jsonDecode(nn);
+    for (dynamic i in n) {
+      listAlbums.add(Album.fromJson(i));
+    }
+    return listAlbums;
   }
 
-  static Future<String> parseALbum(String n) async {
-    print('data1');
-    print(data);
-    return await data;
-  }
+
 }
