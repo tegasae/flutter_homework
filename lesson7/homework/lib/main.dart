@@ -1,20 +1,18 @@
 
-import 'dart:io';
-import 'dart:ui';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 
 
 
+
+
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -33,152 +31,174 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-        initialRoute: HomePage.pageName,
+        //initialRoute: HomePage.pageName,
+        initialRoute: homePageTemplate.pageName,
+        onUnknownRoute: (RouteSettings settings) => MaterialPageRoute(settings: settings,builder: (BuildContext context)=>unknownPageTemplate.widget),
         routes: {
-          HomePage.pageName: (context)=>HomePage(),
+          homePageTemplate.pageName: (context)=>homePageTemplate.widget,
+          albumPageTemplate.pageName: (context)=>albumPageTemplate.widget
           //AlbumPage.pageName: (context)=>AlbumPage()
         },
         onGenerateRoute: (RouteSettings settings) {
-          print(settings.name);
-          if (settings.name=='/album') {
-            print(Navigator.canPop(context));
-            return MaterialPageRoute(builder: (BuildContext context)=>AlbumPage());
-          }
+          Album argument;
           if (settings.name==Group.pageName) {
             print(settings.arguments);
-            return MaterialPageRoute(builder: (BuildContext context)=>Group(album: settings.arguments as Album));
+            try {
+              argument = settings.arguments as Album;
+            } catch(e) {
+               return MaterialPageRoute(builder: (BuildContext context)=>DefaultPage(title: 'Error', message: e.toString()));
+            }
+            return MaterialPageRoute(builder: (BuildContext context)=>Group(album: argument));
           }
           return null;
         },
+
       //home: HomePage(),
     );
   }
 }
 
 
-
-
-
-
-
-
 class MyDrawer extends StatefulWidget {
-  MyDrawer({Key? key}) : super(key: key);
-  int index=-1;
+  MyDrawer({Key? key}) : super(key: key) {
+    print('MyDrawer');
+  }
+
+  //final String currentName=Navigator.defaultRouteName;
   @override
   State<MyDrawer> createState() => _MyDrawerState();
 }
 
 class _MyDrawerState extends State<MyDrawer> {
-
-
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  String name=Navigator.defaultRouteName;
   @override
   Widget build(BuildContext context) {
-    print('build');
-    print(widget.index);
+
     return Drawer(
       child: ListView(
+        key: PageStorageKey(name),
         children: [
           const DrawerHeader(
             child: Text('header'),
             decoration: BoxDecoration(color: Colors.blue),
             ),
-          getListTile('Home', 0,HomePage.pageName),
-          getListTile('Albums', 1,AlbumPage.pageName)
+          getListTile('Home', homePageTemplate.pageName),
+          getListTile('Album', albumPageTemplate.pageName)
         ],
       ),
     );
   }
 
-Widget getListTile(String title,int index,String routeName) {
+Widget getListTile(String title,String pageName) {
+
+  //Widget getListTile(TemplatePage templatePage) {
     return ListTile(
+      //title: Text(title),
       title: Text(title),
-      selected: widget.index==index,
+      selected: name==pageName,
       selectedColor: Colors.white,
       selectedTileColor: Colors.blueGrey,
       onTap: (){
         setState(() {
-          widget.index=index;
+          print(pageName+' '+name);
+          name=pageName;
+          print(pageName+' '+name);
+          //widget.currentName=pageName;
         });
-        //Navigator.pop(context);
-        Navigator.pushNamed(context, routeName,arguments: {'index':index});
-
+        Navigator.pop(context);
+        //Navigator.pushReplacementNamed(context, routeName);
+        print(Navigator.canPop(context));
+        Navigator.pushReplacementNamed(context, pageName);
       },
     );
 }
+  @override
+  void dispose() {
+    print('Drawer dispose');
+    super.dispose();
+  }
 }
-Widget drawer=MyDrawer();
+//Widget drawer=MyDrawer();
+
+class TemplatePage {
+
+  Widget widget;
+  String pageName;
+
+  TemplatePage(this.widget, {this.pageName =''});
+}
+
+TemplatePage homePageTemplate=TemplatePage(HomePage(), pageName: '/');
+TemplatePage albumPageTemplate=TemplatePage(AlbumPage(pathAssetFile: 'assets/artists.json'), pageName: '/album');
+TemplatePage unknownPageTemplate=TemplatePage(const DefaultPage(title:'Unknown page',message: 'Unknown page'));
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
-  static String pageName='/';
+  
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
-      appBar: AppBar( toolbarHeight: 200,title: const Text('Home'),
+      appBar: AppBar(
+          //toolbarHeight: 200,
+          title: const Text('Home'),
         automaticallyImplyLeading: true),
       //drawer: MyDrawer(),
-        drawer: drawer,
+        drawer: MyDrawer(),
+      //key: _scaffoldKey,
       body: Column(
-        children: [
-          const Text('Home'),
-          //TextButton(onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {return const AlbumPage();}));}, child: Text('Album'))
+        children: const [
+          Text('Home'),
         ],
       )
     )
     );
   }
+
+  @override
+  void dispose() {
+    print('Home Page dispose');
+    super.dispose();
+  }
 }
 
 
 class AlbumPage extends StatefulWidget {
-  const AlbumPage({Key? key}) : super(key: key);
-  static String pageName='/album';
+  final String pathAssetFile;
+  const AlbumPage({Key? key,required this.pathAssetFile}) : super(key: key);
 
   @override
   State<AlbumPage> createState() => _AlbumPageState();
 }
 
 class _AlbumPageState extends State<AlbumPage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   late Future<List<Album>> albums;
   @override
   void initState() {
     super.initState();
-    print('init');
-    albums=Albums.readAlbums('assets/artists.json');
+
+    albums=Albums.readAlbums(widget.pathAssetFile);
 
   }
   @override
   Widget build(BuildContext context) {
 
     return SafeArea(child: Scaffold(
-        key: _scaffoldKey,
+
         appBar:
           AppBar(
-              toolbarHeight: 200,
-              flexibleSpace: Text('123'),
-              leadingWidth: 100,
-              leading: Column(
-                children: [
-                  TextButton.icon(onPressed: ()=> Navigator.pushReplacementNamed(context, HomePage.pageName), icon:  Icon(Icons.arrow_left,color: Colors.white,), label: Text('123',textDirection: TextDirection.ltr,style: TextStyle(color: Colors.green))),
-                  Builder(builder: (context) {
-                      return Align(alignment: Alignment.topLeft, child: IconButton(onPressed: (){Scaffold.of(context).openDrawer();}, icon: Icon(Icons.menu)));
-                })
-                ],
-              ),
               title: const Text('Album'),
             automaticallyImplyLeading: true),
-
-        //drawer: MyDrawer(),
-        drawer: drawer,
+        drawer: MyDrawer(),
         body: getData()
     ));
   }
@@ -192,8 +212,6 @@ class _AlbumPageState extends State<AlbumPage> {
           if (snapshot.connectionState==ConnectionState.done) {
             if (snapshot.hasData) {
               //return Text('${snapshot.data}');
-
-
               return ListView.builder(
                   itemCount: snapshot.data?.length,
                   itemBuilder: (BuildContext context, int index) {
@@ -203,6 +221,7 @@ class _AlbumPageState extends State<AlbumPage> {
                         title: Text(snapshot.data![index].name),
                         onTap: () {
                           Navigator.pushNamed(context, Group.pageName,arguments: snapshot.data![index]);
+                          //Navigator.pushNamed(context, Group.pageName,arguments: '1234');
                         },
 
                     );
@@ -210,7 +229,9 @@ class _AlbumPageState extends State<AlbumPage> {
               );
           }
             if (snapshot.hasError) {
-              return Text('Error');
+              return Text('Error '+ snapshot.error.toString());
+
+
             }
           }
           return const CircularProgressIndicator();
@@ -219,12 +240,16 @@ class _AlbumPageState extends State<AlbumPage> {
 
     
   }
-
+  @override
+  void dispose() {
+    print('Album page dispose');
+    super.dispose();
+  }
 }
 
 class Group extends StatelessWidget {
-  Group({Key? key, required this.album}) : super(key: key);
-  Album album;
+  const Group({Key? key, required this.album}) : super(key: key);
+  final Album album;
   static String pageName='/group';
   @override
   Widget build(BuildContext context) {
@@ -235,13 +260,28 @@ class Group extends StatelessWidget {
           body: SingleChildScrollView(
             child: Column(
               children: [
-                Center(child: Text(album.name,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold))),
+                Center(child: Text(album.name,style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold))),
                 Text(album.about)
               ],
             ),
           ),
         )
     );
+  }
+}
+
+
+class DefaultPage extends StatelessWidget {
+  final String title;
+  final String message;
+  const DefaultPage({Key? key, required this.title,required this.message}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(child: Scaffold(
+      appBar: AppBar(title: Text(title)),
+      body: Center(child: Text(message)),
+      drawer: MyDrawer(),
+    ));
   }
 }
 
@@ -261,16 +301,13 @@ class Album {
 
 class Albums {
     static List<Album> listAlbums=[];
-
-
     static Future<List<Album>> readAlbums(String assetsPath) async {
-
-
-    final String nn=await rootBundle.loadString(assetsPath);//.then((file) => file);
-
-    List<dynamic> n=jsonDecode(nn);
-    for (dynamic i in n) {
-      listAlbums.add(Album.fromJson(i));
+    final String nn=await rootBundle.loadString(assetsPath,cache: true);//.then((file) => file);
+    if (listAlbums.isEmpty) {
+      List<dynamic> n=jsonDecode(nn);
+      for (dynamic i in n) {
+        listAlbums.add(Album.fromJson(i));
+      }
     }
     return listAlbums;
   }
