@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class NavDraw extends StatefulWidget {
+  NavDraw({Key? key}) : super(key: key) {
+    print('Create drawer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+  }
+
   @override
   _NavDrawState createState() => _NavDrawState();
 }
@@ -12,68 +16,66 @@ class _NavDrawState extends State<NavDraw> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Container(
-        child: ListView(
-          children: <Widget>[
-            Container(
-              height: 100.0,
-              color: Color(0xff2B4DB9),
-              child: DrawerHeader(
-                  margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  padding: EdgeInsets.zero,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.none,
-                          image: NetworkImage(
-                              'https://picsum.photos/250?image=9'))), child: null,),
-            ),
-            _createDrawerItem(
-                icon: Icons.timer,
-                text: 'Timer',
-                isSelected: selectedIndex == 0,
-                onTap: () {
-                  setState(() {
-                    selectedIndex = 0;
-                  });
+      child: ListView(
+        children: <Widget>[
+          Container(
+            height: 100.0,
+            color: const Color(0xff2B4DB9),
+            child: const DrawerHeader(
+                margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                padding: EdgeInsets.zero,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.none,
+                        image: NetworkImage(
+                            'https://picsum.photos/250?image=9'))), child: null,),
+          ),
+          _createDrawerItem(
+              icon: Icons.timer,
+              text: 'Timer',
+              isSelected: selectedIndex == 0,
+              onTap: () {
+                setState(() {
+                  selectedIndex = 0;
+                });
 
-                  Navigator.pushReplacementNamed(context, "/page0");
-                }),
-            _createDrawerItem(
-                icon: Icons.history,
-                text: 'History',
-                isSelected: selectedIndex == 1,
-                onTap: () {
-                  setState(() {
-                    selectedIndex = 1;
-                  });
+                Navigator.pushReplacementNamed(context, "/page0");
+              }),
+          _createDrawerItem(
+              icon: Icons.history,
+              text: 'History',
+              isSelected: selectedIndex == 1,
+              onTap: () {
+                setState(() {
+                  selectedIndex = 1;
+                });
 
-                  Navigator.pushReplacementNamed(context, "/page1");
-                }),
-            _createDrawerItem(
-                icon: Icons.help,
-                text: 'Help & Support',
-                isSelected: selectedIndex == 2,
-                onTap: () {
-                  setState(() {
-                    selectedIndex = 2;
-                  });
+                Navigator.pushReplacementNamed(context, "/page1");
+              }),
+          _createDrawerItem(
+              icon: Icons.help,
+              text: 'Help & Support',
+              isSelected: selectedIndex == 2,
+              onTap: () {
+                setState(() {
+                  selectedIndex = 2;
+                });
 
-                  Navigator.pushReplacementNamed(context, "/page2");
-                }),
-            _createDrawerItem(
-                icon: Icons.rate_review,
-                text: 'Write a Review',
-                isSelected: selectedIndex == 3,
-                onTap: () {
-                  setState(() {
-                    selectedIndex = 3;
-                  });
+                Navigator.pushReplacementNamed(context, "/page2");
+              }),
+          _createDrawerItem(
+              icon: Icons.rate_review,
+              text: 'Write a Review',
+              isSelected: selectedIndex == 3,
+              onTap: () {
+                setState(() {
+                  selectedIndex = 3;
+                });
 
-                  Navigator.pushReplacementNamed(context, "/page3");
-                }),
-            Divider(),
-          ],
-        ),
+                Navigator.pushReplacementNamed(context, "/page3");
+              }),
+          const Divider(),
+        ],
       ),
     );
   }
@@ -82,7 +84,7 @@ class _NavDrawState extends State<NavDraw> {
 Widget _createDrawerItem(
     {IconData ?icon, String ?text, GestureTapCallback ?onTap, bool ?isSelected}) {
   return Ink(
-    color: isSelected! ? Color(0xffE3EAFF) : Colors.transparent,
+    color: isSelected! ? const Color(0xffE3EAFF) : Colors.transparent,
     child: ListTile(
       selected: true,
       hoverColor: Colors.white,
@@ -90,7 +92,7 @@ Widget _createDrawerItem(
         children: <Widget>[
           Icon(icon),
           Padding(
-            padding: EdgeInsets.only(left: 8.0),
+            padding: const EdgeInsets.only(left: 8.0),
             child: Text(text!),
           )
         ],
@@ -101,10 +103,12 @@ Widget _createDrawerItem(
 }
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -115,69 +119,77 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/page0',
       routes: {
-        '/page0': (context) => Page0(),
-        '/page1': (context) => Page1(),
-        '/page2': (context) => Page2(),
-        '/page3': (context) => Page3(),
+        '/page0': (context) => const Page0(),
+        '/page1': (context) => const Page1(),
+        '/page2': (context) => const Page2(),
+        '/page3': (context) => const Page3(),
       },
     );
   }
 }
 
 class Page0 extends StatelessWidget {
+  const Page0({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: NavDraw(),
         appBar: AppBar(
-          title: Text("page 0"),
+          title: const Text("page 0"),
         ),
-        body: Text("page 0"));
-    ;
+        body: const Text("page 0"));
+
   }
 }
 
 class Page1 extends StatelessWidget {
+  const Page1({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: NavDraw(),
         appBar: AppBar(
-          title: Text("page 1"),
+          title: const Text("page 1"),
         ),
-        body: Text("page 1"));
-    ;
+        body: const Text("page 1"));
+
   }
 }
 
 class Page2 extends StatelessWidget {
+  const Page2({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: NavDraw(),
         appBar: AppBar(
-          title: Text("page 2"),
+          title: const Text("page 2"),
         ),
-        body: Text("page 2"));
-    ;
+        body: const Text("page 2"));
+
   }
 }
 
 class Page3 extends StatelessWidget {
+  const Page3({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: NavDraw(),
         appBar: AppBar(
-          title: Text("page 3"),
+          title: const Text("page 3"),
         ),
-        body: Text("page 3"));
-    ;
+        body: const Text("page 3"));
+
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key ?key, required this.title}) : super(key: key);
+  const MyHomePage({Key ?key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -205,7 +217,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
+            const Text(
               'You have pushed the button this many times:',
             ),
             Text(
@@ -218,7 +230,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

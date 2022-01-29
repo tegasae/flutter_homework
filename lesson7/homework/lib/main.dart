@@ -8,50 +8,62 @@ import 'dart:convert';
 
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
+}
+
+class RouteMap {
+  static const String homeRoute='/';
+  static const String albumRoute='/album';
+  static const String groupRoute='/group';
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    print('BUILD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    const List<List<String>> listMenu=[['Home',RouteMap.homeRoute],['Album',RouteMap.albumRoute]];
+    //MyDrawer myDrawer=const MyDrawer(listItems: listMenu);
+    MyScaffold homePage=MyScaffold(body: const HomePage(), pageTitle: 'Home Page', routeName: RouteMap.homeRoute,myDrawer: MyDrawer(listItems: listMenu,currentName: RouteMap.homeRoute));
+    MyScaffold albumPage=const MyScaffold(body: AlbumPage(pathAssetFile: 'assets/artists.json'),
+                                    pageTitle: 'Album Page', routeName:RouteMap.albumRoute,
+        myDrawer: MyDrawer(listItems: listMenu,currentName: RouteMap.albumRoute));
+
+    MyScaffold unknownPage=MyScaffold(body: const DefaultPage(message: 'Not found'), pageTitle: '', routeName: 'Not found',myDrawer: MyDrawer(listItems: listMenu));
+    MyScaffold groupPage=const MyScaffold(body: Group(), pageTitle: 'Альбомы', routeName: RouteMap.groupRoute);
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
+
         primarySwatch: Colors.blue,
       ),
-        //initialRoute: HomePage.pageName,
-        initialRoute: homePageTemplate.pageName,
-        onUnknownRoute: (RouteSettings settings) => MaterialPageRoute(settings: settings,builder: (BuildContext context)=>unknownPageTemplate.widget),
+
+        initialRoute: homePage.routeName,
+        onUnknownRoute: (RouteSettings settings) => MaterialPageRoute(settings: settings,builder: (BuildContext context)=>unknownPage),
         routes: {
-          homePageTemplate.pageName: (context)=>homePageTemplate.widget,
-          albumPageTemplate.pageName: (context)=>albumPageTemplate.widget
-          //AlbumPage.pageName: (context)=>AlbumPage()
+          homePage.routeName: (context)=>homePage,
+          albumPage.routeName: (context)=>albumPage,
+          groupPage.routeName: (context)=>groupPage
+
         },
-        onGenerateRoute: (RouteSettings settings) {
-          Album argument;
-          if (settings.name==Group.pageName) {
-            print(settings.arguments);
-            try {
-              argument = settings.arguments as Album;
-            } catch(e) {
-               return MaterialPageRoute(builder: (BuildContext context)=>DefaultPage(title: 'Error', message: e.toString()));
-            }
-            return MaterialPageRoute(builder: (BuildContext context)=>Group(album: argument));
-          }
-          return null;
-        },
+        //onGenerateRoute: (RouteSettings settings) {
+        //   Album argument;
+          //print(settings.name);
+         //if (settings.name==groupPage.routeName) {
+         //  print(settings.name);
+        //     print(settings.arguments);
+        //     try {
+        //       argument = settings.arguments as Album;
+        //     } catch(e) {
+        //        //return MaterialPageRoute(builder: (BuildContext context)=>DefaultPage(title: 'Error', message: e.toString()));
+        //       return MaterialPageRoute(builder: (BuildContext context)=>MyScaffold(body: DefaultPage(title: 'error', message: e.toString()), pageTitle: 'Error', routeName: 'Error',myDrawer: myDrawer));
+        //     }
+          //return MaterialPageRoute(builder: (BuildContext context)=>MyScaffold(body: Group(),pageTitle: 'Альбомы',routeName: '/album'));
+         // }
+        //   return null;
+        //},
 
       //home: HomePage(),
     );
@@ -59,114 +71,111 @@ class MyApp extends StatelessWidget {
 }
 
 
-class MyDrawer extends StatefulWidget {
-  MyDrawer({Key? key}) : super(key: key) {
-    print('MyDrawer');
-  }
+class MyDrawer extends StatelessWidget {
+  //final String pageName;
+  final List<List<String>> listItems;
+  const MyDrawer({Key? key, required this.listItems, this.currentName=''}) : super(key: key);
 
-  //final String currentName=Navigator.defaultRouteName;
-  @override
-  State<MyDrawer> createState() => _MyDrawerState();
-}
+  final String currentName;
+//   @override
+//   State<MyDrawer> createState() => _MyDrawerState();
+// }
+//
+// class _MyDrawerState extends State<MyDrawer> {
 
-class _MyDrawerState extends State<MyDrawer> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  String name=Navigator.defaultRouteName;
+
   @override
   Widget build(BuildContext context) {
 
-    return Drawer(
+      return Drawer(
       child: ListView(
-        key: PageStorageKey(name),
         children: [
           const DrawerHeader(
             child: Text('header'),
             decoration: BoxDecoration(color: Colors.blue),
             ),
-          getListTile('Home', homePageTemplate.pageName),
-          getListTile('Album', albumPageTemplate.pageName)
+
+
+          //for (var item in listItems.map((item) => getListTile(item[0], item[1])).toList()) item,
+          for (var item in listItems.map((item) =>
+                  ListTile(
+    //title: Text(title),
+    title: Text(item[0]),
+    selected: currentName==item[1],
+    selectedColor: Colors.white,
+    selectedTileColor: Colors.blueGrey,
+    onTap: (){
+
+    Navigator.pop(context);
+
+    print(Navigator.canPop(context));
+    Navigator.pushReplacementNamed(context, item[1]);
+    },
+    )
+          ).toList()) item,
         ],
       ),
     );
   }
 
-Widget getListTile(String title,String pageName) {
+// Widget getListTile(String title,String pageName) {
+//
+//   //Widget getListTile(TemplatePage templatePage) {
+//     return ListTile(
+//       //title: Text(title),
+//       title: Text(title),
+//       selected: currentName==pageName,
+//       selectedColor: Colors.white,
+//       selectedTileColor: Colors.blueGrey,
+//       onTap: (){
+//
+//         Navigator.pop(context);
+//
+//         print(Navigator.canPop(context));
+//         Navigator.pushReplacementNamed(context, pageName);
+//       },
+//     );
+// }
 
-  //Widget getListTile(TemplatePage templatePage) {
-    return ListTile(
-      //title: Text(title),
-      title: Text(title),
-      selected: name==pageName,
-      selectedColor: Colors.white,
-      selectedTileColor: Colors.blueGrey,
-      onTap: (){
-        setState(() {
-          print(pageName+' '+name);
-          name=pageName;
-          print(pageName+' '+name);
-          //widget.currentName=pageName;
-        });
-        Navigator.pop(context);
-        //Navigator.pushReplacementNamed(context, routeName);
-        print(Navigator.canPop(context));
-        Navigator.pushReplacementNamed(context, pageName);
-      },
-    );
-}
-  @override
-  void dispose() {
-    print('Drawer dispose');
-    super.dispose();
-  }
-}
-//Widget drawer=MyDrawer();
-
-class TemplatePage {
-
-  Widget widget;
-  String pageName;
-
-  TemplatePage(this.widget, {this.pageName =''});
 }
 
-TemplatePage homePageTemplate=TemplatePage(HomePage(), pageName: '/');
-TemplatePage albumPageTemplate=TemplatePage(AlbumPage(pathAssetFile: 'assets/artists.json'), pageName: '/album');
-TemplatePage unknownPageTemplate=TemplatePage(const DefaultPage(title:'Unknown page',message: 'Unknown page'));
 
-
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-  
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class MyScaffold extends StatelessWidget {
+  final Widget body;
+  final String pageTitle;
+  final String routeName;
+  final MyDrawer? myDrawer;
+  const MyScaffold({Key? key, required this.body, required this.pageTitle,required this.routeName, this.myDrawer}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
-      appBar: AppBar(
-          //toolbarHeight: 200,
-          title: const Text('Home'),
-        automaticallyImplyLeading: true),
-      //drawer: MyDrawer(),
-        drawer: MyDrawer(),
-      //key: _scaffoldKey,
-      body: Column(
-        children: const [
-          Text('Home'),
-        ],
-      )
+        appBar: AppBar(
+            title: Text(pageTitle),
+            automaticallyImplyLeading: true),
+
+
+        drawer: myDrawer,
+        body: body
     )
     );
   }
+}
 
+
+
+
+
+
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
   @override
-  void dispose() {
-    print('Home Page dispose');
-    super.dispose();
+  Widget build(BuildContext context) {
+    return Column(
+        children: const [
+          Text('Home'),
+        ],
+      );
   }
 }
 
@@ -192,15 +201,8 @@ class _AlbumPageState extends State<AlbumPage> {
   @override
   Widget build(BuildContext context) {
 
-    return SafeArea(child: Scaffold(
+    return getData();
 
-        appBar:
-          AppBar(
-              title: const Text('Album'),
-            automaticallyImplyLeading: true),
-        drawer: MyDrawer(),
-        body: getData()
-    ));
   }
 
   Widget getData() {
@@ -220,7 +222,8 @@ class _AlbumPageState extends State<AlbumPage> {
                     return ListTile(
                         title: Text(snapshot.data![index].name),
                         onTap: () {
-                          Navigator.pushNamed(context, Group.pageName,arguments: snapshot.data![index]);
+                          print(snapshot.data![index]);
+                          Navigator.pushNamed(context, RouteMap.groupRoute,arguments: snapshot.data![index]);
                           //Navigator.pushNamed(context, Group.pageName,arguments: '1234');
                         },
 
@@ -231,7 +234,6 @@ class _AlbumPageState extends State<AlbumPage> {
             if (snapshot.hasError) {
               return Text('Error '+ snapshot.error.toString());
 
-
             }
           }
           return const CircularProgressIndicator();
@@ -240,48 +242,36 @@ class _AlbumPageState extends State<AlbumPage> {
 
     
   }
-  @override
-  void dispose() {
-    print('Album page dispose');
-    super.dispose();
-  }
+
 }
 
 class Group extends StatelessWidget {
-  const Group({Key? key, required this.album}) : super(key: key);
-  final Album album;
-  static String pageName='/group';
+  //const Group({Key? key, required this.album}) : super(key: key);
+  const Group({Key? key}) : super(key: key);
+  //final Album album;
+  //static String pageName='/group';
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child:
-        Scaffold(
-          appBar: AppBar(title: Text(album.name)),
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                Center(child: Text(album.name,style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold))),
-                Text(album.about)
-              ],
-            ),
-          ),
-        )
-    );
+
+    final album1 = ModalRoute.of(context)!.settings.arguments as Album;
+    return SingleChildScrollView(
+        child: Column(
+          children: [
+            Center(child: Text(album1.name,style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold))),
+            Text(album1.about)
+          ],
+        ),
+      );
   }
 }
 
 
 class DefaultPage extends StatelessWidget {
-  final String title;
   final String message;
-  const DefaultPage({Key? key, required this.title,required this.message}) : super(key: key);
+  const DefaultPage({Key? key, required this.message}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(child: Text(message)),
-      drawer: MyDrawer(),
-    ));
+    return Center(child: Text(message));
   }
 }
 
