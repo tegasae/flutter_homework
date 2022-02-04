@@ -37,49 +37,45 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Home Page')),
       body: Center(
-        child: Column(
-          children: [
-            const Text('Данные из существующего файла:'),
-            FutureBuilder<String>(
-                //future: compute(Albums.readAlbums,assetBundle),
-                future: rootBundle.loadString('assets/file1.txt', cache: true),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasData) {
-                      return Text(snapshot.data!);
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const Text('Данные из существующего файла:',style: TextStyle(fontWeight: FontWeight.bold)),
+              FutureBuilder<String>(
+                  //future: compute(Albums.readAlbums,assetBundle),
+                  future: rootBundle.loadString('assets/file1.txt', cache: true),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.hasData) {
+                        return Text(snapshot.data!);
+                      }
+                      if (snapshot.hasError) {
+                        return Text('Error ' + snapshot.error.toString());
+                      }
                     }
-                    if (snapshot.hasError) {
-                      return Text('Error ' + snapshot.error.toString());
+                    return const CircularProgressIndicator();
+                  }),
+              const Divider(),
+              const Text('Данные из несуществующего файла:',style: TextStyle(fontWeight: FontWeight.bold)),
+              FutureBuilder<String>(
+
+                  future: rootBundle.loadString('assets/file2.txt', cache: true),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.hasData) {
+                        return Text(snapshot.data!);
+                      }
+                      if (snapshot.hasError) {
+                        return Text('Error ' + snapshot.error.toString());
+                      }
                     }
-                  }
-                  return const CircularProgressIndicator();
-                }),
-            const Divider(),
-            const Text('Данные из несуществующего файла:'),
-            FutureBuilder<String>(
-                //future: compute(Albums.readAlbums,assetBundle),
-                //future: rootBundle.loadString('assets/file2.txt', cache: true),
-                future: fetchFileFromAssets('assets/file2.txt'),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasData) {
-                      return Text(snapshot.data!);
-                    }
-                    if (snapshot.hasError) {
-                      return Text('Error ' + snapshot.error.toString());
-                    }
-                  }
-                  return const CircularProgressIndicator();
-                }),
-          ],
+                    return const CircularProgressIndicator();
+                  }),
+            ],
+          ),
         ),
       ),
     );
   }
-}
-
-
-Future<String> fetchFileFromAssets(String assetsPath) async {
-  return rootBundle.loadString(assetsPath).then((file) => file.toString());
 }
 
