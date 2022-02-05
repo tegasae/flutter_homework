@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage>
   }
   int setIndex() {
     print('setIndex');
-
+    print(_currentTabIndex);
     return _currentTabIndex;
   }
 

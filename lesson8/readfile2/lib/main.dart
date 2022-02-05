@@ -27,10 +27,11 @@ class MyApp extends StatelessWidget {
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
               //primary: Colors.purple,
-              backgroundColor: Colors.black45,
+              backgroundColor: Colors.black,
               primary: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(0.0),
+
                 //side: BorderSide(color: Colors.red)
               )
           ),
@@ -46,11 +47,11 @@ class MyApp extends StatelessWidget {
         inputDecorationTheme: const InputDecorationTheme(
 
             //contentPadding: EdgeInsets.all(0),
-            focusColor: Colors.black45,
+
             enabledBorder: OutlineInputBorder(
               //borderSide: BorderSide(color: Colors.teal),
               borderSide:
-                  BorderSide(color: Colors.black45),
+                  BorderSide(color: Colors.black),
               borderRadius: BorderRadius.all(Radius.circular(0.0)),
             ),
             border: OutlineInputBorder(
@@ -107,7 +108,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           },
                           //obscureText: obscureText,
                           decoration: const InputDecoration(
-                            hintText: 'file1',
+                            //labelText: '12345',
+                            hintText: 'data.txt, text1.txt, text2.txt',
                           ),
                         ),
                       ),
@@ -135,12 +137,18 @@ class _MyHomePageState extends State<MyHomePage> {
                     if (value == null) {
                       return Container();
                     } else {
-                      print('value');
+                      //var result = value.substring(1); //
+                      //var result = value.substring(value.length-4);
+                      if (value.substring(value.length-4)!='.txt') {
+                         value+='.txt';
+                       }
+                      value='assets/'+value;
+                      //print(result);
                       return FutureBuilder<String>(
                           //future: compute(Albums.readAlbums,assetBundle),
                           //future: rootBundle.loadString('assets/file1.txt', cache: true),
                           future: rootBundle.loadString(
-                              'assets/' + value + '.txt',
+                              value,
                               cache: true),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
@@ -150,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               }
                               if (snapshot.hasError) {
                                 return Text(
-                                    'Error ' + snapshot.error.toString());
+                                    snapshot.error.toString());
                               }
                             }
                             return const CircularProgressIndicator();
