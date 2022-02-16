@@ -1,0 +1,72 @@
+[
+  {
+    "uuid": "a9446b47-b0a1-454d-b89d-c3b848b7dc7c",
+    "name": "B&B-La-Fontaine",
+    "poster": "b&b_la_fontaine_1.jpg"
+  },
+  {
+    "uuid": "64f4ecc6-368e-414e-b6fe-8a059affe1ca",
+    "name": "Upon Lisbon Prime Residences",
+    "poster": "upon_lisbon_prime_residences_2.jpg"
+  },
+  {
+    "uuid": "82aded74-373e-4b9e-b721-ebb938e9ac19",
+    "name": "Disney Dreams",
+    "poster": "disney_dreams_1.jpg"
+  },
+  {
+    "uuid": "e08e35df-77a2-436a-9eb5-1dca46e0da00",
+    "name": "Flora Chiado Apartments",
+    "poster": "flora_chiado_apartments_1.jpg"
+  },
+  {
+    "uuid": "d782a2bf-1055-482a-9e3f-dffe25f023bd",
+    "name": "Golden Ratio",
+    "poster": "golden_ratio_1.jpg"
+  },
+  {
+    "uuid": "35344e37-ca0e-41a8-9c87-b13141d3e816",
+    "name": "Grand Orlando Resort",
+    "poster": "grand_orlando_resort_1.jpg"
+  },
+  {
+    "uuid": "0dd3c4e1-fb37-4348-aa06-7a2afc81c16a",
+    "name": "Holiday Inn & Suites Orlando",
+    "poster": "holiday_inn_&_suites_orlando_1.jpg"
+  },
+  {
+    "uuid": "3a4dea4b-17c2-4c5a-8cb2-556af5c7091b",
+    "name": "Motel One Brussels",
+    "poster": "motel_one_brussels_1.jpg"
+  },
+  {
+    "uuid": "ac1f829d-ffce-49d1-8ce6-9778559c98e5",
+    "name": "New Rome House",
+    "poster": "new_rome_house_1.jpg"
+  },
+  {
+    "uuid": "44c84d52-a815-40f6-a47c-1b8782b3de6e",
+    "name": "Oscar Hotel",
+    "poster": "oscar_hotel_1.jpg"
+  },
+  {
+    "uuid": "be338e29-d3dd-4298-924e-5604e8a7b350",
+    "name": "P 17 Hotel",
+    "poster": "p_17_hotel_1.jpg"
+  },
+  {
+    "uuid": "85af46cd-ed99-4c9f-ba22-6e34ea5bb8da",
+    "name": "Parkway International",
+    "poster": "parkway_international_1.jpg"
+  },
+  {
+    "uuid": "7fcd8e0c-fd4a-4146-bada-700e8790b69a",
+    "name": "Stradom Apartments",
+    "poster": "stradom_apartments_1.jpg"
+  },
+  {
+    "uuid": "b505a79c-0280-4a09-bba0-b984e1eed188",
+    "name": "Upon Lisbon Prime Residences",
+    "poster": "upon_lisbon_prime_residences_1.jpg"
+  }
+]
