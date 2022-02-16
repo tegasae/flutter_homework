@@ -1,0 +1,11 @@
+name: http1
+publish_to: none
+
+environment:
+  sdk: '>=2.15.0 <3.0.0'
+
+dependencies:
+  http: ^0.13.4
+
+
+dev_dependencies:
