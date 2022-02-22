@@ -7,12 +7,12 @@ import 'lib/hotel_json.dart';
 
 import 'dart:mirrors';
 
-main() async {
+main()  async {
   List<Hotel> hotelList;
-  GetData getData=GetData('https://run.mocky.io/v3/ac888dc5-d193-4700-b12c-abb43e289301');
+  GetDataHttp getData=GetDataHttp('https://run.mocky.io/v3/ac888dc5-d193-4700-b12c-abb43e289301');
   print('hello');
 
-  String str=await getData.getData();
+  String str= await getData.getData();
   print(getData.status);
   hotelList = (json.decode(str) as List).map((i)=>Hotel.fromJson(i)).toList();
 
@@ -34,15 +34,16 @@ main() async {
 
     }
     HotelDetails hotelDetails;
-    GetData getHotel=GetData('https://run.mocky.io/v3/'+i.uuid);
+    GetDataHttp getHotel=GetDataHttp('https://run.mocky.io/v3/'+i.uuid);
     String hotelStr=await getHotel.getData();
 
     print(getHotel.status);
     if (getHotel.status==200) {
       hotelDetails=HotelDetails.fromJson(json.decode(hotelStr));
-      print(hotelDetails);
+      print(hotelDetails.toJson());
     }
   }
+
 
   //Uri url = Uri.parse('http://192.168.100.1/');
   //var response = await http.get(url).timeout(Duration(seconds: 10));
@@ -57,13 +58,14 @@ main() async {
 
 }
 
-class GetData {
-  //final String url;
+
+class GetDataHttp {
+
   late final String json;
   late final Uri url;
   late int status;
 
-  GetData(String url) {
+  GetDataHttp(String url) {
     this.url = Uri.parse(url);
   }
 

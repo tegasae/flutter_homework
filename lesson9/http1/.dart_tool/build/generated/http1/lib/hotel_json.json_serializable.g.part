@@ -32,8 +32,8 @@ Map<String, dynamic> _$HotelDetailsToJson(HotelDetails instance) =>
       'poster': instance.poster,
       'price': instance.price,
       'rating': instance.rating,
-      'address': instance.address,
-      'services': instance.services,
+      'address': instance.address.toJson(),
+      'services': instance.services.toJson(),
       'photos': instance.photos,
     };
 
