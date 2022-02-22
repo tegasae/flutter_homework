@@ -6,7 +6,7 @@ main() async {
   GetData getData=GetData('https://run.mocky.io/v3/ac888dc5-d193-4700-b12c-abb43e289301');
   print('hello');
   String str=await getData.getData();
-  //print(str);
+  print(str);
   //Uri url = Uri.parse('http://192.168.100.1/');
   //var response = await http.get(url).timeout(Duration(seconds: 10));
   //print('Response status: ${response.statusCode}');
