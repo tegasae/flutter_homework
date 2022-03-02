@@ -8,7 +8,7 @@ class HotelPreview {
   final String name;
   final String poster;
 
-  HotelPreview({this.uuid, this.name, this.poster});
+  HotelPreview({required this.uuid, required this.name, required this.poster});
 
   factory HotelPreview.fromJson(Map<String, dynamic> json) =>
       _$HotelPreviewFromJson(json);
