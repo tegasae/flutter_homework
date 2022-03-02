@@ -11,8 +11,12 @@ main()  async {
   List<Hotel> hotelList;
   GetDataHttp getData=GetDataHttp('https://run.mocky.io/v3/ac888dc5-d193-4700-b12c-abb43e289301');
   print('hello');
+//<<<<<<< HEAD
+  String str=await getData.getData();
+  print(str);
+//=======
 
-  String str= await getData.getData();
+  //String str= await getData.getData();
   print(getData.status);
   hotelList = (json.decode(str) as List).map((i)=>Hotel.fromJson(i)).toList();
 
@@ -45,6 +49,7 @@ main()  async {
   }
 
 
+//>>>>>>> 55e9cca0b3a8937688b52bb69cbe8d9ae1144343
   //Uri url = Uri.parse('http://192.168.100.1/');
   //var response = await http.get(url).timeout(Duration(seconds: 10));
   //print('Response status: ${response.statusCode}');
