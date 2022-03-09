@@ -42,7 +42,7 @@ class ListHotels extends StatefulWidget {
 }
 
 class _ListHotelsState extends State<ListHotels> {
-  late Future<String> hotels;
+  late Future<List<Hotel>> hotels;
 
 
   @override
@@ -54,12 +54,13 @@ class _ListHotelsState extends State<ListHotels> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String>(
+    return FutureBuilder<List<Hotel>>(
       future: hotels,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          print(snapshot.data!.toString());
-          return Text(snapshot.data!.toString());
+
+          //return Text(snapshot.data!.toString());
+          return Hotels(listHotels: snapshot.data!);
         } else if (snapshot.hasError) {
           return Text('${snapshot.error}');
         }
@@ -69,22 +70,48 @@ class _ListHotelsState extends State<ListHotels> {
     );
   }
 }
+class Hotels extends StatelessWidget {
+  final List<Hotel> listHotels;
+  const Hotels({Key? key, required this.listHotels}) : super(key: key);
 
-Future<String> fetchHotels(String url) async {
+  @override
+  Widget build(BuildContext context) {
+    final _scrollController = ScrollController();
+    return GridView.builder(
+      controller: _scrollController,
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      //physics: AlwaysScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2,
+      ),
+      itemCount: listHotels.length,
+      itemBuilder: (context, index) {
+
+        return Card(color: Colors.amber,child: Image.asset('assets/images/'+listHotels[index].poster));
+      },
+    );
+  }
+}
+
+
+
+Future<List<Hotel>> fetchHotels(String url) async {
   final response = await http.get(Uri.parse(url));
-  late List<Hotel> hotelList;
+  //late List<Hotel> hotelList;
   if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    //return response.body;
 
-    hotelList=(json.decode(response.body) as List).map((i)=>Hotel.fromJson(i)).toList();
-    //hotelList=compute();
-
-    return hotelList.toString();
+    return compute(parseHotels, response.body);
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
     throw Exception('Failed to load album');
   }
+}
+
+List<Hotel> parseHotels(String responseBody) {
+  //late List<Hotel> hotelList;
+  List<Hotel> hotelList=(json.decode(responseBody) as List).map((i)=>Hotel.fromJson(i)).toList();
+  print(hotelList[0].uuid);
+  return hotelList;
 }
