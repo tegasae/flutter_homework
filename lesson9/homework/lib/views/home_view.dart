@@ -82,13 +82,28 @@ class Hotels extends StatelessWidget {
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       //physics: AlwaysScrollableScrollPhysics(),
+
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
       ),
       itemCount: listHotels.length,
       itemBuilder: (context, index) {
 
-        return Card(color: Colors.amber,child: Image.asset('assets/images/'+listHotels[index].poster));
+        return IntrinsicWidth(
+
+          child: Card(shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),color: Colors.amber,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [Expanded(child: Image.asset('assets/images/'+listHotels[index].poster)),Text(listHotels[index].name),
+                Container(color: Colors.blue,child: Text('Подробнее'))
+                  ]
+              )
+
+
+          ),
+        );
       },
     );
   }
