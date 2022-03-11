@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:homework/main.dart';
 
 
 import 'package:http/http.dart' as http;
@@ -91,23 +92,28 @@ class Hotels extends StatelessWidget {
 
         return IntrinsicWidth(
 
-          child: Card(shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),color: Colors.amber,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [Expanded(child: Image.asset('assets/images/'+listHotels[index].poster)),Text(listHotels[index].name),
-                Container(color: Colors.blue,child: Text('Подробнее'))
-                  ]
-              )
+          child: GestureDetector(
+            onTap: () {print(listHotels[index].uuid);Navigator.pushNamed(context,routeHotel.routeName,arguments: listHotels[index].uuid);},
+            child: Card(shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),color: Colors.amber,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [Expanded(child: Image.asset('assets/images/'+listHotels[index].poster)),Text(listHotels[index].name),
+                  Container(color: Colors.blue,child: Text('Подробнее'))
+                    ]
+                )
 
 
+            ),
           ),
         );
       },
     );
   }
 }
+
+
 
 
 
