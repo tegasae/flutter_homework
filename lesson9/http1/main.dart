@@ -48,7 +48,7 @@ main()  async {
     }
   }
 
-
+  print(getNumber());
 //>>>>>>> 55e9cca0b3a8937688b52bb69cbe8d9ae1144343
   //Uri url = Uri.parse('http://192.168.100.1/');
   //var response = await http.get(url).timeout(Duration(seconds: 10));
@@ -63,6 +63,11 @@ main()  async {
 
 }
 
+String getNumber<T>() {
+  T n;
+  n=100 as T;
+  return n.toString();
+}
 
 class GetDataHttp {
 

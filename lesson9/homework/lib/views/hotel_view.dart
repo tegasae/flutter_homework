@@ -78,7 +78,7 @@ class HotelDetailsView extends StatelessWidget {
 
 
 
-Future<HotelDetails> fetchHotelDetails(String url) async {
+Future<T> fetchHotelDetails<T>(String url) async {
   final response = await http.get(Uri.parse('https://run.mocky.io/v3/'+url));
   //late List<Hotel> hotelList;
   if (response.statusCode == 200) {
@@ -91,10 +91,12 @@ Future<HotelDetails> fetchHotelDetails(String url) async {
   }
 }
 
-HotelDetails parseHotelDetails(String responseBody) {
+T parseHotelDetails<T>(String responseBody) {
 
   //late List<Hotel> hotelList;
-  HotelDetails hotelDetails=HotelDetails.fromJson(json.decode(responseBody));
+  T hotelDetails=HotelDetails.fromJson(json.decode(responseBody)) as T;
+
+
   print(hotelDetails);
   return hotelDetails;
 }
