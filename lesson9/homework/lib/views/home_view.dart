@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:homework/common/get_data.dart';
 import 'package:homework/main.dart';
 
 
-import 'package:http/http.dart' as http;
+
 import 'dart:convert';
-import 'dart:async';
 
 import 'package:homework/models/hotel_json.dart';
 
@@ -49,8 +49,8 @@ class _ListHotelsState extends State<ListHotels> {
   @override
   void initState() {
     super.initState();
-    hotels = fetchHotels(
-        'https://run.mocky.io/v3/ac888dc5-d193-4700-b12c-abb43e289301');
+    hotels = fetchDataHttp(
+        'https://run.mocky.io/v3/ac888dc5-d193-4700-b12c-abb43e289301',(String responseBody) => (json.decode(responseBody) as List).map((i)=>Hotel.fromJson(i)).toList());
   }
 
   @override
@@ -117,22 +117,36 @@ class Hotels extends StatelessWidget {
 
 
 
-Future<List<Hotel>> fetchHotels(String url) async {
-  final response = await http.get(Uri.parse(url));
-  //late List<Hotel> hotelList;
-  if (response.statusCode == 200) {
+//Future<List<Hotel>> fetchHotels(String url) async {
+//  final response = await http.get(Uri.parse(url));
+//  //late List<Hotel> hotelList;
+//  if (response.statusCode == 200) {
 
-    return compute(parseHotels, response.body);
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load album');
-  }
-}
+//    return compute(parseHotels, response.body);
+//  } else {
+//    // If the server did not return a 200 OK response,
+//    // then throw an exception.
+//    throw Exception('Failed to load album');
+//  }
+//}
 
-List<Hotel> parseHotels(String responseBody) {
-  //late List<Hotel> hotelList;
-  List<Hotel> hotelList=(json.decode(responseBody) as List).map((i)=>Hotel.fromJson(i)).toList();
-  print(hotelList[0].uuid);
-  return hotelList;
-}
+//Future<T> fetchHotels<T>(String url, T Function(String) parse) async {
+//  final response = await http.get(Uri.parse(url));
+//
+//  if (response.statusCode == 200) {
+//    return compute(parse, response.body);
+//  } else {
+//    // If the server did not return a 200 OK response,
+//    // then throw an exception.
+//    throw Exception('Failed to load album');
+//  }
+//}
+
+//T parseHotels<T> (String responseBody) => (json.decode(responseBody) as List).map((i)=>Hotel.fromJson(i)).toList() as T;
+
+//T parseHotels<T>(String responseBody) {
+//  //late List<Hotel> hotelList;
+//  T hotelList=(json.decode(responseBody) as List).map((i)=>Hotel.fromJson(i)).toList() as T;
+//  //print(hotelList[0].uuid);
+//  return hotelList;
+//}

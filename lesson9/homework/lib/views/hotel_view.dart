@@ -1,15 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'dart:async';
+
 
 
 
 import 'package:homework/models/hotel_json.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
+
+import '../common/get_data.dart';
 
 class HotelView extends StatelessWidget {
   const HotelView({Key? key}) : super(key: key);
@@ -32,7 +34,7 @@ class Hotel extends StatelessWidget {
     final args = ModalRoute.of(context)!.settings.arguments as String;
     //return Text(args);o
     return FutureBuilder<HotelDetails>(
-      future: fetchHotelDetails(args),
+      future: fetchDataHttp('https://run.mocky.io/v3/'+args,(String responseBody) => HotelDetails.fromJson(json.decode(responseBody))),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
 
@@ -77,27 +79,4 @@ class HotelDetailsView extends StatelessWidget {
 }
 
 
-
-Future<T> fetchHotelDetails<T>(String url) async {
-  final response = await http.get(Uri.parse('https://run.mocky.io/v3/'+url));
-  //late List<Hotel> hotelList;
-  if (response.statusCode == 200) {
-
-    return compute(parseHotelDetails,response.body);
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load hotel details');
-  }
-}
-
-T parseHotelDetails<T>(String responseBody) {
-
-  //late List<Hotel> hotelList;
-  T hotelDetails=HotelDetails.fromJson(json.decode(responseBody)) as T;
-
-
-  print(hotelDetails);
-  return hotelDetails;
-}
 
