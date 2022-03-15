@@ -44,13 +44,15 @@ class ListHotels extends StatefulWidget {
 
 class _ListHotelsState extends State<ListHotels> {
   late Future<List<Hotel>> hotels;
-
+  FetchHttp fetchHttp=FetchHttp('https://run.mocky.io/v3/ac888dc5-d193-4700-b12c-abb43e289301');
 
   @override
   void initState() {
     super.initState();
-    hotels = fetchDataHttp(
-        'https://run.mocky.io/v3/ac888dc5-d193-4700-b12c-abb43e289301',(String responseBody) => (json.decode(responseBody) as List).map((i)=>Hotel.fromJson(i)).toList());
+    //hotels = fetchDataHttp(
+    //    'https://run.mocky.io/v3/ac888dc5-d193-4700-b12c-abb43e289301',(String responseBody) => (json.decode(responseBody) as List).map((i)=>Hotel.fromJson(i)).toList());
+    hotels=fetchHttp.get((String responseBody) => (json.decode(responseBody) as List).map((i)=>Hotel.fromJson(i)).toList());
+
   }
 
   @override
@@ -93,7 +95,7 @@ class Hotels extends StatelessWidget {
         return IntrinsicWidth(
 
           child: GestureDetector(
-            onTap: () {print(listHotels[index].uuid);Navigator.pushNamed(context,routeHotel.routeName,arguments: listHotels[index].uuid);},
+            onTap: () {print(listHotels[index].uuid);Navigator.pushNamed(context,routeHotel.routeName,arguments: [listHotels[index].uuid,listHotels[index].name]);},
             child: Card(shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),
             ),color: Colors.amber,

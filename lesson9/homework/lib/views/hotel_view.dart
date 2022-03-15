@@ -18,45 +18,62 @@ class HotelView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(),
-        body: Center(
-          child: Hotel(),
-        ));
+    final args = ModalRoute.of(context)!.settings.arguments as List<String>;
+    //FetchHttp fetchHttp=FetchHttp('https://run.mocky.io/v3/'+args);
+    return SafeArea(
+
+      child: Scaffold(
+          appBar: AppBar(title: Text(args[1])),
+          body: Container(
+            padding: EdgeInsets.all(10),
+            alignment: Alignment.center,
+            child: Hotel(url: 'https://run.mocky.io/v3/'+args[0]),
+          )),
+    );
   }
 }
 
 class Hotel extends StatelessWidget {
-  const Hotel({Key? key}) : super(key: key);
+  final String url;
+  const Hotel({Key? key,required this.url}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as String;
-    //return Text(args);o
+
+    //final args = ModalRoute.of(context)!.settings.arguments as String;
+    FetchHttp fetchHttp=FetchHttp(this.url);
+
     return FutureBuilder<HotelDetails>(
-      future: fetchDataHttp('https://run.mocky.io/v3/'+args,(String responseBody) => HotelDetails.fromJson(json.decode(responseBody))),
+      future: fetchHttp.get((String responseBody) => HotelDetails.fromJson(json.decode(responseBody))),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
 
           //return Text(snapshot.data!.toString());
           print(snapshot.data!.address.toString());
           HotelDetails hotelDetails=snapshot.data!;
-          return Column(children: [Text(hotelDetails.name),
-                                  Row(children: [Text(hotelDetails.address.city),
-                                                 Text(hotelDetails.address.country),
-                                                  Text(hotelDetails.address.street),
-                                                  Text(hotelDetails.address.coords.values.toString()),
-                                                  Text(hotelDetails.address.zip_code.toString())],
-                                                  ),
-                                  Text(hotelDetails.price.toString()),
-                                  //for (var i in hotelDetails.photos) Expanded(child: Image.asset('assets/images/'+i)),
-                                CarouselSlider(
-                                          options: CarouselOptions(height: 100.0),
-                                          items: hotelDetails.photos.map((e)=>Image.asset('assets/images/'+e)).toList()
+          return Column(children: [
+            CarouselSlider(
+                options: CarouselOptions(height: 100.0),
+                items: hotelDetails.photos.map((e)=>Image.asset('assets/images/'+e)).toList()
 
-                                ),
-                                  for (var i in hotelDetails.services.free) Text(i),
-                                  for (var i in hotelDetails.services.paid) Text(i)
+            ),
+
+                                  Align(alignment: Alignment.centerLeft,child:RowText(first: 'Страна: ',second: hotelDetails.address.country)),
+                                  Align(alignment: Alignment.centerLeft,child:RowText(first: 'Город: ',second: hotelDetails.address.city)),
+                                  Align(alignment: Alignment.centerLeft,child:RowText(first: 'Улица: ',second: hotelDetails.address.street)),
+                                  Align(alignment: Alignment.centerLeft,child:RowText(first: 'Рейтинг: ',second: hotelDetails.rating.toString())),
+                                  Text(''),
+                                  Align(alignment: Alignment.centerLeft,child:Text('Сервисы')),
+
+
+                                  //for (var i in hotelDetails.photos) Expanded(child: Image.asset('assets/images/'+i)),
+                                  Container(
+
+                                    alignment: Alignment.topLeft,
+                                      child:Row(children: [
+                                    Column(children: [Text('Платные'),for (var i in hotelDetails.services.paid) Text(i)]),
+                                    Column(children:[Text('Бесплатные:'),for (var i in hotelDetails.services.free) Text(i)])])),
+
           ]);
         } else if (snapshot.hasError) {
           return Text('${snapshot.error}');
@@ -67,6 +84,17 @@ class Hotel extends StatelessWidget {
     );
   }
   }
+
+class RowText extends StatelessWidget {
+  final String first;
+  final String second;
+  const RowText({Key? key,required this.first,required this.second}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(children: [Text(first), Text(second,style: TextStyle(fontWeight: FontWeight.bold))]);
+  }
+}
 
 class HotelDetailsView extends StatelessWidget {
   final HotelDetails hotelDetails;
