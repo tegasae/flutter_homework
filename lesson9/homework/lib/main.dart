@@ -36,6 +36,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        //textTheme: const TextTheme(
+        //    button: TextStyle(fontSize: 8, color: Colors.black),
+        //    bodyText1: TextStyle(fontSize: 8, color: Colors.black),
+        //    bodyText2: TextStyle(fontSize: 8, color: Colors.black),
+        //    headline6: TextStyle(fontSize: 8, color: Colors.black),
+        //    subtitle1: (TextStyle(fontSize: 8, color: Colors.black))),
       ),
       //initialRoute: '/',
       //initialRoute: routeWidget[0].routeName,
