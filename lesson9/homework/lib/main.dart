@@ -7,10 +7,10 @@ void main() {
   runApp(const MyApp());
 }
 
-class RouteMap {
-  static const String homeRoute = '/';
-  static const String hotelRoute = '/hotel';
-}
+//class RouteMap {
+//  static const String homeRoute = '/';
+//  static const String hotelRoute = '/hotel';
+//}
 
 class RouteWidget {
   final Widget widget;
@@ -20,7 +20,7 @@ class RouteWidget {
 }
 
 RouteWidget routeHome=RouteWidget(HomeView(),'/');
-RouteWidget routeHotel=RouteWidget(HotelView(), '/hotel');
+RouteWidget routeHotel=RouteWidget(const HotelView(), '/hotel');
 
 //List<RouteWidget> routeWidget=[RouteWidget(HomeView(),'/'),RouteWidget(HotelView(),'/hotel')];
 class MyApp extends StatelessWidget {
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('build');
+    print('build1');
     //Map<String,Widget Function> m={for (var v in routeWidget) v.routeName:(BuildContext context)=>v.widget};
     //print(m);
     return MaterialApp(
@@ -36,12 +36,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        //textTheme: const TextTheme(
+        textTheme: const TextTheme(
         //    button: TextStyle(fontSize: 8, color: Colors.black),
-        //    bodyText1: TextStyle(fontSize: 8, color: Colors.black),
-        //    bodyText2: TextStyle(fontSize: 8, color: Colors.black),
-        //    headline6: TextStyle(fontSize: 8, color: Colors.black),
-        //    subtitle1: (TextStyle(fontSize: 8, color: Colors.black))),
+            bodyText1: TextStyle(fontSize: 8, color: Colors.blue),
+            bodyText2: TextStyle(fontSize: 16, color: Colors.black,fontFamily: 'Hind'),
+            headline5: TextStyle(fontSize: 18, color: Colors.black,fontWeight: FontWeight.bold),
+            headline6: TextStyle(fontSize: 16, color: Colors.black,fontWeight: FontWeight.bold),
+            subtitle1: (TextStyle(fontSize: 8, color: Colors.black))),
       ),
       //initialRoute: '/',
       //initialRoute: routeWidget[0].routeName,

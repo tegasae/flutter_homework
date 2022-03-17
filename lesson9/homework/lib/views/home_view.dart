@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+//import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:homework/common/get_data.dart';
 import 'package:homework/main.dart';
@@ -11,7 +11,7 @@ import 'package:homework/models/hotel_json.dart';
 
 
 class HomeView extends StatefulWidget {
-  HomeView({Key? key}) : super(key: key);
+  const HomeView({Key? key}) : super(key: key);
 
   @override
   _HomeViewState createState() => _HomeViewState();
@@ -26,11 +26,23 @@ class _HomeViewState extends State<HomeView> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(),
-        body: Center(
-          child: SingleChildScrollView(child: ListHotels()),
-        ));
+    late int crossAxisCount;
+    return SafeArea(
+      child: Scaffold(
+          appBar: AppBar(
+            actions: [
+              IconButton(onPressed: (){setState(() {
+                crossAxisCount=1;
+              });}, icon: Icon(Icons.list)),
+              IconButton(onPressed: (){setState(() {
+                crossAxisCount=2;
+              });}, icon: Icon(Icons.grid_view_sharp)),
+            ],
+          ),
+          body: const Center(
+            child: SingleChildScrollView(child: ListHotels()),
+          )),
+    );
   }
 }
 
@@ -102,7 +114,7 @@ class Hotels extends StatelessWidget {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [Expanded(child: Image.asset('assets/images/'+listHotels[index].poster)),Text(listHotels[index].name),
-                  Container(color: Colors.blue,child: Text('Подробнее'))
+                  Container(color: Colors.blue,child: const Text('Подробнее'))
                     ]
                 )
 

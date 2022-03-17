@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:homework/models/hotel_json.dart';
@@ -20,7 +20,7 @@ class HotelView extends StatelessWidget {
       child: Scaffold(
           appBar: AppBar(title: Text(args[1])),
           body: Container(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             alignment: Alignment.center,
             child: Hotel(url: 'https://run.mocky.io/v3/' + args[0]),
           )),
@@ -28,83 +28,113 @@ class HotelView extends StatelessWidget {
   }
 }
 
+Map<String,HotelDetails> cacheHotelDetails={};
+
 class Hotel extends StatelessWidget {
   final String url;
 
   const Hotel({Key? key, required this.url}) : super(key: key);
 
+
+  Future<HotelDetails> getFromCache() async {
+    if (cacheHotelDetails.containsKey(url)) {
+      return cacheHotelDetails[url]!;
+    } else {
+      FetchHttp fetchHttp = FetchHttp(url);
+      return fetchHttp.get((String responseBody) =>HotelDetails.fromJson(json.decode(responseBody)));
+
+      }
+
+    }
+
+
   @override
   Widget build(BuildContext context) {
-    //final args = ModalRoute.of(context)!.settings.arguments as String;
-    FetchHttp fetchHttp = FetchHttp(this.url);
-    final _scrollController = ScrollController();
+
+    //FetchHttp fetchHttp = FetchHttp(url);
+    
     return FutureBuilder<HotelDetails>(
-        future: fetchHttp.get((String responseBody) =>
-            HotelDetails.fromJson(json.decode(responseBody))),
+        //future: cacheHotelDetails.containsKey(url)?getFromCache():fetchHttp.get((String responseBody) {
+        //
+        //  return HotelDetails.fromJson(json.decode(responseBody));
+        //}),
+        future: getFromCache(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+
             //return Text(snapshot.data!.toString());
             print(snapshot.data!.address.toString());
             HotelDetails hotelDetails = snapshot.data!;
-            return Column(children: [
-              CarouselSlider(
-                  options: CarouselOptions(height: 100.0),
-                  items: hotelDetails.photos
-                      .map((e) => Image.asset('assets/images/' + e))
-                      .toList()),
+            if (!cacheHotelDetails.containsKey(url)) {
+              cacheHotelDetails[url]=hotelDetails;
+            }
+            print(cacheHotelDetails);
+            return Column(
+              children: [
+                CarouselSlider(
+                    options: CarouselOptions(height: 200.0),
+                    items: hotelDetails.photos
+                        .map((e) => Container(padding: EdgeInsets.all(10),child: Image.asset('assets/images/' + e)))
+                        .toList()),
 
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: RowText(
-                      first: 'Страна: ', second: hotelDetails.address.country)),
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: RowText(
-                      first: 'Город: ', second: hotelDetails.address.city)),
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: RowText(
-                      first: 'Улица: ', second: hotelDetails.address.street)),
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: RowText(
-                      first: 'Рейтинг: ',
-                      second: hotelDetails.rating.toString())),
-              Text(''),
-              Align(alignment: Alignment.centerLeft, child: Text('Сервисы')),
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: RowText(
+                        first: 'Страна: ',
+                        second: hotelDetails.address.country)),
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: RowText(
+                        first: 'Город: ', second: hotelDetails.address.city)),
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: RowText(
+                        first: 'Улица: ', second: hotelDetails.address.street)),
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: RowText(
+                        first: 'Рейтинг: ',
+                        second: hotelDetails.rating.toString())),
+                const Text(''),
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text('Сервисы',
+                        style: Theme.of(context).textTheme.headline5)),
 
-              //for (var i in hotelDetails.photos) Expanded(child: Image.asset('assets/images/'+i)),
+                //for (var i in hotelDetails.photos) Expanded(child: Image.asset('assets/images/'+i)),
 
-
-              Expanded(
-                child: GridView(
-                  controller: _scrollController,
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                  ),
-                  children: [
-                    Column(
-                      //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Платные'),
-                          for (var i in hotelDetails.services.paid) Text(i)
-                        ]),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Бесплатные:'),
-                          for (var i in hotelDetails.services.free) Text(i),
-                        ],
-                      ),
+                GridView(
+                    shrinkWrap: true,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
                     ),
-
-                  ],
-                ),
-              )
-            ]);
+                    children: [
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Платные',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.headline6),
+                            for (var i in hotelDetails.services.paid)
+                              Text(i,
+                                  maxLines: 2, overflow: TextOverflow.ellipsis)
+                          ]),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Бесплатные',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.headline6),
+                            for (var i in hotelDetails.services.free)
+                              Text(i,
+                                  maxLines: 2, overflow: TextOverflow.ellipsis)
+                          ])
+                    ]),
+              ],
+            );
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
@@ -125,7 +155,7 @@ class RowText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(children: [
       Text(first),
-      Text(second, style: TextStyle(fontWeight: FontWeight.bold))
+      Text(second, style: const TextStyle(fontWeight: FontWeight.bold))
     ]);
   }
 }

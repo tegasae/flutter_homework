@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
+import 'package:homework/models/hotel_json.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
+
+
 
 abstract class FetchData<T> {
   final String path;
@@ -12,7 +15,8 @@ abstract class FetchData<T> {
 
   Future<String> way();
 
-  Future<T> get<T>(T Function(String) parse) async {
+  Future<U> get<U>(U Function(String) parse) async {
+
     await way();
     if (code==200) {
       return compute(parse,data);
@@ -26,13 +30,14 @@ abstract class FetchData<T> {
 class FetchHttp extends FetchData {
   FetchHttp(String path) : super(path);
 
+  @override
   Future<String> way() async {
     final response = await http.get(Uri.parse(path));
 
     if (response.statusCode==200) {
       code=200;
-      this.data=response.body;
-      return this.data;
+      data=response.body;
+      return data;
 
     }
     code=404;
