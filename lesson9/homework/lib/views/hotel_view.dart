@@ -69,71 +69,73 @@ class Hotel extends StatelessWidget {
               cacheHotelDetails[url]=hotelDetails;
             }
             print(cacheHotelDetails);
-            return Column(
-              children: [
-                CarouselSlider(
-                    options: CarouselOptions(height: 200.0),
-                    items: hotelDetails.photos
-                        .map((e) => Container(padding: EdgeInsets.all(10),child: Image.asset('assets/images/' + e)))
-                        .toList()),
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  CarouselSlider(
+                      options: CarouselOptions(height: 200.0),
+                      items: hotelDetails.photos
+                          .map((e) => Container(padding: EdgeInsets.all(10),child: Image.asset('assets/images/' + e)))
+                          .toList()),
 
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: RowText(
-                        first: 'Страна: ',
-                        second: hotelDetails.address.country)),
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: RowText(
-                        first: 'Город: ', second: hotelDetails.address.city)),
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: RowText(
-                        first: 'Улица: ', second: hotelDetails.address.street)),
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: RowText(
-                        first: 'Рейтинг: ',
-                        second: hotelDetails.rating.toString())),
-                const Text(''),
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text('Сервисы',
-                        style: Theme.of(context).textTheme.headline5)),
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: RowText(
+                          first: 'Страна: ',
+                          second: hotelDetails.address.country)),
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: RowText(
+                          first: 'Город: ', second: hotelDetails.address.city)),
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: RowText(
+                          first: 'Улица: ', second: hotelDetails.address.street)),
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: RowText(
+                          first: 'Рейтинг: ',
+                          second: hotelDetails.rating.toString())),
+                  const Text(''),
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Сервисы',
+                          style: Theme.of(context).textTheme.headline5)),
 
-                //for (var i in hotelDetails.photos) Expanded(child: Image.asset('assets/images/'+i)),
+                  //for (var i in hotelDetails.photos) Expanded(child: Image.asset('assets/images/'+i)),
 
-                GridView(
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                    ),
-                    children: [
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Платные',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.headline6),
-                            for (var i in hotelDetails.services.paid)
-                              Text(i,
-                                  maxLines: 2, overflow: TextOverflow.ellipsis)
-                          ]),
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Бесплатные',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.headline6),
-                            for (var i in hotelDetails.services.free)
-                              Text(i,
-                                  maxLines: 2, overflow: TextOverflow.ellipsis)
-                          ])
-                    ]),
-              ],
+                  GridView(
+                      shrinkWrap: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
+                      children: [
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Платные',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.headline6),
+                              for (var i in hotelDetails.services.paid)
+                                Text(i,
+                                    maxLines: 2, overflow: TextOverflow.ellipsis)
+                            ]),
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Бесплатные',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.headline6),
+                              for (var i in hotelDetails.services.free)
+                                Text(i,
+                                    maxLines: 2, overflow: TextOverflow.ellipsis)
+                            ])
+                      ]),
+                ],
+              ),
             );
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
