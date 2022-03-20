@@ -8,7 +8,7 @@ import 'package:homework/main.dart';
 import 'dart:convert';
 
 import 'package:homework/models/hotel_json.dart';
-import 'package:provider/provider.dart';
+
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -27,31 +27,33 @@ class _HomeViewState extends State<HomeView> {
   }
   @override
   Widget build(BuildContext context) {
-    var counter=context.watch<CrossAxisCount>();
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context)=>CrossAxisCount())
-      ],
+    //int count=1;
+    return SafeArea(
+      child: Scaffold(
+          appBar: AppBar(
+            actions: [
+              IconButton(onPressed: (){
 
-      child: SafeArea(
-        child: Scaffold(
-            appBar: AppBar(
-              actions: [
-                IconButton(onPressed: (){
-                  counter.toOne();
-                  }, icon: Icon(Icons.list)),
-                IconButton(onPressed: (){
-                  counter.toTwo();
+                setState(() {
+                  crossAxisCount=1;
+                }
 
+                );
+                }, icon: Icon(Icons.list)),
+              IconButton(onPressed: (){
 
 
-                }, icon: Icon(Icons.grid_view_sharp)),
-              ],
-            ),
-            body: Center(
-              child: SingleChildScrollView(child: ListHotels()),
-            )),
-      ),
+                setState(() {
+                  crossAxisCount=2;
+                });
+
+
+              }, icon: Icon(Icons.grid_view_sharp)),
+            ],
+          ),
+          body: Center(
+            child: InheritedDataProvider<int>(child: SingleChildScrollView(child: ListHotels()),data: crossAxisCount),
+          )),
     );
   }
 }
@@ -101,45 +103,60 @@ class Hotels extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final int crossAxisCount=InheritedDataProvider.of<int>(context)?.data;
+    final int crossAxisCount=InheritedDataProvider.of<int>(context)?.data;
+    print(crossAxisCount);
     //print(crossAxisCount);
-    //print(crossAxisCount);
+
     final _scrollController = ScrollController();
-    return Consumer<CrossAxisCount>(
-      builder: (context,counter,child) {return GridView.builder(
-        controller: _scrollController,
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        //physics: AlwaysScrollableScrollPhysics(),
 
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: counter.count,
-        ),
-        itemCount: listHotels.length,
-        itemBuilder: (context, index) {
+      return GridView.builder(
+          controller: _scrollController,
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          //physics: AlwaysScrollableScrollPhysics(),
 
-          return IntrinsicWidth(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossAxisCount,//counter.count,
+          ),
+          itemCount: listHotels.length,
+          itemBuilder: (context, index) {
 
-            child: GestureDetector(
-              onTap: () {print(listHotels[index].uuid);Navigator.pushNamed(context,routeHotel.routeName,arguments: [listHotels[index].uuid,listHotels[index].name]);},
-              child: Card(shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),color: Colors.amber,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [Expanded(child: Image.asset('assets/images/'+listHotels[index].poster)),Text(listHotels[index].name),
-                    Container(color: Colors.blue,child: const Text('Подробнее'))
-                      ]
-                  )
+            return IntrinsicWidth(
+
+              child: GestureDetector(
+                onTap: () {print(listHotels[index].uuid);Navigator.pushNamed(context,routeHotel.routeName,arguments: [listHotels[index].uuid,listHotels[index].name]);},
+                child: Card(
+                    elevation: 20,
+                    shape: RoundedRectangleBorder(
+
+                  borderRadius: BorderRadius.circular(15.0),
+                ),color: Colors.amber,
+                    child:
+
+                        //crossAxisAlignment: CrossAxisAlignment.stretch,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(15.0),
+                          child:
+                          Column(
+                            children: [
+                              Image.asset('assets/images/'+listHotels[index].poster,height:150,fit: BoxFit.fill),
+                              Expanded(child: Text(listHotels[index].name,maxLines: 2)),
+                            Expanded(child: Container(color: Colors.blue,child: const Text('Подробнее')))
+
+                            ],
+                          ),
+                        ),
+                      //[Text(listHotels[index].name,maxLines: 1)],
+                      //Container(color: Colors.blue,child: const Text('Подробнее'))
 
 
+
+                ),
               ),
-            ),
-          );
-        },
-      );},
-    );
-  }
+            );
+          },
+        );}
+
 }
 
 
@@ -164,18 +181,7 @@ class InheritedDataProvider<T> extends InheritedWidget {
 }
 
 
-class CrossAxisCount extends ChangeNotifier {
-  int count=1;
-  void toOne() {
-    count=1;
-    notifyListeners();
-  }
-  void toTwo() {
-    count=2;
-    notifyListeners();
-  }
 
-}
 
 
 //Future<List<Hotel>> fetchHotels(String url) async {

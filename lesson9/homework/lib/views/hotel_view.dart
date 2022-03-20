@@ -75,7 +75,7 @@ class Hotel extends StatelessWidget {
                   CarouselSlider(
                       options: CarouselOptions(height: 200.0),
                       items: hotelDetails.photos
-                          .map((e) => Container(padding: EdgeInsets.all(10),child: Image.asset('assets/images/' + e)))
+                          .map((e) => Container(padding: EdgeInsets.all(10),child: Image.asset('assets/images/' + e,width: 300,height: 200,fit: BoxFit.fitWidth,)))
                           .toList()),
 
                   Align(
