@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:homework/common/get_data.dart';
 import 'package:homework/main.dart';
 
-
 import 'package:getwidget/getwidget.dart';
 
 import 'dart:convert';
 
 import 'package:homework/models/hotel_json.dart';
-
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -34,12 +32,16 @@ class _HomeViewState extends State<HomeView> {
       child: Scaffold(
           appBar: AppBar(
             actions: [
-              IconButton(onPressed: () {
-                counterNofifier.value = 1;
-              }, icon: const Icon(Icons.list)),
-              IconButton(onPressed: () {
-                counterNofifier.value = 2;
-              }, icon: const Icon(Icons.grid_view_sharp)),
+              IconButton(
+                  onPressed: () {
+                    counterNofifier.value = 1;
+                  },
+                  icon: const Icon(Icons.list)),
+              IconButton(
+                  onPressed: () {
+                    counterNofifier.value = 2;
+                  },
+                  icon: const Icon(Icons.grid_view_sharp)),
             ],
           ),
           body: Center(
@@ -52,7 +54,6 @@ class _HomeViewState extends State<HomeView> {
 }
 
 class ListHotels extends StatefulWidget {
-
   const ListHotels({Key? key}) : super(key: key);
 
   @override
@@ -61,8 +62,8 @@ class ListHotels extends StatefulWidget {
 
 class _ListHotelsState extends State<ListHotels> {
   late Future<List<Hotel>> hotels;
-  FetchHttp fetchHttp = FetchHttp(
-      'https://run.mocky.io/v3/ac888dc5-d193-4700-b12c-abb43e289301');
+  FetchHttp fetchHttp =
+  FetchHttp('https://run.mocky.io/v3/ac888dc5-d193-4700-b12c-abb43e289301');
 
   @override
   void initState() {
@@ -100,10 +101,12 @@ class Hotels extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     //final int crossAxisCount=InheritedDataProvider.of<int>(context)?.data;
-    final ValueNotifier<int> countValueNotifier = InheritedDataProvider
-        .of<ValueNotifier<int>>(context)
-        ?.data;
+    final ValueNotifier<int> countValueNotifier =
+        InheritedDataProvider
+            .of<ValueNotifier<int>>(context)
+            ?.data;
     print(countValueNotifier.value);
     //print(crossAxisCount);
     //print(crossAxisCount);
@@ -113,6 +116,43 @@ class Hotels extends StatelessWidget {
     return ValueListenableBuilder<int>(
         valueListenable: countValueNotifier,
         builder: (context, value, child) {
+          double aspectRatio = 1.0;
+          double height=MediaQuery
+              .of(context)
+              .size
+              .height;
+          double witdth=MediaQuery
+              .of(context)
+              .size
+              .width;
+
+          double heightImage=height/7;
+          double heightButton=height/17;
+          Widget button= TextButton(
+
+              onPressed: () {}, child: Text(
+              'Подробнее'),
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                        //side: BorderSide(color: Colors.red)
+                      )
+                  ),
+                  foregroundColor: MaterialStateProperty.all(
+                      Colors.white),
+                  backgroundColor: MaterialStateProperty.all(
+                      Colors.blue)
+              )
+          );
+          if (countValueNotifier.value == 1) {
+            aspectRatio = 1.5;
+            heightImage =height / 4;
+            heightButton=height/15;
+
+          }
+          print(heightImage);
+
           return GridView.builder(
             controller: _scrollController,
             scrollDirection: Axis.vertical,
@@ -120,64 +160,89 @@ class Hotels extends StatelessWidget {
             //physics: AlwaysScrollableScrollPhysics(),
 
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: countValueNotifier.value, //counter.count,
+                crossAxisCount: value, //counter.count,
+                childAspectRatio: aspectRatio
             ),
             itemCount: listHotels.length,
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
                   print(listHotels[index].uuid);
-                  Navigator.pushNamed(
-                      context, routeHotel.routeName, arguments: [
-                    listHotels[index].uuid,
-                    listHotels[index].name
-                  ]);
+                  Navigator.pushNamed(context, routeHotel.routeName,
+                      arguments: [
+                        listHotels[index].uuid,
+                        listHotels[index].name
+                      ]);
                 },
-                child:
-                GFCard(
-                  boxFit: BoxFit.cover,
-                  titlePosition: GFPosition.start,
-                  //imageOverlay: AssetImage('assets/images/' + listHotels[index].poster),
-                  image: Image.asset('assets/images/' + listHotels[index].poster,
-                    height: MediaQuery.of(context).size.height * 0.2,
-                    width: MediaQuery.of(context).size.width,
-                    fit: BoxFit.cover,
-                  ),
+                //Image.asset('assets/images/' + listHotels[index].poster,height: 100)
+                child: Card(
+                    semanticContainer: true,
+                    elevation: 15,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                    child:
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Ink.image(image: AssetImage(
+                              'assets/images/' + listHotels[index].poster),
+                            height: heightImage,
+                            fit: BoxFit.cover,),
+                          Expanded(child: Align(
+                            alignment: Alignment.topLeft, child: Container(
+                              padding: EdgeInsetsDirectional.all(10),
+                              child: Text(listHotels[index].name)),)),
+                          SizedBox(height: heightButton,
+                              child: TextButton(
 
-                  //content: Text(listHotels[index].name),
-                  showImage: true,
+                                  onPressed: () {}, child: Text(
+                                  'Подробнее'),
+                                  style: ButtonStyle(
+                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.zero,
+                                            //side: BorderSide(color: Colors.red)
+                                          )
+                                      ),
+                                      foregroundColor: MaterialStateProperty.all(
+                                          Colors.white),
+                                      backgroundColor: MaterialStateProperty.all(
+                                          Colors.blue)
+                                  )
+                              )
+                          )
+                        ]
+                    )
                 ),
-
-
               );
             },
           );
         });
   }
+}
 
-  }
-
-
-  class InheritedDataProvider<T> extends InheritedWidget {
+class InheritedDataProvider<T> extends InheritedWidget {
   final T data;
 
-  const InheritedDataProvider({Key? key,
-  required Widget child,
-  required this.data,
+  const InheritedDataProvider({
+    Key? key,
+    required Widget child,
+    required this.data,
   }) : super(key: key, child: child);
 
   @override
-  bool updateShouldNotify(InheritedDataProvider oldWidget) => data != oldWidget.data;
-
+  bool updateShouldNotify(InheritedDataProvider oldWidget) =>
+      data != oldWidget.data;
 
   static InheritedDataProvider? of<T>(BuildContext context) {
-  //final InheritedDataProvider<T>? result=context.dependOnInheritedWidgetOfExactType<InheritedDataProvider<T>>();
-  return context.dependOnInheritedWidgetOfExactType<InheritedDataProvider<T>>();
-  //return result;
+    //final InheritedDataProvider<T>? result=context.dependOnInheritedWidgetOfExactType<InheritedDataProvider<T>>();
+    return context
+        .dependOnInheritedWidgetOfExactType<InheritedDataProvider<T>>();
+    //return result;
   }
-
-  }
-
+}
 
 //Future<List<Hotel>> fetchHotels(String url) async {
 //  final response = await http.get(Uri.parse(url));
