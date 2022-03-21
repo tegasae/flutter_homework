@@ -4,6 +4,8 @@ import 'package:homework/common/get_data.dart';
 import 'package:homework/main.dart';
 
 
+import 'package:getwidget/getwidget.dart';
+
 import 'dart:convert';
 
 import 'package:homework/models/hotel_json.dart';
@@ -122,49 +124,31 @@ class Hotels extends StatelessWidget {
             ),
             itemCount: listHotels.length,
             itemBuilder: (context, index) {
-              return IntrinsicWidth(
-
-                child: GestureDetector(
-                  onTap: () {
-                    print(listHotels[index].uuid);
-                    Navigator.pushNamed(
-                        context, routeHotel.routeName, arguments: [
-                      listHotels[index].uuid,
-                      listHotels[index].name
-                    ]);
-                  },
-                  child: Card(
-                    elevation: 20,
-                    shape: RoundedRectangleBorder(
-
-                      borderRadius: BorderRadius.circular(15.0),
-                    ), color: Colors.amber,
-                    child:
-
-                    //crossAxisAlignment: CrossAxisAlignment.stretch,
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(15.0),
-                      child:
-                      Column(
-                        children: [
-                          Image.asset('assets/images/' +
-                              listHotels[index].poster,
-                              height: 150, fit: BoxFit.fill),
-                          Expanded(
-                              child: Text(listHotels[index].name, maxLines: 2)),
-                          Expanded(child: Container(
-                              color: Colors.blue,
-                              child: const Text('Подробнее')))
-
-                        ],
-                      ),
-                    ),
-                    //[Text(listHotels[index].name,maxLines: 1)],
-                    //Container(color: Colors.blue,child: const Text('Подробнее'))
-
-
+              return GestureDetector(
+                onTap: () {
+                  print(listHotels[index].uuid);
+                  Navigator.pushNamed(
+                      context, routeHotel.routeName, arguments: [
+                    listHotels[index].uuid,
+                    listHotels[index].name
+                  ]);
+                },
+                child:
+                GFCard(
+                  boxFit: BoxFit.cover,
+                  titlePosition: GFPosition.start,
+                  //imageOverlay: AssetImage('assets/images/' + listHotels[index].poster),
+                  image: Image.asset('assets/images/' + listHotels[index].poster,
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: MediaQuery.of(context).size.width,
+                    fit: BoxFit.cover,
                   ),
+
+                  //content: Text(listHotels[index].name),
+                  showImage: true,
                 ),
+
+
               );
             },
           );
