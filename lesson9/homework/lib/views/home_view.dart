@@ -1,9 +1,7 @@
-//import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:homework/common/get_data.dart';
 import 'package:homework/main.dart';
-
-import 'package:getwidget/getwidget.dart';
 
 import 'dart:convert';
 
@@ -18,12 +16,9 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   //int crossAxisCount=1;
-  final ValueNotifier<int> counterNofifier = ValueNotifier<int>(1);
+  final ValueNotifier<int> counterNotifier = ValueNotifier<int>(1);
 
-  @override
-  void initState() {
-    super.initState();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -34,24 +29,22 @@ class _HomeViewState extends State<HomeView> {
             actions: [
               IconButton(
                   onPressed: () {
-                    counterNofifier.value = 1;
+                    counterNotifier.value = 1;
                   },
                   icon: const Icon(Icons.list)),
               IconButton(
                   onPressed: () {
-                    counterNofifier.value = 2;
+                    counterNotifier.value = 2;
                   },
                   icon: const Icon(Icons.grid_view_sharp)),
             ],
           ),
-          body:
-
-          Container(
+          body: Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.all(10),
             child: InheritedDataProvider<ValueNotifier<int>>(
                 child: const SingleChildScrollView(child: ListHotels()),
-                data: counterNofifier),
+                data: counterNotifier),
           )),
     );
   }
@@ -67,13 +60,12 @@ class ListHotels extends StatefulWidget {
 class _ListHotelsState extends State<ListHotels> {
   late Future<List<Hotel>> hotels;
   FetchHttp fetchHttp =
-  FetchHttp('https://run.mocky.io/v3/ac888dc5-d193-4700-b12c-abb43e289301');
+      FetchHttp('https://run.mocky.io/v3/ac888dc5-d193-4700-b12c-abb43e289301');
 
   @override
   void initState() {
     super.initState();
-    //hotels = fetchDataHttp(
-    //    'https://run.mocky.io/v3/ac888dc5-d193-4700-b12c-abb43e289301',(String responseBody) => (json.decode(responseBody) as List).map((i)=>Hotel.fromJson(i)).toList());
+
     hotels = fetchHttp.get((String responseBody) =>
         (json.decode(responseBody) as List)
             .map((i) => Hotel.fromJson(i))
@@ -89,7 +81,8 @@ class _ListHotelsState extends State<ListHotels> {
           //return Text(snapshot.data!.toString());
           return Hotels(listHotels: snapshot.data!);
         } else if (snapshot.hasError) {
-          return Text('${snapshot.error}');
+          //return Text('${snapshot.error}');
+          return const Text('Невозможно загрузить список');
         }
         // By default, show a loading spinner.
         return const CircularProgressIndicator();
@@ -105,12 +98,9 @@ class Hotels extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     //final int crossAxisCount=InheritedDataProvider.of<int>(context)?.data;
     final ValueNotifier<int> countValueNotifier =
-        InheritedDataProvider
-            .of<ValueNotifier<int>>(context)
-            ?.data;
+        InheritedDataProvider.of<ValueNotifier<int>>(context)?.data;
     print(countValueNotifier.value);
     //print(crossAxisCount);
     //print(crossAxisCount);
@@ -120,42 +110,21 @@ class Hotels extends StatelessWidget {
     return ValueListenableBuilder<int>(
         valueListenable: countValueNotifier,
         builder: (context, value, child) {
+          int countColumns=countValueNotifier.value;
           double aspectRatio = 1.0;
-          double height=MediaQuery
-              .of(context)
-              .size
-              .height;
-          double witdth=MediaQuery
-              .of(context)
-              .size
-              .width;
+          double height = MediaQuery.of(context).size.height;
+          double width = MediaQuery.of(context).size.width;
 
-          double heightImage=height/9;
-          double heightButton=height/21;
-          print('height: '+height.toString());
-          print('witdh: '+witdth.toString());
-          Widget button= TextButton(
+          double heightImage = height / 9;
+          double heightButton = height / 21;
+          print('height: ' + height.toString());
+          print('width: ' + width.toString());
 
-              onPressed: () {}, child: const Text(
-              'Подробнее'),
-              style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                        //side: BorderSide(color: Colors.red)
-                      )
-                  ),
-                  foregroundColor: MaterialStateProperty.all(
-                      Colors.white),
-                  backgroundColor: MaterialStateProperty.all(
-                      Colors.blue)
-              )
-          );
-          if (countValueNotifier.value == 1) {
+          if (countColumns == 1) {
+
             aspectRatio = 1.5;
-            heightImage =height / 5;
-            heightButton=height/19;
-
+            heightImage = height / 5;
+            heightButton = height / 19;
           }
           print(heightImage);
 
@@ -166,9 +135,8 @@ class Hotels extends StatelessWidget {
             //physics: AlwaysScrollableScrollPhysics(),
 
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: value, //counter.count,
-                childAspectRatio: aspectRatio
-            ),
+                crossAxisCount: countColumns, //counter.count,
+                childAspectRatio: aspectRatio),
             itemCount: listHotels.length,
             itemBuilder: (context, index) {
               return GestureDetector(
@@ -188,71 +156,66 @@ class Hotels extends StatelessWidget {
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
-                    child:
-                    Column(
+                    child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Ink.image(image: AssetImage(
-                              'assets/images/' + listHotels[index].poster),
+                          Ink.image(
+                            image: AssetImage(
+                                'assets/images/' + listHotels[index].poster),
                             height: heightImage,
-                            fit: BoxFit.cover,),
+                            fit: BoxFit.cover,
+                          ),
 
-                          if (value==2) Expanded(child: Align(
-                            alignment: Alignment.topLeft, child: Container(
-                              padding: const EdgeInsetsDirectional.all(10),
-                              child: Text(listHotels[index].name)),))
-                          else Container(
-                            alignment: Alignment.center,
-
-                            child: Row(children: [
-
-                              Expanded(child: Align(
-                                alignment: Alignment.topLeft, child: Container(
+                          if (value == 2)
+                            Expanded(
+                                child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Container(
                                   padding: const EdgeInsetsDirectional.all(10),
-                                  child: Text(listHotels[index].name)),)),
-                              Container(child: Text('Подробнее',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),padding: EdgeInsetsDirectional.all(15),color: Colors.blue,margin: EdgeInsetsDirectional.all(10),)
-                            ],),
-                          )
-                              ,
+                                  child: Text(listHotels[index].name)),
+                            ))
+                          else
+                            Container(
+                              alignment: Alignment.center,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Container(
+                                        padding:
+                                            const EdgeInsetsDirectional.all(10),
+                                        child: Text(listHotels[index].name)),
+                                  )),
+                                  Container(
+                                    child: const Text('Подробнее',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold)),
+                                    padding: const EdgeInsetsDirectional.all(15),
+                                    color: Colors.blue,
+                                    margin: const EdgeInsetsDirectional.all(10),
+                                  )
+                                ],
+                              ),
+                            ),
 
-                          //SizedBox(height: heightButton,
-                          //    child: TextButton(
 
-                                  //onPressed: () {}, child: const Text(
-                                  //'Подробнее'),
-                                  //style: ButtonStyle(
-                                  //    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  //        const RoundedRectangleBorder(
-                                   //         borderRadius: BorderRadius.zero,
-                                   //         //side: BorderSide(color: Colors.red)
-                                    //      )
-                                    //  ),
-                                    //  foregroundColor: MaterialStateProperty.all(
-                                    //      Colors.white),
-                                    //  backgroundColor: MaterialStateProperty.all(
-                                    //      Colors.blue)
-                                 // )
-                              //)
-                          //),
-                          if (value==2) Container(height: heightButton,color: Colors.blue,child:Text('Подробнее',style: TextStyle(color: Colors.white)),alignment: Alignment.center)
-
-                        ]
-                    )
-                ),
+                          if (value == 2)
+                            Container(
+                                height: heightButton,
+                                color: Colors.blue,
+                                child: const Text('Подробнее',
+                                    style: TextStyle(color: Colors.white)),
+                                alignment: Alignment.center)
+                        ])),
               );
             },
           );
         });
   }
 
-  Widget button(int count,String title) {
-    if (count==2) {
 
-    } else {
-
-    }
-    return const Text('123');
-  }
 }
 
 class InheritedDataProvider<T> extends InheritedWidget {
@@ -269,43 +232,10 @@ class InheritedDataProvider<T> extends InheritedWidget {
       data != oldWidget.data;
 
   static InheritedDataProvider? of<T>(BuildContext context) {
-    //final InheritedDataProvider<T>? result=context.dependOnInheritedWidgetOfExactType<InheritedDataProvider<T>>();
+
     return context
         .dependOnInheritedWidgetOfExactType<InheritedDataProvider<T>>();
-    //return result;
+
   }
 }
 
-//Future<List<Hotel>> fetchHotels(String url) async {
-//  final response = await http.get(Uri.parse(url));
-//  //late List<Hotel> hotelList;
-//  if (response.statusCode == 200) {
-
-//    return compute(parseHotels, response.body);
-//  } else {
-//    // If the server did not return a 200 OK response,
-//    // then throw an exception.
-//    throw Exception('Failed to load album');
-//  }
-//}
-
-//Future<T> fetchHotels<T>(String url, T Function(String) parse) async {
-//  final response = await http.get(Uri.parse(url));
-//
-//  if (response.statusCode == 200) {
-//    return compute(parse, response.body);
-//  } else {
-//    // If the server did not return a 200 OK response,
-//    // then throw an exception.
-//    throw Exception('Failed to load album');
-//  }
-//}
-
-//T parseHotels<T> (String responseBody) => (json.decode(responseBody) as List).map((i)=>Hotel.fromJson(i)).toList() as T;
-
-//T parseHotels<T>(String responseBody) {
-//  //late List<Hotel> hotelList;
-//  T hotelList=(json.decode(responseBody) as List).map((i)=>Hotel.fromJson(i)).toList() as T;
-//  //print(hotelList[0].uuid);
-//  return hotelList;
-//}

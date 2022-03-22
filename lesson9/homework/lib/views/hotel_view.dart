@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import 'package:flutter/material.dart';
 
 import 'package:homework/models/hotel_json.dart';
@@ -20,9 +19,6 @@ class HotelView extends StatelessWidget {
       child: Scaffold(
           appBar: AppBar(title: Text(args[1])),
           body: Container(
-            //decoration: BoxDecoration(
-            //    border: Border.all(color: Colors.blueAccent)
-            //),
             padding: const EdgeInsets.all(10),
             alignment: Alignment.topCenter,
             child: Hotel(url: 'https://run.mocky.io/v3/' + args[0]),
@@ -30,46 +26,37 @@ class HotelView extends StatelessWidget {
     );
   }
 }
-Map<String,HotelDetails> cacheHotelDetails={};
 
+Map<String, HotelDetails> cacheHotelDetails = {};
 
 class Hotel extends StatelessWidget {
   final String url;
 
   const Hotel({Key? key, required this.url}) : super(key: key);
 
-
   Future<HotelDetails> getFromCache() async {
     if (cacheHotelDetails.containsKey(url)) {
       return cacheHotelDetails[url]!;
     } else {
       FetchHttp fetchHttp = FetchHttp(url);
-      return fetchHttp.get((String responseBody) =>HotelDetails.fromJson(json.decode(responseBody)));
-
-      }
-
+      return fetchHttp.get((String responseBody) =>
+          HotelDetails.fromJson(json.decode(responseBody)));
     }
-
+  }
 
   @override
   Widget build(BuildContext context) {
-
     //FetchHttp fetchHttp = FetchHttp(url);
     final _scrollController = ScrollController();
     return FutureBuilder<HotelDetails>(
-        //future: cacheHotelDetails.containsKey(url)?getFromCache():fetchHttp.get((String responseBody) {
-        //
-        //  return HotelDetails.fromJson(json.decode(responseBody));
-        //}),
         future: getFromCache(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-
             //return Text(snapshot.data!.toString());
-            print(snapshot.data!.address.toString());
+            //print(snapshot.data!.address.toString());
             HotelDetails hotelDetails = snapshot.data!;
             if (!cacheHotelDetails.containsKey(url)) {
-              cacheHotelDetails[url]=hotelDetails;
+              cacheHotelDetails[url] = hotelDetails;
             }
             print(cacheHotelDetails);
             return SingleChildScrollView(
@@ -79,7 +66,14 @@ class Hotel extends StatelessWidget {
                   CarouselSlider(
                       options: CarouselOptions(height: 200.0),
                       items: hotelDetails.photos
-                          .map((e) => Container(padding: EdgeInsets.all(10),child: Image.asset('assets/images/' + e,width: 300,height: 200,fit: BoxFit.fitWidth,)))
+                          .map((e) => Container(
+                              padding: const EdgeInsets.all(10),
+                              child: Image.asset(
+                                'assets/images/' + e,
+                                width: 300,
+                                height: 200,
+                                fit: BoxFit.fitWidth,
+                              )))
                           .toList()),
 
                   Align(
@@ -94,13 +88,14 @@ class Hotel extends StatelessWidget {
                   Align(
                       alignment: Alignment.centerLeft,
                       child: RowText(
-                          first: 'Улица: ', second: hotelDetails.address.street)),
+                          first: 'Улица: ',
+                          second: hotelDetails.address.street)),
                   Align(
                       alignment: Alignment.centerLeft,
                       child: RowText(
                           first: 'Рейтинг: ',
                           second: hotelDetails.rating.toString())),
-                  const SizedBox(),
+                  const SizedBox(height: 10),
                   Align(
                       alignment: Alignment.centerLeft,
                       child: Text('Сервисы',
@@ -126,8 +121,8 @@ class Hotel extends StatelessWidget {
                                   style: Theme.of(context).textTheme.headline6),
                               for (var i in hotelDetails.services.paid)
                                 Text(i,
-                                    maxLines: 2, overflow: TextOverflow.ellipsis),
-
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis),
                             ]),
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,17 +133,24 @@ class Hotel extends StatelessWidget {
                                   style: Theme.of(context).textTheme.headline6),
                               for (var i in hotelDetails.services.free)
                                 Text(i,
-                                    maxLines: 2, overflow: TextOverflow.ellipsis)
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis)
                             ])
                       ]),
                 ],
               ),
             );
           } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
+            return Container(
+                alignment: Alignment.center,
+                //child: Text('${snapshot.error}')
+                child: const Text('Невозможно загрузить информацию')
+            );
           }
           // By default, show a loading spinner.
-          return const CircularProgressIndicator();
+          return Container(
+              alignment: Alignment.center,
+              child: const CircularProgressIndicator());
         });
   }
 }
