@@ -190,11 +190,33 @@ class Hotels extends StatelessWidget {
                               'assets/images/' + listHotels[index].poster),
                             height: heightImage,
                             fit: BoxFit.cover,),
-                          Expanded(child: Align(
+                          value==2?Expanded(child: Align(
+                            alignment: Alignment.topLeft, child: Container(
+                              padding: EdgeInsetsDirectional.all(10),
+                              child: Text(listHotels[index].name)),))
+                              : Row(children: [Expanded(child: Align(
                             alignment: Alignment.topLeft, child: Container(
                               padding: EdgeInsetsDirectional.all(10),
                               child: Text(listHotels[index].name)),)),
-                          SizedBox(height: heightButton,
+                            TextButton(
+
+                                onPressed: () {}, child: Text(
+                                'Подробнее'),
+                                style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.zero,
+                                          //side: BorderSide(color: Colors.red)
+                                        )
+                                    ),
+                                    foregroundColor: MaterialStateProperty.all(
+                                        Colors.white),
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Colors.blue)
+                                )
+                            )
+                          ]),
+                          value==2?SizedBox(height: heightButton,
                               child: TextButton(
 
                                   onPressed: () {}, child: Text(
@@ -212,7 +234,7 @@ class Hotels extends StatelessWidget {
                                           Colors.blue)
                                   )
                               )
-                          )
+                          ):Text('1234')
                         ]
                     )
                 ),
@@ -220,6 +242,15 @@ class Hotels extends StatelessWidget {
             },
           );
         });
+  }
+
+  Widget button(int count,String title) {
+    if (count==2) {
+
+    } else {
+
+    }
+    return Text('123');
   }
 }
 
