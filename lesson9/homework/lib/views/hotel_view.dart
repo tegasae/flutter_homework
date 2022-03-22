@@ -20,15 +20,18 @@ class HotelView extends StatelessWidget {
       child: Scaffold(
           appBar: AppBar(title: Text(args[1])),
           body: Container(
+            //decoration: BoxDecoration(
+            //    border: Border.all(color: Colors.blueAccent)
+            //),
             padding: const EdgeInsets.all(10),
-            alignment: Alignment.center,
+            alignment: Alignment.topCenter,
             child: Hotel(url: 'https://run.mocky.io/v3/' + args[0]),
           )),
     );
   }
 }
-
 Map<String,HotelDetails> cacheHotelDetails={};
+
 
 class Hotel extends StatelessWidget {
   final String url;
@@ -52,7 +55,7 @@ class Hotel extends StatelessWidget {
   Widget build(BuildContext context) {
 
     //FetchHttp fetchHttp = FetchHttp(url);
-    
+    final _scrollController = ScrollController();
     return FutureBuilder<HotelDetails>(
         //future: cacheHotelDetails.containsKey(url)?getFromCache():fetchHttp.get((String responseBody) {
         //
@@ -70,6 +73,7 @@ class Hotel extends StatelessWidget {
             }
             print(cacheHotelDetails);
             return SingleChildScrollView(
+              controller: _scrollController,
               child: Column(
                 children: [
                   CarouselSlider(
@@ -96,7 +100,7 @@ class Hotel extends StatelessWidget {
                       child: RowText(
                           first: 'Рейтинг: ',
                           second: hotelDetails.rating.toString())),
-                  const Text(''),
+                  const SizedBox(),
                   Align(
                       alignment: Alignment.centerLeft,
                       child: Text('Сервисы',
@@ -108,7 +112,9 @@ class Hotel extends StatelessWidget {
                       shrinkWrap: true,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
+                        //const SliverGridDelegateWithMaxCrossAxisExtent(
                         crossAxisCount: 2,
+                        childAspectRatio: 0.1,
                       ),
                       children: [
                         Column(
@@ -120,7 +126,8 @@ class Hotel extends StatelessWidget {
                                   style: Theme.of(context).textTheme.headline6),
                               for (var i in hotelDetails.services.paid)
                                 Text(i,
-                                    maxLines: 2, overflow: TextOverflow.ellipsis)
+                                    maxLines: 2, overflow: TextOverflow.ellipsis),
+
                             ]),
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

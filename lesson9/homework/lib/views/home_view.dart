@@ -44,7 +44,11 @@ class _HomeViewState extends State<HomeView> {
                   icon: const Icon(Icons.grid_view_sharp)),
             ],
           ),
-          body: Center(
+          body:
+
+          Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(10),
             child: InheritedDataProvider<ValueNotifier<int>>(
                 child: const SingleChildScrollView(child: ListHotels()),
                 data: counterNofifier),
@@ -126,15 +130,17 @@ class Hotels extends StatelessWidget {
               .size
               .width;
 
-          double heightImage=height/7;
-          double heightButton=height/17;
+          double heightImage=height/9;
+          double heightButton=height/21;
+          print('height: '+height.toString());
+          print('witdh: '+witdth.toString());
           Widget button= TextButton(
 
-              onPressed: () {}, child: Text(
+              onPressed: () {}, child: const Text(
               'Подробнее'),
               style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
+                      const RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero,
                         //side: BorderSide(color: Colors.red)
                       )
@@ -147,8 +153,8 @@ class Hotels extends StatelessWidget {
           );
           if (countValueNotifier.value == 1) {
             aspectRatio = 1.5;
-            heightImage =height / 4;
-            heightButton=height/15;
+            heightImage =height / 5;
+            heightButton=height/19;
 
           }
           print(heightImage);
@@ -190,51 +196,46 @@ class Hotels extends StatelessWidget {
                               'assets/images/' + listHotels[index].poster),
                             height: heightImage,
                             fit: BoxFit.cover,),
-                          value==2?Expanded(child: Align(
+
+                          if (value==2) Expanded(child: Align(
                             alignment: Alignment.topLeft, child: Container(
-                              padding: EdgeInsetsDirectional.all(10),
+                              padding: const EdgeInsetsDirectional.all(10),
                               child: Text(listHotels[index].name)),))
-                              : Row(children: [Expanded(child: Align(
-                            alignment: Alignment.topLeft, child: Container(
-                              padding: EdgeInsetsDirectional.all(10),
-                              child: Text(listHotels[index].name)),)),
-                            TextButton(
+                          else Container(
+                            alignment: Alignment.center,
 
-                                onPressed: () {}, child: Text(
-                                'Подробнее'),
-                                style: ButtonStyle(
-                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.zero,
-                                          //side: BorderSide(color: Colors.red)
-                                        )
-                                    ),
-                                    foregroundColor: MaterialStateProperty.all(
-                                        Colors.white),
-                                    backgroundColor: MaterialStateProperty.all(
-                                        Colors.blue)
-                                )
-                            )
-                          ]),
-                          value==2?SizedBox(height: heightButton,
-                              child: TextButton(
+                            child: Row(children: [
 
-                                  onPressed: () {}, child: Text(
-                                  'Подробнее'),
-                                  style: ButtonStyle(
-                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.zero,
-                                            //side: BorderSide(color: Colors.red)
-                                          )
-                                      ),
-                                      foregroundColor: MaterialStateProperty.all(
-                                          Colors.white),
-                                      backgroundColor: MaterialStateProperty.all(
-                                          Colors.blue)
-                                  )
-                              )
-                          ):Text('1234')
+                              Expanded(child: Align(
+                                alignment: Alignment.topLeft, child: Container(
+                                  padding: const EdgeInsetsDirectional.all(10),
+                                  child: Text(listHotels[index].name)),)),
+                              Container(child: Text('Подробнее',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),padding: EdgeInsetsDirectional.all(15),color: Colors.blue,margin: EdgeInsetsDirectional.all(10),)
+                            ],),
+                          )
+                              ,
+
+                          //SizedBox(height: heightButton,
+                          //    child: TextButton(
+
+                                  //onPressed: () {}, child: const Text(
+                                  //'Подробнее'),
+                                  //style: ButtonStyle(
+                                  //    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  //        const RoundedRectangleBorder(
+                                   //         borderRadius: BorderRadius.zero,
+                                   //         //side: BorderSide(color: Colors.red)
+                                    //      )
+                                    //  ),
+                                    //  foregroundColor: MaterialStateProperty.all(
+                                    //      Colors.white),
+                                    //  backgroundColor: MaterialStateProperty.all(
+                                    //      Colors.blue)
+                                 // )
+                              //)
+                          //),
+                          if (value==2) Container(height: heightButton,color: Colors.blue,child:Text('Подробнее',style: TextStyle(color: Colors.white)),alignment: Alignment.center)
+
                         ]
                     )
                 ),
@@ -250,7 +251,7 @@ class Hotels extends StatelessWidget {
     } else {
 
     }
-    return Text('123');
+    return const Text('123');
   }
 }
 

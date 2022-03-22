@@ -37,9 +37,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         textTheme: const TextTheme(
-        //    button: TextStyle(fontSize: 8, color: Colors.black),
+            button: TextStyle(fontSize: 12, color: Colors.black),
             bodyText1: TextStyle(fontSize: 8, color: Colors.blue),
-            bodyText2: TextStyle(fontSize: 16, color: Colors.black,fontFamily: 'Hind'),
+            bodyText2: TextStyle(fontSize: 12, color: Colors.black,fontFamily: 'Raleway'),
             headline5: TextStyle(fontSize: 18, color: Colors.black,fontWeight: FontWeight.bold),
             headline6: TextStyle(fontSize: 16, color: Colors.black,fontWeight: FontWeight.bold),
             subtitle1: (TextStyle(fontSize: 8, color: Colors.black))),
