@@ -58,7 +58,7 @@ class Hotel extends StatelessWidget {
             if (!cacheHotelDetails.containsKey(url)) {
               cacheHotelDetails[url] = hotelDetails;
             }
-            print(cacheHotelDetails);
+            //print(cacheHotelDetails);
             return SingleChildScrollView(
               controller: _scrollController,
               child: Column(

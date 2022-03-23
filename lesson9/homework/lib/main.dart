@@ -19,7 +19,7 @@ class RouteWidget {
   RouteWidget(this.widget, this.routeName);
 }
 
-RouteWidget routeHome=RouteWidget(HomeView(),'/');
+RouteWidget routeHome=RouteWidget(const HomeView(),'/');
 RouteWidget routeHotel=RouteWidget(const HotelView(), '/hotel');
 
 //List<RouteWidget> routeWidget=[RouteWidget(HomeView(),'/'),RouteWidget(HotelView(),'/hotel')];
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('build1');
+    //print('build1');
     //Map<String,Widget Function> m={for (var v in routeWidget) v.routeName:(BuildContext context)=>v.widget};
     //print(m);
     return MaterialApp(
@@ -36,24 +36,18 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+
         textTheme: const TextTheme(
             button: TextStyle(fontSize: 12, color: Colors.black),
             bodyText1: TextStyle(fontSize: 8, color: Colors.blue),
-            bodyText2: TextStyle(fontSize: 12, color: Colors.black,fontFamily: 'Raleway'),
+            bodyText2: TextStyle(fontSize: 16, color: Colors.black,fontFamily: 'Raleway'),
             headline5: TextStyle(fontSize: 18, color: Colors.black,fontWeight: FontWeight.bold),
             headline6: TextStyle(fontSize: 16, color: Colors.black,fontWeight: FontWeight.bold),
             subtitle1: (TextStyle(fontSize: 8, color: Colors.black))),
       ),
-      //initialRoute: '/',
-      //initialRoute: routeWidget[0].routeName,
+
       initialRoute: routeHome.routeName,
-      //routes: {
-      //  '/': (BuildContext context) => HomeView(),
-      //  '/hotel': (BuildContext context) =>HotelView()
-      //},
-      //routes: {
-      //  for (var v in routeWidget) v.routeName:(BuildContext context)=>v.widget
-      //},
+
       routes: {
         routeHome.routeName: (BuildContext context) => routeHome.widget,
         routeHotel.routeName: (BuildContext context) => routeHotel.widget,

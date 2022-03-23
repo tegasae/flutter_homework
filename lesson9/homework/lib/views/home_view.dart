@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:homework/common/get_data.dart';
 import 'package:homework/main.dart';
@@ -17,8 +16,6 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   //int crossAxisCount=1;
   final ValueNotifier<int> counterNotifier = ValueNotifier<int>(1);
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -98,14 +95,12 @@ class Hotels extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     //final int crossAxisCount=InheritedDataProvider.of<int>(context)?.data;
     final ValueNotifier<int> countValueNotifier =
-        InheritedDataProvider
-            .of<ValueNotifier<int>>(context)
-            ?.data;
-    print(countValueNotifier.value);
-    //print(crossAxisCount);
-    //print(crossAxisCount);
+        InheritedDataProvider.of<ValueNotifier<int>>(context)?.data;
+
+    //print(countValueNotifier.value);
 
     final _scrollController = ScrollController();
 
@@ -114,27 +109,25 @@ class Hotels extends StatelessWidget {
         builder: (context, value, child) {
           //int countColumns = countValueNotifier.value;
           double aspectRatio = 1.0;
-          double height = MediaQuery
-              .of(context)
-              .size
-              .height;
-          double width = MediaQuery
-              .of(context)
-              .size
-              .width;
+          double height = MediaQuery.of(context).size.height;
+          //double width = MediaQuery.of(context).size.width;
 
-          double heightImage = height / 9;
+          double heightImage = height / 7;
           double heightButton = height / 21;
-          print('height: ' + height.toString());
-          print('width: ' + width.toString());
+          //print('height: ' + height.toString());
+          //print('width: ' + width.toString());
 
           if (value == 1) {
-            print('value');
+            //print('value');
             aspectRatio = 1.5;
             heightImage = height / 5;
             heightButton = height / 19;
           }
-          print(heightImage);
+          //print(heightImage);
+
+          Widget text = const Text('Подробнее',
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold));
 
           return GridView.count(
               crossAxisCount: value,
@@ -146,165 +139,68 @@ class Hotels extends StatelessWidget {
 
               children: [
                 for (var hotel in listHotels)
-                GestureDetector(
-                    onTap: () {
-                      print(hotel.uuid);
-                      Navigator.pushNamed(context, routeHotel.routeName,
-                          arguments: [
-                            hotel.uuid,
-                            hotel.name
-                          ]);
-                    },
-                //    //Image.asset('assets/images/' + listHotels[index].poster,height: 100)
-                    child: Card(
-
-                        semanticContainer: true,
-                        elevation: 15,
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Ink.image(
-                                image: AssetImage(
-                                    'assets/images/' + hotel.poster),
-                                height: heightImage,
-                                fit: BoxFit.cover,
-                              ),
-
-                              if (value == 2)
-                                Expanded(
-                                    child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Container(
-                                      padding: const EdgeInsetsDirectional.all(10),
-                                      child: Text(hotel.name)),
-                                ))
-                              else
-                                Container(
-                                  alignment: Alignment.center,
-                                  child: Row(
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, routeHotel.routeName,
+                            arguments: [hotel.uuid, hotel.name]);
+                      },
+                      //    //Image.asset('assets/images/' + listHotels[index].poster,height: 100)
+                      child: Card(
+                          semanticContainer: true,
+                          elevation: 15,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Ink.image(
+                                  image: AssetImage(
+                                      'assets/images/' + hotel.poster),
+                                  height: heightImage,
+                                  fit: BoxFit.cover,
+                                ),
+                                if (value == 2) ...[
+                                  Expanded(
+                                      child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Container(
+                                        padding:
+                                            const EdgeInsetsDirectional.all(10),
+                                        child: Text(hotel.name)),
+                                  )),
+                                  Container(
+                                      height: heightButton,
+                                      color: Colors.blue,
+                                      child: text,
+                                      alignment: Alignment.center)
+                                ] else
+                                  Row(
                                     children: [
                                       Expanded(
                                           child: Align(
                                         alignment: Alignment.topLeft,
                                         child: Container(
                                             padding:
-                                                const EdgeInsetsDirectional.all(10),
+                                                const EdgeInsetsDirectional.all(
+                                                    10),
                                             child: Text(hotel.name)),
                                       )),
                                       Container(
-                                        child: const Text('Подробнее',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold)),
-                                        padding: const EdgeInsetsDirectional.all(15),
+                                        child: text,
+                                        padding:
+                                            const EdgeInsetsDirectional.all(15),
                                         color: Colors.blue,
-                                        margin: const EdgeInsetsDirectional.all(10),
+                                        margin:
+                                            const EdgeInsetsDirectional.all(10),
                                       )
                                     ],
                                   ),
-                                ),
-
-
-                              if (value == 2)
-                                Container(
-                                    height: heightButton,
-                                    color: Colors.blue,
-                                    child: const Text('Подробнее',
-                                        style: TextStyle(color: Colors.white)),
-                                    alignment: Alignment.center)
-                            ]))
-                  )
-                //},
-                //);
-              ]
-          );
-          //gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          //    crossAxisCount: countColumns, //counter.count,
-          //    childAspectRatio: aspectRatio),
-          //itemCount: listHotels.length,
-          //itemBuilder: (context, index) {
-          //  return GestureDetector(
-          //    onTap: () {
-          //      print(listHotels[index].uuid);
-          //      Navigator.pushNamed(context, routeHotel.routeName,
-          //          arguments: [
-          //            listHotels[index].uuid,
-          //            listHotels[index].name
-          //          ]);
-          //    },
-          //    //Image.asset('assets/images/' + listHotels[index].poster,height: 100)
-          //    child: Card(
-          //        semanticContainer: true,
-          //        elevation: 15,
-          //        clipBehavior: Clip.antiAliasWithSaveLayer,
-          //        color: Colors.white,
-          //        shape: RoundedRectangleBorder(
-          //            borderRadius: BorderRadius.circular(15)),
-          //        child: Column(
-          //            crossAxisAlignment: CrossAxisAlignment.stretch,
-          //            children: [
-          //              Ink.image(
-          //                image: AssetImage(
-          //                    'assets/images/' + listHotels[index].poster),
-          //                height: heightImage,
-          //                fit: BoxFit.cover,
-          //              ),
-          //
-          //              if (value == 2)
-          //                Expanded(
-          //                    child: Align(
-          //                  alignment: Alignment.topLeft,
-          //                  child: Container(
-          //                      padding: const EdgeInsetsDirectional.all(10),
-          //                      child: Text(listHotels[index].name)),
-          //                ))
-          //              else
-          //                Container(
-          //                  alignment: Alignment.center,
-          //                  child: Row(
-          //                    children: [
-          //                      Expanded(
-          //                          child: Align(
-          //                        alignment: Alignment.topLeft,
-          //                        child: Container(
-          //                            padding:
-          //                                const EdgeInsetsDirectional.all(10),
-          //                            child: Text(listHotels[index].name)),
-          //                      )),
-          //                      Container(
-          //                        child: const Text('Подробнее',
-          //                            style: TextStyle(
-          //                                color: Colors.white,
-          //                                fontWeight: FontWeight.bold)),
-          //                        padding: const EdgeInsetsDirectional.all(15),
-          //                        color: Colors.blue,
-          //                        margin: const EdgeInsetsDirectional.all(10),
-          //                      )
-          //                    ],
-          //                  ),
-          //                ),
-
-
-          //              if (value == 2)
-          //                Container(
-          //                    height: heightButton,
-          //                    color: Colors.blue,
-          //                    child: const Text('Подробнее',
-          //                        style: TextStyle(color: Colors.white)),
-          //                    alignment: Alignment.center)
-          //            ])),
-          //  );
-          //},
-          //);
+                              ])))
+              ]);
         });
-    //}
   }
-
-
 }
 
 class InheritedDataProvider<T> extends InheritedWidget {
@@ -321,10 +217,7 @@ class InheritedDataProvider<T> extends InheritedWidget {
       data != oldWidget.data;
 
   static InheritedDataProvider? of<T>(BuildContext context) {
-
     return context
         .dependOnInheritedWidgetOfExactType<InheritedDataProvider<T>>();
-
   }
 }
-
