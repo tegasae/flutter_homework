@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 
@@ -36,22 +37,21 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Stream<int> myStream = StreamInt().stream.asBroadcastStream();
-    StreamSubscription<int> subscription=myStream.listen(
-            (data) => print('Data: $data'),
-      );;
+    //final Stream<int> myStream = StreamInt().stream;
+    final StreamController<int> streamController=StreamController<int>();
+    final StreamSubscription streamSubscription=streamController.stream.listen((event) {print(event);});
     return Scaffold(
       body:
       Column(children: [
         TextButton(onPressed: () {
-          //subscription = myStream.listen(
-          //      (data) => print('Data: $data'),
-          //);
-
+          for (int i=0;i<=10;i++) {
+            streamController.add(i);
+            sleep(Duration(seconds: 2));
+          }
 
         }, child: Text('Start')),
         TextButton(onPressed: () {
-          subscription.cancel();
+          streamSubscription.cancel();
         }, child: Text('Stop'))
       ],),
     );
