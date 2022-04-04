@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:log2/cubit/cubit_date.dart';
 void main()
 {
   runApp(MyApp());
@@ -11,7 +13,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: BlocProvider(
+          create:  (_) => DateTimeCubit(DateTime.now()),
+          child: MyHomePage()),
     );
   }
 }
@@ -43,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: () {
                 _selectDate(context);
+                context.read<DateTimeCubit>().changeDate(DateTime.now());
               },
               child: Text("Choose Date"),
             ),
@@ -57,6 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final DateTime? selected = await showDatePicker(
       context: context,
       initialDate: selectedDate.value,
+      //initialDate: DateTime.now(),
       firstDate: DateTime(2010),
       lastDate: DateTime(2025),
       //initialEntryMode: DatePickerEntryMode.input
