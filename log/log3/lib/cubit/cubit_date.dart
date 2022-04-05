@@ -8,3 +8,13 @@ class DateTimeCubit extends Cubit<DateTime> {
     return emit(state);
   }
 }
+
+class CounterCubit extends Cubit<int> {
+  CounterCubit(int value) : super(value);
+
+  void change(int value) {
+    print('value= $value');
+    return emit(state);
+  }
+}
+

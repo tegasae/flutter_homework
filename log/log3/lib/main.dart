@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: BlocProvider(
-          create:  (_) => DateTimeCubit(DateTime.now()),
+          //create:  (_) => DateTimeCubit(DateTime.now()),
+          create:  (_) => CounterCubit(10),
           child: MyHomePage()),
     );
   }
@@ -30,8 +31,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String date = "";
-  //DateTime selectedDate = DateTime.now();
-  final ValueNotifier<DateTime> selectedDate = ValueNotifier<DateTime>(DateTime.now());
+  DateTime selectedDate = DateTime.now();
+  int v=10;
+  //final ValueNotifier<DateTime> selectedDate = ValueNotifier<DateTime>(DateTime.now());
   @override
   Widget build(BuildContext context) {
     print('MyHomePage');
@@ -46,12 +48,19 @@ class _MyHomePageState extends State<MyHomePage> {
             MyText(),
             ElevatedButton(
               onPressed: () {
-                _selectDate(context);
-                context.read<DateTimeCubit>().changeDate(DateTime.now());
+                //_selectDate(context);
+                //context.read<DateTimeCubit>().changeDate(selectedDate);
+                //context.read<DateTimeCubit>().changeDate(selectedDate);
+                v+=10;
+                context.read<CounterCubit>().change(v);
+
               },
               child: Text("Choose Date"),
             ),
-            ValueListenableBuilder<DateTime>( valueListenable: selectedDate, builder: (context,value,child) {return Text("${selectedDate.value.day}/${selectedDate.value.month}/${selectedDate.value.year}");})
+            //ValueListenableBuilder<DateTime>( valueListenable: selectedDate, builder: (context,value,child) {return Text("${selectedDate.value.day}/${selectedDate.value.month}/${selectedDate.value.year}");})
+            //BlocBuilder<DateTimeCubit,DateTime>(builder: (context,state) {print('= $state');return Text("${state.day}/${selectedDate.month}/${selectedDate.year}");}),
+            BlocBuilder<CounterCubit, int>(builder: (context, state) {print(state);return Text('$state');})
+
           ],
         ),
       ),
@@ -61,14 +70,18 @@ class _MyHomePageState extends State<MyHomePage> {
   _selectDate(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
       context: context,
-      initialDate: selectedDate.value,
+      initialDate: selectedDate,
       //initialDate: DateTime.now(),
       firstDate: DateTime(2010),
       lastDate: DateTime(2025),
       //initialEntryMode: DatePickerEntryMode.input
     );
+    print('selected = $selected');
+
+    //context.read<DateTimeCubit>().changeDate(selected!);
     if (selected != null && selected != selectedDate) {
-      selectedDate.value=selected;
+      selectedDate=selected;
+
     }
   }
 }
