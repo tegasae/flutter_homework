@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:log2/cubit/cubit_date.dart';
 void main()
 {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,15 +15,21 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BlocProvider(
-          //create:  (_) => DateTimeCubit(DateTime.now()),
-          create:  (_) => CounterCubit(10),
-          child: MyHomePage()),
+      home: MultiBlocProvider(
+          providers: [
+          BlocProvider<DateTimeCubit>(
+          create:  (_) => DateTimeCubit(DateTime.now())),
+          BlocProvider<CounterCubit>(
+          create:  (_) => CounterCubit(10))
+          ],
+          child: const MyHomePage()),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
   @override
   _MyHomePageState createState()
   {
@@ -39,27 +47,30 @@ class _MyHomePageState extends State<MyHomePage> {
     print('MyHomePage');
     return Scaffold(
       appBar: AppBar(
-        title: Text("Flutter Datepicker"),
+        title: const Text("Flutter Datepicker"),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            MyText(),
+            const MyText(),
             ElevatedButton(
               onPressed: () {
-                //_selectDate(context);
+                _selectDate(context);
                 //context.read<DateTimeCubit>().changeDate(selectedDate);
                 //context.read<DateTimeCubit>().changeDate(selectedDate);
-                v+=10;
-                context.read<CounterCubit>().change(v);
+                //v+=10;
+                //context.read<CounterCubit>().change(v);
 
               },
-              child: Text("Choose Date"),
+              child: const Text("Choose Date"),
             ),
             //ValueListenableBuilder<DateTime>( valueListenable: selectedDate, builder: (context,value,child) {return Text("${selectedDate.value.day}/${selectedDate.value.month}/${selectedDate.value.year}");})
-            //BlocBuilder<DateTimeCubit,DateTime>(builder: (context,state) {print('= $state');return Text("${state.day}/${selectedDate.month}/${selectedDate.year}");}),
-            BlocBuilder<CounterCubit, int>(builder: (context, state) {print(state);return Text('$state');})
+            BlocBuilder<DateTimeCubit,DateTime>(builder: (context,state) {print('state = $state');return Text("${state.day}/${selectedDate.month}/${selectedDate.year}");}),
+            ElevatedButton(onPressed: () {context.read<CounterCubit>().change(v);}, child: const Text('Increment')),
+            BlocBuilder<CounterCubit,int>(builder: (context,state) {v=state; return Text('$state');})
+
+            //BlocBuilder<CounterCubit, int>(builder: (context, state) {print(state);return Text('$state');})
 
           ],
         ),
@@ -78,11 +89,13 @@ class _MyHomePageState extends State<MyHomePage> {
     );
     print('selected = $selected');
 
-    //context.read<DateTimeCubit>().changeDate(selected!);
+    context.read<DateTimeCubit>().changeDate(selected!);
     if (selected != null && selected != selectedDate) {
       selectedDate=selected;
+      print('change');
 
     }
+    print('$selected $selectedDate');
   }
 }
 
@@ -92,6 +105,6 @@ class MyText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('MyText');
-    return Text('123');
+    return const Text('123');
   }
 }

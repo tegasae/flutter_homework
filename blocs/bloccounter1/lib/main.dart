@@ -34,12 +34,20 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  DateTime selectedDate = DateTime.now();
+  @override
   Widget build(BuildContext context) {
     int v=11;
+
+
     return Scaffold(
       appBar: AppBar(title: const Text('Counter')),
       body: Center(
@@ -47,6 +55,7 @@ class HomePage extends StatelessWidget {
           const Text('Counter'),
           ElevatedButton(
               onPressed: () {
+                _selectDate(context);
                 v+=2;
                 print('value = $v');
                 context.read<CounterCubit>().increment(v);
@@ -58,6 +67,24 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+
+  _selectDate(BuildContext context) async {
+    final DateTime? selected = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      //initialDate: DateTime.now(),
+      firstDate: DateTime(2010),
+      lastDate: DateTime(2025),
+      //initialEntryMode: DatePickerEntryMode.input
+    );
+    print('selected = $selected');
+
+    //context.read<DateTimeCubit>().changeDate(selected!);
+    if (selected != null && selected != selectedDate) {
+      selectedDate=selected;
+
+    }
+  }
 }
 
 class CounterCubit extends Cubit<int> {
@@ -68,5 +95,16 @@ class CounterCubit extends Cubit<int> {
   void increment(int v) {
     print('state increment $state');
     emit(state + v);
+  }
+}
+
+class DateTimeCubit extends Cubit<DateTime> {
+  final DateTime dateTime;
+
+  DateTimeCubit(this.dateTime): super(dateTime);
+
+  void change(DateTime dateTime) {
+
+    emit(dateTime);
   }
 }

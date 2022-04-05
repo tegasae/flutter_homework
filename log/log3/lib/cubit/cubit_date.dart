@@ -1,11 +1,14 @@
 import 'package:bloc/bloc.dart';
 
 class DateTimeCubit extends Cubit<DateTime> {
-  DateTimeCubit(DateTime dateTime) : super(dateTime);
+  final DateTime dateTime;
+  DateTimeCubit(this.dateTime) : super(dateTime) {print('create');}
 
   void changeDate(DateTime date) {
-    print(date);
-    return emit(state);
+    print('emit $date $state');
+    //return emit(state);
+
+    emit(date);
   }
 }
 
@@ -14,7 +17,9 @@ class CounterCubit extends Cubit<int> {
 
   void change(int value) {
     print('value= $value');
-    return emit(state);
+    value+=1;
+    //emit(state);
+    emit(value);
   }
 }
 
