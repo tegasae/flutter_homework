@@ -39,11 +39,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String date = "";
-  DateTime selectedDate = DateTime.now();
+  //DateTime selectedDate = DateTime.now();
   int v=10;
+  late DateTime dateTime;
   //final ValueNotifier<DateTime> selectedDate = ValueNotifier<DateTime>(DateTime.now());
+
   @override
   Widget build(BuildContext context) {
+    dateTime=context.select((DateTimeCubit cubit) => cubit.get());
+    print('DateTime $dateTime');
     print('MyHomePage');
     return Scaffold(
       appBar: AppBar(
@@ -56,7 +60,10 @@ class _MyHomePageState extends State<MyHomePage> {
             const MyText(),
             ElevatedButton(
               onPressed: () {
+
                 _selectDate(context);
+                print('pressed');
+
                 //context.read<DateTimeCubit>().changeDate(selectedDate);
                 //context.read<DateTimeCubit>().changeDate(selectedDate);
                 //v+=10;
@@ -66,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: const Text("Choose Date"),
             ),
             //ValueListenableBuilder<DateTime>( valueListenable: selectedDate, builder: (context,value,child) {return Text("${selectedDate.value.day}/${selectedDate.value.month}/${selectedDate.value.year}");})
-            BlocBuilder<DateTimeCubit,DateTime>(builder: (context,state) {print('state = $state');return Text("${state.day}/${selectedDate.month}/${selectedDate.year}");}),
+            BlocBuilder<DateTimeCubit,DateTime>(builder: (context,state) {print('state = $state');return Text("${state.day}/${state.month}/${state.year}");}),
             ElevatedButton(onPressed: () {context.read<CounterCubit>().change(v);}, child: const Text('Increment')),
             BlocBuilder<CounterCubit,int>(builder: (context,state) {v=state; return Text('$state');})
 
@@ -81,21 +88,22 @@ class _MyHomePageState extends State<MyHomePage> {
   _selectDate(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: dateTime,
       //initialDate: DateTime.now(),
       firstDate: DateTime(2010),
       lastDate: DateTime(2025),
       //initialEntryMode: DatePickerEntryMode.input
     );
-    print('selected = $selected');
+    //print('selected = $selected');
 
-    context.read<DateTimeCubit>().changeDate(selected!);
-    if (selected != null && selected != selectedDate) {
-      selectedDate=selected;
-      print('change');
+    context.read<DateTimeCubit>().changeDate(selected);
 
-    }
-    print('$selected $selectedDate');
+    //if (selected != null && selected != selectedDate) {
+    //  selectedDate=selected;
+    //  print('change');
+    //
+    //}
+    //print('$selected $selectedDate');
   }
 }
 
