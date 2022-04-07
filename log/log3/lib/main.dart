@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
           BlocProvider<DateTimeCubit>(
           create:  (_) => DateTimeCubit(DateTime.now())),
           BlocProvider<CounterCubit>(
-          create:  (_) => CounterCubit(10))
+          create:  (_) => CounterCubit())
           ],
           child: const MyHomePage()),
     );
@@ -40,7 +40,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String date = "";
   //DateTime selectedDate = DateTime.now();
-  int v=10;
+  //int v=10;
   late DateTime dateTime;
   //final ValueNotifier<DateTime> selectedDate = ValueNotifier<DateTime>(DateTime.now());
 
@@ -74,8 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             //ValueListenableBuilder<DateTime>( valueListenable: selectedDate, builder: (context,value,child) {return Text("${selectedDate.value.day}/${selectedDate.value.month}/${selectedDate.value.year}");})
             BlocBuilder<DateTimeCubit,DateTime>(builder: (context,state) {print('state = $state');return Text("${state.day}/${state.month}/${state.year}");}),
-            ElevatedButton(onPressed: () {context.read<CounterCubit>().change(v);}, child: const Text('Increment')),
-            BlocBuilder<CounterCubit,int>(builder: (context,state) {v=state; return Text('$state');})
+            ElevatedButton(onPressed: () {context.read<CounterCubit>().change();}, child: const Text('Increment')),
+            BlocBuilder<CounterCubit,int>(builder: (context,state) {return Text('$state');})
 
             //BlocBuilder<CounterCubit, int>(builder: (context, state) {print(state);return Text('$state');})
 

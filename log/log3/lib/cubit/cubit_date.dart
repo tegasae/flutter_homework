@@ -20,12 +20,15 @@ class DateTimeCubit extends Cubit<DateTime> {
 }
 
 class CounterCubit extends Cubit<int> {
-  CounterCubit(int value) : super(value);
+  CounterCubit() : super(1) {emit(10);}
 
-  void change(int value) {
-    print('value= $value');
-    value+=1;
+  void change() {
+    //print('value= $value');
+    int value=state;
+    value+=10;
+    //value+=1;
     //emit(state);
+    //emit(value);
     emit(value);
   }
 }
