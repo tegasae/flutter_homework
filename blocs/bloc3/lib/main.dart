@@ -100,6 +100,3 @@ class Counter {
   }
 }
 
-class StreamCounter {
-  StreamController  
-}
