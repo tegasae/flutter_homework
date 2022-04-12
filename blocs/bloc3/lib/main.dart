@@ -55,19 +55,44 @@ class ViewCounter extends StatefulWidget {
 }
 
 class _ViewCounterState extends State<ViewCounter> {
-  @override
+
   Counter counter=Counter(10);
+  late Future<int> counterValue;
+
+  StreamCounter streamCounter=StreamCounter();
+  StreamCounterValue streamCounterValue=StreamCounterValue();
+
+  late StreamSubscription<int> streamSubscription;
+  late StreamSubscription<Future<int>> streamSubscriptionValue;
+
+  @override
+  void initState() {
+    super.initState();
+
+    counterValue=counter.fetchInt();
+
+    streamSubscription=streamCounter.stream.listen((event) {print('event= $event'); return counter.increment();});
+    streamSubscriptionValue=streamCounterValue.stream.listen((event)=>changeCounterValue(event));
+
+
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
         children: [
-          ElevatedButton(onPressed: (){counter.increment();setState(() {
+          ElevatedButton(onPressed: (){
+            //counter.increment();
+            streamCounter.sink.add(1);
+            streamCounterValue.sink.add(counter.fetchInt());
+            setState(() {
 
           });}, child: Text('Increment')),
          FutureBuilder(
-             future: counter.fetchInt(),
+             future: counterValue,//counter.fetchInt(),
              builder: (context,snapshot) {
                if ((snapshot.connectionState==ConnectionState.done) && (snapshot.hasData)) {
                  print(snapshot.connectionState);
@@ -80,6 +105,15 @@ class _ViewCounterState extends State<ViewCounter> {
         ],
       ),
     );
+  }
+  void changeCounterValue(Future<int> i) {
+    counterValue=i;
+  }
+  @override
+  void dispose() {
+    streamSubscription.cancel();
+    streamSubscriptionValue.cancel();
+    super.dispose();
   }
 }
 
@@ -94,9 +128,37 @@ class Counter {
   }
 
   Future<int> fetchInt() async {
-    int i=await Future.delayed(Duration(seconds: 2),()=>count);
-    print(i);
-    return i;
+    //int i=await Future.delayed(Duration(seconds: 1),()=>count);
+    //print(i);
+    //return i;
+    return Future.delayed(Duration(seconds: 2),()=>count);
   }
+
 }
 
+
+class BlocCounter {
+  StreamCounter streamCounter=StreamCounter();
+  StreamCounterValue streamCounterValue=StreamCounterValue();
+
+  late StreamSubscription<int> streamSubscription;
+  late StreamSubscription<Future<int>> streamSubscriptionValue;
+
+  
+}
+
+class StreamCounter {
+  StreamController<int> _streamController=StreamController<int>();
+
+  StreamCounter();
+
+  Stream<int> get stream=>_streamController.stream;
+  StreamSink<int> get sink=>_streamController.sink;
+}
+
+class StreamCounterValue {
+  final StreamController<Future<int>> _streamController=StreamController<Future<int>>();
+  StreamCounterValue();
+  Stream<Future<int>> get stream=>_streamController.stream;
+  StreamSink<Future<int>> get sink=>_streamController.sink;
+}
