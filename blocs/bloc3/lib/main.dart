@@ -57,22 +57,26 @@ class ViewCounter extends StatefulWidget {
 class _ViewCounterState extends State<ViewCounter> {
 
   Counter counter=Counter(10);
-  late Future<int> counterValue;
+  //late Future<int> counterValue;
 
-  StreamCounter streamCounter=StreamCounter();
-  StreamCounterValue streamCounterValue=StreamCounterValue();
+  //StreamCounter streamCounter=StreamCounter();
+  //StreamCounterValue streamCounterValue=StreamCounterValue();
 
-  late StreamSubscription<int> streamSubscription;
-  late StreamSubscription<Future<int>> streamSubscriptionValue;
+  //late StreamSubscription<int> streamSubscription;
+  //late StreamSubscription<Future<int>> streamSubscriptionValue;
+
+  BlocCounter blocCounter=BlocCounter();
 
   @override
   void initState() {
     super.initState();
+    blocCounter.subscribeCounter(counter.increment);
+    blocCounter.subscribeCounterValue(changeCounterValue);
 
-    counterValue=counter.fetchInt();
+    //counterValue=counter.fetchInt();
 
-    streamSubscription=streamCounter.stream.listen((event) {print('event= $event'); return counter.increment();});
-    streamSubscriptionValue=streamCounterValue.stream.listen((event)=>changeCounterValue(event));
+    //streamSubscription=streamCounter.stream.listen((event) {print('event= $event'); return counter.increment();});
+    //streamSubscriptionValue=streamCounterValue.stream.listen((event)=>changeCounterValue(event));
 
 
   }
@@ -86,13 +90,16 @@ class _ViewCounterState extends State<ViewCounter> {
         children: [
           ElevatedButton(onPressed: (){
             //counter.increment();
-            streamCounter.sink.add(1);
-            streamCounterValue.sink.add(counter.fetchInt());
+            //streamCounter.sink.add(1);
+            //streamCounterValue.sink.add(counter.fetchInt());
+            blocCounter.addCounter(10);
+            blocCounter.addCounterValue(counter.fetchInt());
+            //blocCounter.addCounterValue(counterValue);
             setState(() {
 
           });}, child: Text('Increment')),
          FutureBuilder(
-             future: counterValue,//counter.fetchInt(),
+             //future: blocCounter//counter.fetchInt(),
              builder: (context,snapshot) {
                if ((snapshot.connectionState==ConnectionState.done) && (snapshot.hasData)) {
                  print(snapshot.connectionState);
@@ -107,12 +114,11 @@ class _ViewCounterState extends State<ViewCounter> {
     );
   }
   void changeCounterValue(Future<int> i) {
-    counterValue=i;
+    //counterValue=i;
   }
   @override
   void dispose() {
-    streamSubscription.cancel();
-    streamSubscriptionValue.cancel();
+    blocCounter.cancel();
     super.dispose();
   }
 }
@@ -125,6 +131,7 @@ class Counter {
 
   void increment({int i =1}) {
     count+=i;
+    print("count $count");
   }
 
   Future<int> fetchInt() async {
@@ -138,13 +145,37 @@ class Counter {
 
 
 class BlocCounter {
-  StreamCounter streamCounter=StreamCounter();
-  StreamCounterValue streamCounterValue=StreamCounterValue();
+  late StreamCounter streamCounter;
+  late StreamCounterValue streamCounterValue;
 
   late StreamSubscription<int> streamSubscription;
   late StreamSubscription<Future<int>> streamSubscriptionValue;
 
-  
+  BlocCounter() {
+    streamCounter=StreamCounter();
+    streamCounterValue=StreamCounterValue();
+  }
+
+  void addCounter(int counter) {
+    streamCounter.sink.add(counter);
+  }
+
+  void addCounterValue(Future<int> counterValue) {
+    streamCounterValue.sink.add(counterValue);
+  }
+
+  void subscribeCounter(Function function) {
+    streamSubscription=streamCounter.stream.listen((event) {print("event $event"); return function(i:event);});
+  }
+
+  void subscribeCounterValue(Function function) {
+    streamSubscriptionValue=streamCounterValue.stream.listen((event)=>function(event));
+  }
+
+  void cancel() {
+    streamSubscription.cancel();
+    streamSubscriptionValue.cancel();
+  }
 }
 
 class StreamCounter {
