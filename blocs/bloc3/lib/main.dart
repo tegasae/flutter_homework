@@ -56,7 +56,7 @@ class ViewCounter extends StatefulWidget {
 
 class _ViewCounterState extends State<ViewCounter> {
 
-  Counter counter=Counter(10);
+  //Counter counter=Counter(10);
   //late Future<int> counterValue;
 
   //StreamCounter streamCounter=StreamCounter();
@@ -67,19 +67,8 @@ class _ViewCounterState extends State<ViewCounter> {
 
   BlocCounter blocCounter=BlocCounter();
 
-  @override
-  void initState() {
-    super.initState();
-    blocCounter.subscribeCounter(counter.increment);
-    blocCounter.subscribeCounterValue(changeCounterValue);
-
-    //counterValue=counter.fetchInt();
-
-    //streamSubscription=streamCounter.stream.listen((event) {print('event= $event'); return counter.increment();});
-    //streamSubscriptionValue=streamCounterValue.stream.listen((event)=>changeCounterValue(event));
 
 
-  }
 
 
 
@@ -89,17 +78,14 @@ class _ViewCounterState extends State<ViewCounter> {
       child: Column(
         children: [
           ElevatedButton(onPressed: (){
-            //counter.increment();
-            //streamCounter.sink.add(1);
-            //streamCounterValue.sink.add(counter.fetchInt());
+
             blocCounter.addCounter(10);
-            blocCounter.addCounterValue(counter.fetchInt());
-            //blocCounter.addCounterValue(counterValue);
+
             setState(() {
 
           });}, child: Text('Increment')),
          FutureBuilder(
-             //future: blocCounter//counter.fetchInt(),
+             future: blocCounter.futureCounter,//counter.fetchInt(),
              builder: (context,snapshot) {
                if ((snapshot.connectionState==ConnectionState.done) && (snapshot.hasData)) {
                  print(snapshot.connectionState);
@@ -113,9 +99,7 @@ class _ViewCounterState extends State<ViewCounter> {
       ),
     );
   }
-  void changeCounterValue(Future<int> i) {
-    //counterValue=i;
-  }
+
   @override
   void dispose() {
     blocCounter.cancel();
@@ -130,14 +114,15 @@ class Counter {
   Counter(this.count);
 
   void increment({int i =1}) {
+
     count+=i;
+    //count=-1*count;
     print("count $count");
   }
 
   Future<int> fetchInt() async {
-    //int i=await Future.delayed(Duration(seconds: 1),()=>count);
-    //print(i);
-    //return i;
+
+
     return Future.delayed(Duration(seconds: 2),()=>count);
   }
 
@@ -150,28 +135,32 @@ class BlocCounter {
 
   late StreamSubscription<int> streamSubscription;
   late StreamSubscription<Future<int>> streamSubscriptionValue;
-
+  late Counter counter;
+  late Future<int> futureCounter;
   BlocCounter() {
     streamCounter=StreamCounter();
     streamCounterValue=StreamCounterValue();
+    counter=Counter(10);
+    futureCounter=counter.fetchInt();
+    streamSubscription=streamCounter.stream.listen((event) {print("event $event"); return counter.increment(i:event);});
+
+    streamCounterValue.sink.add(counter.fetchInt());
+
+    streamSubscriptionValue=streamCounterValue.stream.listen((event)=>getCounter(event));
+
   }
 
-  void addCounter(int counter) {
-    streamCounter.sink.add(counter);
+  void addCounter(int v) {
+    streamCounter.sink.add(v);
+    streamCounterValue.sink.add(counter.fetchInt());
   }
 
-  void addCounterValue(Future<int> counterValue) {
-    streamCounterValue.sink.add(counterValue);
-  }
 
-  void subscribeCounter(Function function) {
-    streamSubscription=streamCounter.stream.listen((event) {print("event $event"); return function(i:event);});
-  }
 
-  void subscribeCounterValue(Function function) {
-    streamSubscriptionValue=streamCounterValue.stream.listen((event)=>function(event));
-  }
 
+  void getCounter(Future<int> i) {
+    futureCounter=i;
+  }
   void cancel() {
     streamSubscription.cancel();
     streamSubscriptionValue.cancel();
