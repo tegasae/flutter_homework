@@ -15,12 +15,17 @@ class CounterView extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(title: const Text('Counter')),
-      body: Center(
-        child: BlocBuilder<CounterCubit, int>(
-          builder: (context, state) {
-            return Text('$state', style: textTheme.headline2);
-          },
-        ),
+      body: Column(
+        children: [
+          Center(
+            child: BlocBuilder<CounterCubit, int>(
+              builder: (context, state) {
+                return Text('$state', style: textTheme.headline2);
+              },
+            ),
+          ),
+          ElevatedButton(onPressed: () {return context.read<CounterCubit>().increment();}, child: Text('Increment'))
+        ],
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
