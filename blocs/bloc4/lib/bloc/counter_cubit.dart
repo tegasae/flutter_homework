@@ -2,16 +2,18 @@ import 'package:bloc4/model/count.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CounterCubit extends Cubit<Counter> {
+  Counter counter=Counter(10);
   CounterCubit() : super(Counter(10));
   //CounterCubit() : super(10);
 void change(int i) {
     //Counter counter=state;
-    Counter counter=Counter(state.count);
+
 
     counter.increment(i:i);
     //print('cubit1 = ${state.count}');
     //emit(state+1);
     emit(counter);
+
 
   }
 
