@@ -59,7 +59,7 @@ class ViewCounter extends StatelessWidget {
       children: [
         ElevatedButton(onPressed: () {
         //print(context.watch<CounterCubit>().state.count);
-        return context.read<CounterCubit>().change(1);
+        return context.read<CounterCubit>().increment(10);
 
     }, child: Text('Increment')),
     //BlocBuilder<CounterCubit, Counter>(
@@ -80,10 +80,11 @@ class ViewCounter extends StatelessWidget {
     //  );
 
     //}),
-        BlocBuilder<CounterCubit, Counter>(
+        BlocBuilder<CounterCubit, CounterState>(
           builder: (context, state) {
             //context.read<CounterCubit>.change(1);
-            int i = context.watch<CounterCubit>().state.count;
+            int i = context.watch<CounterCubit>().state.result;
+
             print('1');
             //int i=state.count;
             //int i=state;
