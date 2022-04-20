@@ -83,6 +83,9 @@ class ViewCounter extends StatelessWidget {
         BlocBuilder<CounterCubit, CounterState>(
           builder: (context, state) {
             //context.read<CounterCubit>.change(1);
+            if (state is CounterStateWait) {
+              return Text('Waiting');
+            }
             int i = context.watch<CounterCubit>().state.result;
 
             print('1');
