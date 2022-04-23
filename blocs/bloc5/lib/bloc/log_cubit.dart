@@ -24,7 +24,7 @@ class LogStateWaiting extends LogState {
 
 class LogCubit extends Cubit<LogState> {
   //DateTime date;
-  late Log log;
+  late Log log=Log(DateTime.now());
 
   LogCubit() : super(LogStateDone(''));
 
