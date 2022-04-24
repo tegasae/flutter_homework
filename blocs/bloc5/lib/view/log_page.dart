@@ -33,7 +33,22 @@ class _LogPageState extends State<LogPage> {
         }, child: Text('Choose date')),
         //Text("${selectedDate.day}/${selectedDate.month}/${selectedDate.year}")
         BlocBuilder<LogCubit,LogState>(builder: (context, state) {
-           return Text(state.data);
+          String date1;
+          if (state is LogStateInit) {
+            context.read<LogCubit>().getDate(selectedDate);
+            print('context state: ${context.read<LogCubit>().state.data}');
+            date1=context.read<LogCubit>().state.data;
+          } else {
+            date1=state.data;
+          }
+
+          print('state in if: $state');
+           //if (state is LogStateInit) {
+           //  print('state in if1: $state');
+           //  context.read<LogCubit>().getDate(selectedDate);
+           //  print('state data: ${state.data}');
+           //}
+           return Text(date1);
     })
       ],
     );
