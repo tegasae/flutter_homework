@@ -33,14 +33,17 @@ class LogCubit extends Cubit<LogState> {
   //LogCubit() : super(LogStateDone(''));
   LogCubit() : super(LogStateInit());
 
-  void initDate(DateTime date) {
-    String data=log.getDate(date);
-    emit(LogStateDone(data));
-  }
+  //void initDate(DateTime date) {
+  //  String data=log.getDate(date);
+  //  emit(LogStateDone(data));
+  //}
 
-  void getDate(DateTime date) {
+  void getDate(DateTime date) async {
     print('cubit $date');
-    String data=log.getDate(date);
+    emit(LogStateWaiting());
+    //String data=log.setDate(date);
+    log.setDate(date);
+    String data=await log.getDate();
     emit(LogStateDone(data));
   }
 

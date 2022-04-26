@@ -2,10 +2,12 @@ class Log {
   DateTime dateLog;
 
   Log(this.dateLog);
-
-  String getDate(DateTime date) {
+  void setDate(DateTime date) {
     dateLog=date;
-    return 'date:'+dateLog.toString();
+  }
+  Future<String> getDate() async {
+    return Future.delayed(Duration(seconds: 5),()=>'date:'+dateLog.toString());
+    //return 'date:'+dateLog.toString();
   }
 
 }
