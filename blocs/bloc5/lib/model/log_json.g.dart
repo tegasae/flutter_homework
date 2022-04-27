@@ -13,8 +13,8 @@ LogRecord _$LogRecordFromJson(Map<String, dynamic> json) => LogRecord(
       json['name'] as String,
       json['client_id'] as int,
       json['client'] as String,
-      json['date_s'] as String,
-      json['date_e'] as String,
+      json['time_s'] as String,
+      json['time_e'] as String,
       json['synonym'] as String,
       json['works'] as String,
     );
@@ -26,8 +26,8 @@ Map<String, dynamic> _$LogRecordToJson(LogRecord instance) => <String, dynamic>{
       'name': instance.name,
       'client_id': instance.clientID,
       'client': instance.client,
-      'date_s': instance.dateS,
-      'date_e': instance.dateE,
+      'time_s': instance.timeS,
+      'time_e': instance.timeE,
       'synonym': instance.synonym,
       'works': instance.works,
     };

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
-//import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'dart:async';
 
 abstract class FetchData<T> {
@@ -16,6 +17,8 @@ abstract class FetchData<T> {
   Future<U> get<U>(U Function(String) parse) async {
     await way();
     if (code == 200) {
+      print('compute');
+      print('data: $data');
       return compute(parse, data);
     } else {
       throw Exception('Failed to load data');
@@ -45,7 +48,10 @@ class FetchFile extends FetchData {
 
   @override
   Future<String> way() async {
-    final str=
+    print('path=$path');
+    data=await rootBundle.loadString(path);
+    print('str:$data');
+    return data;
   }
 }
 

@@ -13,15 +13,15 @@ class LogRecord {
   @JsonKey(name:'client_id')
   final int clientID;
   final String client;
-  @JsonKey(name: 'date_s')
-  final String dateS;
-  @JsonKey(name:'date_e')
-  final String dateE;
+  @JsonKey(name: 'time_s')
+  final String timeS;
+  @JsonKey(name:'time_e')
+  final String timeE;
   final String synonym;
   final String works;
 
   LogRecord(this.id, this.date, this.userID, this.name, this.clientID,
-      this.client, this.dateS, this.dateE, this.synonym, this.works);
+      this.client, this.timeS, this.timeE, this.synonym, this.works);
   factory LogRecord.fromJson(Map<String,dynamic> json)=>_$LogRecordFromJson(json);
   Map<String,dynamic> toJson() => _$LogRecordToJson(this);
 }
