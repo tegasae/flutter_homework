@@ -18,8 +18,16 @@ abstract class FetchData<T> {
     await way();
     if (code == 200) {
       print('compute');
+      var v;
       print('data: $data');
-      return compute(parse, data);
+      try {
+        //return compute(parse, data);
+        v=compute(parse,data);
+      } catch(e) {
+        print('1111');
+        throw Exception('Error format');
+      }
+      return v;
     } else {
       throw Exception('Failed to load data');
     }
