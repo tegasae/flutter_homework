@@ -95,7 +95,8 @@ class MyDrawer extends StatelessWidget {
         children: [
           const DrawerHeader(
             child: Text('header'),
-            decoration: BoxDecoration(color: Colors.blue),
+
+            decoration: BoxDecoration(color: Colors.blue,image: DecorationImage(image: NetworkImage('https://picsum.photos/1200/500'),fit: BoxFit.cover)),
           ),
 
           //for (var item in listItems.map((item) => getListTile(item[0], item[1])).toList()) item,

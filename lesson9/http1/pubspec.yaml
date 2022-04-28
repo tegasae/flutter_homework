@@ -1,0 +1,13 @@
+name: http1
+publish_to: none
+
+environment:
+  sdk: '>=2.15.0 <3.0.0'
+
+dependencies:
+  http: ^0.13.4
+  json_annotation: ^4.4.0
+
+dev_dependencies:
+  build_runner: ^2.1.7
+  json_serializable: ^6.1.4

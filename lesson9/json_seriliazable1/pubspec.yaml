@@ -1,0 +1,21 @@
+name: json_serilazable1
+publish_to: none
+
+environment:
+  sdk: '>=2.15.0 <3.0.0'
+
+dependencies:
+  json_annotation: ^4.4.0
+
+
+dev_dependencies:
+  # Used by tests. Not required to use `json_serializable`.
+  #_json_serial_shared_test:
+  #  path: ../shared_test
+  build_runner: ^2.1.7
+
+  # Used by tests. Not required to use `json_serializable`.
+  #build_verify: ^3.0.0
+
+  json_serializable: ^6.1.4
+
