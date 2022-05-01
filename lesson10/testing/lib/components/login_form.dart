@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:testing/utils/validate_email.dart';
 
 class LoginForm extends StatefulWidget {
-  LoginForm({Key ?key}) : super(key: key);
+  const LoginForm({Key ?key}) : super(key: key);
 
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -22,36 +22,38 @@ class _LoginFormState extends State<LoginForm> {
           TextFormField(
             validator: (value) {
               if (value == '') return 'Введите email';
-              if (!validateEmail(value!))
+              if (!validateEmail(value!)) {
                 return 'Поле email заполнено не корректно';
+              }
               return null;
             },
             keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(labelText: 'Email'),
+            decoration: const InputDecoration(labelText: 'Email'),
           ),
           TextFormField(
             validator: (value) {
               if (value == '') return 'Введите телефон';
               return null;
             },
-            decoration: InputDecoration(labelText: 'Phone'),
+            decoration: const InputDecoration(labelText: 'Phone'),
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
-              WhitelistingTextInputFormatter.digitsOnly
+              //WhitelistingTextInputFormatter.digitsOnly
+              FilteringTextInputFormatter.digitsOnly
             ],
           ),
           RaisedButton(
-            child: Text('Отправить'),
+            child: const Text('Отправить'),
             onPressed: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
+              if (_formKey.currentState?.validate()==true) {
+                _formKey.currentState?.save();
                 setState(() {
                   successMessage = true;
                 });
               }
             },
           ),
-          if (successMessage) Text('Добро пожаловать'),
+          if (successMessage) const Text('Добро пожаловать'),
         ],
       ),
     );

@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('Login form tests', () {
-    FlutterDriver driver;
+    late FlutterDriver driver;
 
     setUpAll(() async {
       driver = await FlutterDriver.connect();
@@ -20,7 +20,7 @@ void main() {
   });
 
   group('Rigister form tests', () {
-    FlutterDriver driver;
+    late FlutterDriver driver;
 
     setUpAll(() async {
       driver = await FlutterDriver.connect();

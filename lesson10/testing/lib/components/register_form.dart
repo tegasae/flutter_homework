@@ -13,7 +13,7 @@ class _RegisterFormState extends State<RegisterForm> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isSuccess = false;
   void _handleSubmit() {
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState?.validate()==true) {
       setState(() {
         _isSuccess = true;
       });
@@ -43,7 +43,8 @@ class _RegisterFormState extends State<RegisterForm> {
           TextFormField(
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
-              WhitelistingTextInputFormatter.digitsOnly
+              //WhitelistingTextInputFormatter.digitsOnly
+              FilteringTextInputFormatter.digitsOnly
             ],
             decoration: InputDecoration(labelText: 'Phone'),
             validator: (value) {
