@@ -13,7 +13,7 @@ import 'package:testing/views/login_view.dart';
 void main() {
   group('Login view tests', () {
     testWidgets("test description", (WidgetTester tester) async {
-      await tester.pumpWidget(MaterialApp(
+      await tester.pumpWidget(const MaterialApp(
         home: LoginView(),
         localizationsDelegates: [
           DefaultMaterialLocalizations.delegate,
