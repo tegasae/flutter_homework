@@ -58,7 +58,7 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     FlatButton(
                       child: RichText(
-                        key: const Key('registration'),
+                        key: const Key('loginOrRegistration'),
                         text: TextSpan(children: [
                           TextSpan(
                             text: _formType == FormType.login

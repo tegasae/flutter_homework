@@ -17,9 +17,34 @@ void main() {
     });
 
     // TODO: write tests
+    final SerializableFinder finderEmail=find.byValueKey('email');
+    final SerializableFinder finderPhone=find.byValueKey('phone');
+    final SerializableFinder finderSend=find.byValueKey('send');
+    test('Test email',() async {
+      await driver.tap(finderEmail);
+      await driver.waitFor(find.text(''));
+      await driver.enterText('email@1111.com');
+      await driver.waitFor(find.text('email@1111.com'));
+
+
+    });
+    test('Test phone',() async {
+      await driver.tap(finderPhone);
+      await driver.waitFor(find.text(''));
+      await driver.enterText('1234567890');
+      await driver.waitFor(find.text('1234567890'));
+    });
+
+    test('Test send',() async {
+      await driver.tap(finderSend);
+    });
+    test('Test success', () async {
+      final SerializableFinder findWelcome=find.text('Добро пожаловать');
+      expect(await driver.getText(findWelcome), 'Добро пожаловать' );
+    });
   });
 
-  group('Rigister form tests', () {
+  group('Register form tests', () {
     late FlutterDriver driver;
 
     setUpAll(() async {

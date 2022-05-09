@@ -22,7 +22,6 @@ class _LoginFormState extends State<LoginForm> {
           TextFormField(
             key: const Key('email'),
             validator: (value) {
-              print('email');
               if (value == '') return 'Введите email';
               if (!validateEmail(value!)) {
                 return 'Поле email заполнено не корректно';
@@ -46,6 +45,7 @@ class _LoginFormState extends State<LoginForm> {
             ],
           ),
           RaisedButton(
+            key: const Key('send'),
             child: const Text('Отправить'),
             onPressed: () {
               if (_formKey.currentState?.validate()==true) {
