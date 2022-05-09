@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (BuildContext context) => const LoginView(key: Key('login')),
+        '/': (BuildContext context) => const LoginView(),
       },
     );
   }

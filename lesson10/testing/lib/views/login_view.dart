@@ -33,7 +33,6 @@ class _LoginViewState extends State<LoginView> {
               children: [
                 Expanded(
                   child: Column(
-                    key: const Key('column'),
                     children: [
                       Align(
                         alignment: Alignment.centerLeft,
@@ -44,7 +43,7 @@ class _LoginViewState extends State<LoginView> {
                         ),
                       ),
                       _formType == FormType.login
-                          ? LoginForm()
+                          ? const LoginForm()
                           : RegisterForm(),
                     ],
                   ),
@@ -59,7 +58,7 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     FlatButton(
                       child: RichText(
-                        key: Key('registration'),
+                        key: const Key('registration'),
                         text: TextSpan(children: [
                           TextSpan(
                             text: _formType == FormType.login
