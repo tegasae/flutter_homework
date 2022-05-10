@@ -44,7 +44,7 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       _formType == FormType.login
                           ? const LoginForm()
-                          : RegisterForm(),
+                          : const RegisterForm(),
                     ],
                   ),
                 ),
