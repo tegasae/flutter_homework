@@ -1,12 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'package:hero_card/space.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       //home: const HomeView(),
       initialRoute: '/',
       routes: {
-        '/': (BuildContext context) =>const HomeView(title: 'Animations'),
+        '/': (BuildContext context) => const HomeView(title: 'Animations'),
         '/detail': (BuildContext context) => const DetailPage(),
       },
     );
@@ -51,19 +52,29 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.count(
-        padding:  const EdgeInsets.all(8.0),
-        crossAxisCount: 2,
+        padding: const EdgeInsets.all(8.0),
+        crossAxisCount: 1,
         children: spaces
             .map((space) => GestureDetector(
-                    onTap: () {print('${space.id}'); Navigator.pushNamed(context,'/detail',arguments: space);},
+                onTap: () =>
+                    Navigator.pushNamed(context, '/detail', arguments: space),
+                child: Card(
+                  semanticContainer: true,
+                  elevation: 5,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Material(
                     child: Column(children: [
-                  Hero(
-                    tag: space.id,
-                    child: CircleAvatar(
-                        radius: 60, backgroundImage: AssetImage(space.image)),
+                      Hero(
+                        tag: space.id,
+                        child: Image(image: AssetImage(space.image)),
+                      ),
+                      Text(space.description.substring(1, 100))
+                    ]),
                   ),
-                Material(child: Text(space.description.substring(1,10)))
-                ])))
+                )))
             .toList());
   }
 }
@@ -75,90 +86,54 @@ class DetailPage extends StatefulWidget {
   State<DetailPage> createState() => _DetailPageState();
 }
 
-class _DetailPageState extends State<DetailPage>  with SingleTickerProviderStateMixin {
-  //late AnimationController _controller;
-  //late Animation<double> _myAnimation;
-
-
+class _DetailPageState extends State<DetailPage>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     duration: const Duration(seconds: 2),
     vsync: this,
-
   )..repeat(reverse: true);
   late final Animation<double> _animation = CurvedAnimation(
     parent: _controller,
     curve: Curves.easeIn,
   );
-  IconData currentIcon=Icons.stop;
-
-  //@override
- // void initState() {
- //   super.initState();
- //   _controller = AnimationController(
- //     vsync: this,
-  //    duration: Duration(milliseconds: 1200),
-
-  //  );
-  //  _myAnimation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
-
-   // _controller.addStatusListener((AnimationStatus status) {
-   //   //if (status == AnimationStatus.completed) {
-   //   //  _controller.repeat();
-   //   //}
-   // });
-  //}
+  IconData currentIcon = Icons.stop;
 
   @override
   Widget build(BuildContext context) {
-    final Space space= ModalRoute.of(context)!.settings.arguments as Space;
+    final Space space = ModalRoute.of(context)!.settings.arguments as Space;
     return Scaffold(
       appBar: AppBar(
         title: Text(space.description),
       ),
       body: Column(
         children: [
-          Hero(tag: space.id,
-              child:
-              FadeTransition(
-
-                  opacity: _animation,
-                  child: Image.asset(space.image)
-
-
-              )
-          ),
-          Material(child: Hero(tag: space.id+'title', child: Text(space.description))),
-          IconButton(onPressed: () {print('123');
-            //_controller.stop();
-            if (_controller.isAnimating) {
-              _controller.stop();
-              currentIcon=Icons.play_arrow;
-            } else {
-
-              _controller.repeat(reverse: true);
-              currentIcon=Icons.stop;
-            }
-            setState(() {
-
-            });
-            //if (_controller.status==AnimationStatus.forward) {
-            //  print('1234');
-
-            //  _controller.stop();
-            //} else {
-            //  _controller.reset();
-          //_controller.repeat(reverse: true);
-
-            //}
-            }, icon: Icon(currentIcon))
+          Hero(
+              tag: space.id,
+              child: FadeTransition(
+                  opacity: _animation, child: Image.asset(space.image))),
+          Material(
+              child: Hero(
+                  tag: space.id + 'title', child: Text(space.description))),
+          IconButton(
+              onPressed: () {
+                if (_controller.isAnimating) {
+                  _controller.stop();
+                  currentIcon = Icons.play_arrow;
+                } else {
+                  _controller.repeat(reverse: true);
+                  currentIcon = Icons.stop;
+                }
+                setState(() {});
+              },
+              icon: Icon(currentIcon))
         ],
       ),
     );
   }
+
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
-
   }
 }
