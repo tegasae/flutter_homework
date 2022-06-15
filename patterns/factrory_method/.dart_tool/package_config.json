@@ -1,0 +1,50 @@
+{
+  "configVersion": 2,
+  "packages": [
+    {
+      "name": "collection",
+      "rootUri": "file:///home/sae/.pub-cache/hosted/pub.dartlang.org/collection-1.16.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "csslib",
+      "rootUri": "file:///home/sae/.pub-cache/hosted/pub.dartlang.org/csslib-0.17.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "html",
+      "rootUri": "file:///home/sae/.pub-cache/hosted/pub.dartlang.org/html-0.15.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "path",
+      "rootUri": "file:///home/sae/.pub-cache/hosted/pub.dartlang.org/path-1.8.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "source_span",
+      "rootUri": "file:///home/sae/.pub-cache/hosted/pub.dartlang.org/source_span-1.9.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "term_glyph",
+      "rootUri": "file:///home/sae/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "factory_method",
+      "rootUri": "../",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
+    }
+  ],
+  "generated": "2022-06-15T12:47:27.445354Z",
+  "generator": "pub",
+  "generatorVersion": "2.16.2"
+}

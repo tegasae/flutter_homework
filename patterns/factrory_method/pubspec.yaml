@@ -1,0 +1,5 @@
+name: factory_method
+environment:
+  sdk: '>=2.16.0 <3.0.0'
+dependencies: 
+  html: ^0.15.0

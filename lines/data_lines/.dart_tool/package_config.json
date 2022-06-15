@@ -1,0 +1,14 @@
+{
+  "configVersion": 2,
+  "packages": [
+    {
+      "name": "data_lines",
+      "rootUri": "../",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
+    }
+  ],
+  "generated": "2022-06-07T14:13:55.991981Z",
+  "generator": "pub",
+  "generatorVersion": "2.16.2"
+}

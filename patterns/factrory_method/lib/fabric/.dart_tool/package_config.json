@@ -1,0 +1,14 @@
+{
+  "configVersion": 2,
+  "packages": [
+    {
+      "name": "fabric",
+      "rootUri": "../",
+      "packageUri": "lib/",
+      "languageVersion": "2.10"
+    }
+  ],
+  "generated": "2022-06-15T11:44:15.059596Z",
+  "generator": "pub",
+  "generatorVersion": "2.16.2"
+}
