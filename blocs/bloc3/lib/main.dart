@@ -83,6 +83,7 @@ class _ViewCounterState extends State<ViewCounter> {
 
             setState(() {
 
+
           });}, child: Text('Increment')),
          FutureBuilder(
              future: blocCounter.futureCounter,//counter.fetchInt(),
@@ -144,7 +145,8 @@ class BlocCounter {
     futureCounter=counter.fetchInt();
     streamSubscription=streamCounter.stream.listen((event) {print("event $event"); return counter.increment(i:event);});
 
-    streamCounterValue.sink.add(counter.fetchInt());
+
+    //streamCounterValue.sink.add(counter.fetchInt());
 
     streamSubscriptionValue=streamCounterValue.stream.listen((event)=>getCounter(event));
 

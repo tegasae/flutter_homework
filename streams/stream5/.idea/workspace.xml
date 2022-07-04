@@ -5,16 +5,83 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7078d2ad-406c-45c9-95f6-518b9981ddb4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/stream5.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/.metadata" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/analysis_options.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/android/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/android/app/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/android/app/src/debug/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/android/app/src/main/kotlin/com/example/getdatacubit/MainActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/android/app/src/main/res/drawable-v21/launch_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/android/app/src/main/res/drawable/launch_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/android/app/src/main/res/values-night/styles.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/android/app/src/main/res/values/styles.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/android/app/src/profile/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/android/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/android/gradle.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/android/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/android/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Flutter/AppFrameworkInfo.plist" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Flutter/Debug.xcconfig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Flutter/Release.xcconfig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner.xcworkspace/contents.xcworkspacedata" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/AppDelegate.swift" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Base.lproj/LaunchScreen.storyboard" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Base.lproj/Main.storyboard" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Info.plist" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/ios/Runner/Runner-Bridging-Header.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/lib/data_source/data.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/lib/main.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/pubspec.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/pubspec.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../blocs/getdatacubit/test/widget_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../blocs/bloc5/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../blocs/bloc5/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../blocs/bloccounter/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../blocs/bloccounter/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../blocs/bloccounter1/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../blocs/bloccounter1/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../blocs/bloccounter1/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../blocs/bloccounter1/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../blocs/clean_arch_cubit_example" beforeDir="false" afterPath="$PROJECT_DIR$/../../blocs/clean_arch_cubit_example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../blocs/flutter-bloc-cubit-tutorial" beforeDir="false" afterPath="$PROJECT_DIR$/../../blocs/flutter-bloc-cubit-tutorial" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../blocs/games/infogames" beforeDir="false" afterPath="$PROJECT_DIR$/../../blocs/games/infogames" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../samples" beforeDir="false" afterPath="$PROJECT_DIR$/../../samples" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../stream1/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../stream1/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../stream3/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../stream3/.idea/stream3.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../stream3/.idea/stream3.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +103,7 @@
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../stream2" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
