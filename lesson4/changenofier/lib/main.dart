@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context)=>Counter())
-        ],
+        ] ,
         child:
         MaterialApp(
           title: 'Flutter Demo',
@@ -68,9 +68,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 MyText(),
               ],
             ),
-            Expanded(child:ProfileStateless()),
-            Expanded(child: ProfileStatefull()),
-            Expanded(child: Container(child:TextButton(
+            const Expanded(child:ProfileStateless()),
+            const Expanded(child: ProfileStatefull()),
+            Expanded(child: TextButton(
                             onPressed: () {
                               print(widget);
                               setState() {
@@ -78,10 +78,10 @@ class _MyHomePageState extends State<MyHomePage> {
                               //  print('setState TextButton another button: $widget');
                               }
                             },
-              child: Text('Another Button'),
-            ))
+              child: const Text('Another Button'),
+            )
             ),
-            Expanded(child: MyTextButtonAddStatefull())
+            const Expanded(child: MyTextButtonAddStatefull())
           ],
         ),
       ),
@@ -129,7 +129,7 @@ class ProfileStateless extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('BUILD ProfileStateless');
-    return TextButton(onPressed: () {setState() {print('setState Stateless');}}, child: Text('Set State Stateless'));
+    return TextButton(onPressed: () {setState() {print('setState Stateless');}}, child: const Text('Set State Stateless'));
   }
 }
 
@@ -146,7 +146,7 @@ class _ProfileStatefullState extends State<ProfileStatefull> {
     print('BUILD ProfileStatefull');
     return TextButton(onPressed: () {setState(() {
       print('setState Statefull');
-    });}, child: Text('Set State Statefull'));
+    });}, child: const Text('Set State Statefull'));
   }
 
 }
@@ -181,7 +181,7 @@ class _MyTextButtonAddStatefullState extends State<MyTextButtonAddStatefull> {
       //counter.add();
       print('onPressed $widget');
       },
-        child: Text('Statefull add'));
+        child: const Text('Statefull add'));
   }
 
 }
