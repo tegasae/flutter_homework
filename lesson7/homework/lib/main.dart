@@ -272,9 +272,9 @@ class Album {
 
 class Albums {
   static List<Album> listAlbums = [];
-  static Future<List<Album>> readAlbums(String assetsPath) async {
-    final String nn = await rootBundle.loadString(assetsPath,
-        cache: true); //.then((file) => file);
+  static Future<List<Album>> readAlbums(String assetsPath) async  {
+      final String nn = await rootBundle.loadString(assetsPath,
+          cache: true); //.then((file) => file);
     if (listAlbums.isEmpty) {
       List<dynamic> n = jsonDecode(nn);
       for (dynamic i in n) {

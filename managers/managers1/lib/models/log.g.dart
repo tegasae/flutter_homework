@@ -6,27 +6,26 @@ part of 'log.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-LogPreview _$LogPreviewFromJson(Map<String, dynamic> json) => LogPreview(
+LogRecord _$LogRecordFromJson(Map<String, dynamic> json) => LogRecord(
       json['id'] as int,
       json['date'] as String,
       json['user_id'] as int,
       json['name'] as String,
       json['client_id'] as int,
       json['client'] as String,
-      json['time_s'] as String,
-      json['time_e'] as String,
+      DateTime.parse(json['time_s'] as String),
+      json['time_e'] as String? ?? '',
       json['synonym'] as String,
     );
 
-Map<String, dynamic> _$LogPreviewToJson(LogPreview instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$LogRecordToJson(LogRecord instance) => <String, dynamic>{
       'id': instance.id,
       'date': instance.date,
-      'user_id': instance.user_id,
+      'user_id': instance.userId,
       'name': instance.name,
-      'client_id': instance.client_id,
+      'client_id': instance.clientId,
       'client': instance.client,
-      'time_s': instance.time_s,
-      'time_e': instance.time_e,
+      'time_s': instance.timeS.toIso8601String(),
+      'time_e': instance.timeE,
       'synonym': instance.synonym,
     };
