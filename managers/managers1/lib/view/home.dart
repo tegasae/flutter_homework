@@ -6,10 +6,90 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Home Page')),
-      body: Text('HomePage'),
-      drawer: MyDrawer(['item1','iten2']),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: ListView(
+            //scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            children: [
+              const ListTile(
+                title: Text('String String String String String StringStringStringStringString'),
+              ),
+              const ListTile(
+                title: Text('2'),
+              ),
+              TextButton(onPressed: () {}, child: const Text('Add'))
+            ]
+
+          ),
+        ),
+        Expanded(
+          child: ListView(
+            //scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              children: [
+                const ListTile(
+                  title: Text('1'),
+                ),
+                const ListTile(
+                  title: Text('2'),
+                ),
+                const ListTile(
+                  title: Text('2'),
+                ),
+                const ListTile(
+                  title: Text('2'),
+                ),
+                const ListTile(
+                  title: Text('2'),
+                ),
+                const ListTile(
+                  title: Text('2'),
+                ),
+                TextButton(onPressed: () {}, child: const Text('Add'))
+
+
+              ]
+
+          ),
+        ),
+        Expanded(
+          child: ListView(
+            //scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              children: [
+                const ListTile(
+                  title: Text('1'),
+                ),
+                const ListTile(
+                  title: Text('2'),
+                ),
+                TextButton(onPressed: () {}, child: const Text('Add'))
+              ]
+
+          ),
+        ),
+        Expanded(
+          child: ListView(
+            //scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              children: [
+                const ListTile(
+                  title: Text('1'),
+                ),
+                const ListTile(
+                  title: Text('2'),
+                ),
+                TextButton(onPressed: () {}, child: const Text('Add'))
+              ]
+
+          ),
+        ),
+        TextButton(onPressed: () {}, child: const Text('Add'))
+      ],
     );
+
   }
 }

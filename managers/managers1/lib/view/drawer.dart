@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class MyDrawer extends StatelessWidget{
-  List<String> menu=<String>[];
+import '../app/routes.dart';
 
-  MyDrawer(this.menu);
-
-
+class MyDrawer extends StatelessWidget {
+  Routes routes;
+  final String currentName;
+  MyDrawer({required this.routes, this.currentName = ''});
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +13,18 @@ class MyDrawer extends StatelessWidget{
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(child: Text('Меню'),
+          const DrawerHeader(
+              child: Text('Меню'),
               decoration: BoxDecoration(color: Colors.blue)),
-          for (String i in menu) ListTile(title: Text(i), onTap: () {Navigator.pop(context);},)
+          for (RouteItem ri in routes.getAllRoutes())
+            if (ri.isView)
+            ListTile(
+                title: Text(ri.titleName),
+                selected: ri.titleName==currentName,
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, ri.routeName);
+                })
         ],
       ),
     );
