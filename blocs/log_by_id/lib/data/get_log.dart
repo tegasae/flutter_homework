@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -6,7 +8,7 @@ import 'dart:async';
 
 
 abstract class FetchData<T> {
-  final String path;
+  String path='';
 
   //T Function(String) parse;
   late String data = '';
@@ -16,11 +18,12 @@ abstract class FetchData<T> {
 
   Future<String> way();
 
-  Future<T> get<U>(T Function(String) parse) async {
+  Future<T> get<T>(T Function(String) parse) async {
     await way();
     if (code == 200) {
 
       return compute(parse, data);
+
 
     } else {
       throw Exception('Failed to load data');
@@ -28,12 +31,15 @@ abstract class FetchData<T> {
   }
 }
 
-class FetchHttp extends FetchData {
+class FetchHttp<T> extends FetchData {
   FetchHttp(String path) : super(path);
 
   @override
   Future<String> way() async {
-    final response = await http.get(Uri.parse(path));
+
+    var client = http.Client();
+    //final response = await client.get(uri);
+    final response = await client.get(Uri.parse(path));
 
     if (response.statusCode == 200) {
       code = 200;
