@@ -37,9 +37,11 @@ class FetchHttp<T> extends FetchData {
   @override
   Future<String> way() async {
 
-    var client = http.Client();
+    http.Client client = http.Client();
+    Uri uri=Uri.parse(path);
+
     //final response = await client.get(uri);
-    final response = await client.get(Uri.parse(path));
+    final response = await client.get(uri);
 
     if (response.statusCode == 200) {
       code = 200;
