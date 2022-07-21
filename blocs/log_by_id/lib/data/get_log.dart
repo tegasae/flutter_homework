@@ -18,7 +18,7 @@ abstract class FetchData<T> {
 
   Future<String> way();
 
-  Future<T> get<T>(T Function(String) parse) async {
+  Future<T> getData<T>(T Function(String) parse) async {
     await way();
     if (code == 200) {
 
@@ -39,9 +39,15 @@ class FetchHttp<T> extends FetchData {
 
     http.Client client = http.Client();
     Uri uri=Uri.parse(path);
-
+    http.Response response;
     //final response = await client.get(uri);
-    final response = await client.get(uri);
+    //try {
+    response = await client.get(uri);
+    print(response.statusCode);
+    //} catch(_) {
+    //  print('3333');
+    //  code=404;
+    //}
 
     if (response.statusCode == 200) {
       code = 200;
