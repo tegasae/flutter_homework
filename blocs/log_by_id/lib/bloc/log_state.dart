@@ -1,38 +1,27 @@
 part of 'log_bloc.dart';
 
-enum LogStatus { initial, success, failure }
+enum LogRecordStatus { initial, success, failure }
 
-class LogState extends Equatable {
-  final LogStatus status;
-  //final List<Log> logs;
-  final bool hasReachedMax;
+class LogRecordState extends Equatable {
+  final LogRecordStatus status;
+  final List<LogRecord> logs;
 
-  const LogState({
-    this.status = LogStatus.initial,
-    //this.logs = const <Log>[],
-    this.hasReachedMax = false,
+
+  const LogRecordState({
+    this.status = LogRecordStatus.initial,
+    this.logs = const <LogRecord>[]
   });
 
 
-  LogState copyWith({
-    LogStatus? status,
-    //List<Log>? logs,
-    bool? hasReachedMax,
-  }) {
-    return LogState(
-      status: status ?? this.status,
-      //logs: logs ?? this.logs,
-      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
-    );
-  }
+
 
   @override
   String toString() {
     //return '''LogState { status: $status, hasReachedMax: $hasReachedMax, posts: ${logs.length} }''';
-    return '''LogState { status: $status, hasReachedMax: $hasReachedMax }''';
+    return '''LogState { status: $status, logs: ${logs.length} }''';
   }
 
   @override
   //List<Object> get props => [status, logs, hasReachedMax];
-  List<Object> get props => [status, hasReachedMax];
+  List<Object> get props => [status, logs];
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:log_by_id/data/get_record.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:log_by_id/bloc/log_bloc.dart';
 
-import '../data/get_log.dart';
+import 'package:log_by_id/data/log.dart';
+
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,7 +12,10 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('HomePage')),
-      body: const GetLog(),
+      body: BlocProvider(
+          create: (_)=>LogRecordBloc()..add(LogRecordFetched()),
+          child: const GetLog()
+      ),
     );
   }
 }
@@ -26,35 +31,47 @@ class GetLog extends StatefulWidget {
 }
 
 class _GetLogState extends State<GetLog> {
-  //late Future<String> logs;
-  //FetchData fetchHttp=FetchHttp<String>('');
-  final _scrollController = ScrollController();
-  GetRecord getRecord=GetRecord();
 
+  final _scrollController = ScrollController();
+
+  TextEditingController dateinput = TextEditingController();
   @override
   void initState() {
     super.initState();
-    getRecord.path='http://127.0.0.1:8081/api/v1/n/log/22222';
-    //fetchHttp.path='http://127.0.0.1:8081/api/v1/n/log/date/2022-07-11';
-    //logs=fetchHttp.get((str) => str);
+
 
 
   }
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String>(
-      future: getRecord.data,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          //return Text(snapshot.data!.toString());
-          return Text(snapshot.data!);
-        } else if (snapshot.hasError) {
-          return Text('${snapshot.error}');
-          //return const Text('Невозможно загрузить список');
-        }
-        // By default, show a loading spinner.
-        return const CircularProgressIndicator();
-      },
+    return Column(
+      children: [
+       TextField(
+         controller: dateinput,
+         onTap: () async {
+
+         },
+       ),
+        Expanded(
+          child: BlocBuilder<LogRecordBloc,LogRecordState>(
+            builder: (context, state) {
+
+              if (state.status==LogRecordStatus.success) {
+
+                return LogRecords(listLogRecord: state.logs);
+              }
+              if (state.status==LogRecordStatus.failure)
+             {
+                //return Text('${snapshot.error}');
+
+                return const Text('Записи не найдены');
+              }
+              // By default, show a loading spinner.
+              return const CircularProgressIndicator();
+            },
+          ),
+        ),
+      ],
     );
   }
 
@@ -64,3 +81,26 @@ class _GetLogState extends State<GetLog> {
     super.dispose();
   }
 }
+
+class LogRecords extends StatelessWidget {
+  final List<LogRecord> listLogRecord;
+  LogRecords({Key? key, required this.listLogRecord}) : super(key: key);
+  final ScrollController _scrollController =ScrollController();
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      controller: _scrollController,
+      itemCount: listLogRecord.length,
+      itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            leading: Text(listLogRecord[index].id.toString()),
+            title: Text(listLogRecord[index].date),
+          );
+      },
+
+    );
+  }
+}
+
+
+

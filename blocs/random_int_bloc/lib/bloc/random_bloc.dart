@@ -83,7 +83,7 @@ class RandomBloc extends Bloc<RandomEvent, RandomState> {
   StreamSubscription<int>? _randomSubscription;
 
   RandomBloc()
-      : _randomStream = RandomStream(),
+      : _randomStream = RandomStream  (),
         super(const RandomInitial()) {
     on<RandomStarted>(_onStarted);
     on<RandomPaused>(_onPaused);

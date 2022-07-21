@@ -1,30 +1,23 @@
+import 'dart:convert';
+
 import 'package:log_by_id/data/get_log.dart';
+import 'package:log_by_id/data/log.dart';
 
 class GetRecord {
-  FetchData fetchData=FetchHttp<String>('');
-  late Future<String> data;
-  bool isEmpty=true;
-  bool notFound=true;
+  FetchData fetchData=FetchHttp<LogRecord>('');
+  late Future<List<LogRecord>> data;
+  //bool isEmpty=true;
+  //bool notFound=true;
 
-  set path(String path) {
+
+  Future<List<LogRecord>> getString(String path) {
     fetchData.path=path;
-    try {
-      data = fetchData.getData((str) => str);
-      isEmpty=false;
-      notFound=false;
-      print('222222');
-    } catch(_) {
-      print('11111');
-      isEmpty=true;
-      if (fetchData.code==404) {
-        notFound=true;
-      }
-    }
+    data = fetchData.getData((String str) =>
+        (json.decode(str) as List)
+            .map((i) => LogRecord.fromJson(i))
+            .toList());
+    return data;
   }
 
-  Future<String> getData() async {
-    Future<String> str=Future<String>(() => "");
-    return str;
-  }
 
 }

@@ -2,9 +2,9 @@ part of 'log_bloc.dart';
 
 
 
-abstract class LogEvent extends Equatable {
+abstract class LogRecordEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class PostFetched extends LogEvent {}
+class LogRecordFetched extends LogRecordEvent {}
