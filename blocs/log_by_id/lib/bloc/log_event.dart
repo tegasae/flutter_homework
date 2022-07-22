@@ -8,3 +8,10 @@ abstract class LogRecordEvent extends Equatable {
 }
 
 class LogRecordFetched extends LogRecordEvent {}
+
+class LogRecordFetchedDate extends LogRecordEvent{
+  final DateTime dateTime;
+
+  LogRecordFetchedDate(this.dateTime);
+
+}
