@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -21,39 +23,40 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
 }
 
 
-class LogRecordBloc extends Bloc<LogRecordEvent, LogRecordState> {
+class LogRecordBloc extends Bloc<LogRecordEvent, LogState> {
   GetRecord getRecord=GetRecord();
 
-  LogRecordBloc() : super(const LogRecordState()) {
+  LogRecordBloc() : super(const LogRecordState(LogRecordStatus.initial,[])) {
 
     on<LogRecordFetched>(
       _onLogRecordFetched,
       //transformer: throttleDroppable(throttleDuration),
     );
     on<LogRecordFetchedDate>(_onLogRecordFetchedDate);
+    //on<LogRecordFetchId> (_onLogRecordFetchedId);
   }
 
 
 
   Future<void> _onLogRecordFetched(
       LogRecordFetched event,
-      Emitter<LogRecordState> emit,
+      Emitter<LogState> emit,
       ) async {
     try {
       if (state.status == LogRecordStatus.initial) {
         final logs = await _fetchLogRecord();
         return emit(
-            LogRecordState(status: LogRecordStatus.success, logs: logs));
+            LogRecordState(LogRecordStatus.success, logs));
       }
     }catch (_) {
-      emit(const LogRecordState(status: LogRecordStatus.failure));
+      emit(LogRecordState(LogRecordStatus.failure,[]));
     }
 
   }
 
   Future<void> _onLogRecordFetchedDate(
       LogRecordFetchedDate event,
-      Emitter<LogRecordState> emit,
+      Emitter<LogState> emit,
       ) async {
     try {
 
@@ -62,14 +65,25 @@ class LogRecordBloc extends Bloc<LogRecordEvent, LogRecordState> {
 
         final logs = await _fetchLogRecord(dateTime: event.dateTime);
         return emit(
-            LogRecordState(status: LogRecordStatus.success, logs: logs));
+            LogRecordState(LogRecordStatus.success, logs));
       }
     }catch (_) {
-      emit(const LogRecordState(status: LogRecordStatus.failure));
+      emit(LogRecordState(LogRecordStatus.failure,[]));
     }
 
   }
 
+  Future<void> _onLogRecordFetchedId(LogRecordFetchId event,Emitter<LogRecordIdState> emit) async {
+    try {
+      if ((state.status == LogRecordStatus.initial) ||
+          (state.status == LogRecordStatus.success)) {
+        final record = await _fetchLogRecordId(id:event.id);
+        //emit();
+      }
+    }catch (_) {
+      //emit(const LogState(status: LogRecordStatus.failure));
+    }
+  }
 
 
   Future<List<LogRecord>> _fetchLogRecord({DateTime? dateTime}) async {
@@ -82,8 +96,14 @@ class LogRecordBloc extends Bloc<LogRecordEvent, LogRecordState> {
       url='http://127.0.0.1:8081/api/v1/n/log/date/$formattedDate';
     }
     print(url);
-    listLogRecord = getRecord.getString(url);
+    listLogRecord = getRecord.getListRecord(url);
     return listLogRecord;
+
+  }
+
+  Future<LogRecord> _fetchLogRecordId({int id=0}) {
+    String url="http://127.0.0.1:8081/api/v1/n/log/$id";
+    return getRecord.getRecordId(url);
 
   }
 }

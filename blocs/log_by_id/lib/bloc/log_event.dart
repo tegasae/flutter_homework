@@ -15,3 +15,8 @@ class LogRecordFetchedDate extends LogRecordEvent{
   LogRecordFetchedDate(this.dateTime);
 
 }
+
+class LogRecordFetchId extends LogRecordEvent {
+  final int id;
+  LogRecordFetchId(this.id);
+}

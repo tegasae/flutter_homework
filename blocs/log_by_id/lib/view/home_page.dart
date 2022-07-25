@@ -44,7 +44,7 @@ class _GetLogState extends State<GetLog> {
       children: [
         TextField(
           controller: dateInput,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
               icon: Icon(Icons.calendar_today), //icon of text field
               labelText: "Enter Date" //label text of field
               ),
@@ -76,10 +76,10 @@ class _GetLogState extends State<GetLog> {
           },
         ),
         Expanded(
-          child: BlocBuilder<LogRecordBloc, LogRecordState>(
+          child: BlocBuilder<LogRecordBloc, LogState>(
             builder: (context, state) {
               if (state.status == LogRecordStatus.success) {
-                return LogRecords(listLogRecord: state.logs);
+                return LogRecords(listLogRecord: state.logs!);
               }
               if (state.status == LogRecordStatus.failure) {
                 //return Text('${snapshot.error}');
@@ -112,11 +112,44 @@ class LogRecords extends StatelessWidget {
       controller: _scrollController,
       itemCount: listLogRecord.length,
       itemBuilder: (BuildContext context, int index) {
-        return ListTile(
-          leading: Text(listLogRecord[index].id.toString()),
-          title: Text(listLogRecord[index].date),
+        return GestureDetector(
+          onTap: () {Navigator.pushNamed(context, '/record',arguments: listLogRecord[index].id);},
+          child: ListTile(
+            leading: Text(listLogRecord[index].id.toString()),
+            title: Text(listLogRecord[index].date),
+          ),
         );
       },
     );
+  }
+}
+
+
+
+
+
+class RecordPage extends StatelessWidget {
+  const RecordPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final id=ModalRoute.of(context)!.settings.arguments as int;
+    return Scaffold(
+      appBar: AppBar(title: Text('LogRecord')),
+      body: BlocProvider(
+        create: (_)=>LogRecordBloc()..add(LogRecordFetchId(id)),
+        child: LogRecordId(),
+      )
+    );
+  }
+}
+
+
+class LogRecordId extends StatelessWidget {
+  const LogRecordId({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text('123');
   }
 }

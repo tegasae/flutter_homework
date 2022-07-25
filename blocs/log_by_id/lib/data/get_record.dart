@@ -4,14 +4,12 @@ import 'package:log_by_id/data/get_log.dart';
 import 'package:log_by_id/data/log.dart';
 
 class GetRecord {
-  FetchData fetchData=FetchHttp<LogRecord>('');
+  FetchData fetchData = FetchHttp<LogRecord>('');
   late Future<List<LogRecord>> data;
-  //bool isEmpty=true;
-  //bool notFound=true;
 
 
-  Future<List<LogRecord>> getString(String path) {
-    fetchData.path=path;
+  Future<List<LogRecord>> getListRecord(String path) {
+    fetchData.path = path;
     data = fetchData.getData((String str) =>
         (json.decode(str) as List)
             .map((i) => LogRecord.fromJson(i))
@@ -19,5 +17,11 @@ class GetRecord {
     return data;
   }
 
-
+  Future<LogRecord> getRecordId(String path) {
+    Future<LogRecord> record;
+    fetchData.path=path;
+    record=fetchData.getData((String str) => (LogRecord.fromJson(json.decode(str))));
+    return record;
+  }
 }
+
