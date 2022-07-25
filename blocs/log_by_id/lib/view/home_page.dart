@@ -79,7 +79,7 @@ class _GetLogState extends State<GetLog> {
           child: BlocBuilder<LogRecordBloc, LogState>(
             builder: (context, state) {
               if (state.status == LogRecordStatus.success) {
-                return LogRecords(listLogRecord: state.logs!);
+                return LogRecords(listLogRecord: state.logs);
               }
               if (state.status == LogRecordStatus.failure) {
                 //return Text('${snapshot.error}');
@@ -128,17 +128,22 @@ class LogRecords extends StatelessWidget {
 
 
 
-class RecordPage extends StatelessWidget {
+class RecordPage extends StatefulWidget {
   const RecordPage({Key? key}) : super(key: key);
 
+  @override
+  State<RecordPage> createState() => _RecordPageState();
+}
+
+class _RecordPageState extends State<RecordPage> {
   @override
   Widget build(BuildContext context) {
     final id=ModalRoute.of(context)!.settings.arguments as int;
     return Scaffold(
-      appBar: AppBar(title: Text('LogRecord')),
+      appBar: AppBar(title: const Text('LogRecord')),
       body: BlocProvider(
         create: (_)=>LogRecordBloc()..add(LogRecordFetchId(id)),
-        child: LogRecordId(),
+        child: const LogRecordId(),
       )
     );
   }
@@ -150,6 +155,22 @@ class LogRecordId extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('123');
+    return BlocBuilder<LogRecordBloc,LogState>(builder: (context,state) {
+
+          if (state.status==LogRecordStatus.success) {
+            return Column(
+              children: [
+                TextFormField(
+                  initialValue: state.record.client,
+                ),
+                TextFormField(initialValue: state.record.name),
+
+              ],
+            );
+          } else {
+            return const Text('efwefw');
+          }
+    }
+    );
   }
 }

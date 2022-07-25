@@ -1,4 +1,4 @@
-import 'dart:math';
+
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,14 +26,14 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
 class LogRecordBloc extends Bloc<LogRecordEvent, LogState> {
   GetRecord getRecord=GetRecord();
 
-  LogRecordBloc() : super(const LogRecordState(LogRecordStatus.initial,[])) {
+  LogRecordBloc() : super(LogRecordState(LogRecordStatus.initial,const [])) {
 
     on<LogRecordFetched>(
       _onLogRecordFetched,
       //transformer: throttleDroppable(throttleDuration),
     );
     on<LogRecordFetchedDate>(_onLogRecordFetchedDate);
-    //on<LogRecordFetchId> (_onLogRecordFetchedId);
+    on<LogRecordFetchId> (_onLogRecordFetchedId);
   }
 
 
@@ -45,11 +45,13 @@ class LogRecordBloc extends Bloc<LogRecordEvent, LogState> {
     try {
       if (state.status == LogRecordStatus.initial) {
         final logs = await _fetchLogRecord();
+
         return emit(
             LogRecordState(LogRecordStatus.success, logs));
       }
     }catch (_) {
-      emit(LogRecordState(LogRecordStatus.failure,[]));
+      print('Exception');
+      emit(LogRecordState(LogRecordStatus.failure,const []));
     }
 
   }
@@ -68,20 +70,20 @@ class LogRecordBloc extends Bloc<LogRecordEvent, LogState> {
             LogRecordState(LogRecordStatus.success, logs));
       }
     }catch (_) {
-      emit(LogRecordState(LogRecordStatus.failure,[]));
+      emit(LogRecordState(LogRecordStatus.failure,const []));
     }
 
   }
 
-  Future<void> _onLogRecordFetchedId(LogRecordFetchId event,Emitter<LogRecordIdState> emit) async {
+  Future<void> _onLogRecordFetchedId(LogRecordFetchId event,Emitter<LogState> emit) async {
     try {
       if ((state.status == LogRecordStatus.initial) ||
           (state.status == LogRecordStatus.success)) {
         final record = await _fetchLogRecordId(id:event.id);
-        //emit();
+        emit(LogRecordIdState(LogRecordStatus.success, record));
       }
     }catch (_) {
-      //emit(const LogState(status: LogRecordStatus.failure));
+      emit(LogRecordState(LogRecordStatus.failure,const []));
     }
   }
 
