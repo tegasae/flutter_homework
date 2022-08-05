@@ -1,0 +1,8 @@
+name: random_generate
+publish_to: none
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  get_it:
