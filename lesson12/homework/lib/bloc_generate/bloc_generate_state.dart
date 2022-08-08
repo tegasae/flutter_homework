@@ -1,28 +1,27 @@
 part of 'bloc_generate_bloc.dart';
 
 abstract class GenerateState extends Equatable {
-  const GenerateState();
+  final Generator number;
+  GenerateState(this.number);
+   @override
+   List<Object> get props => [number];
 }
 
 class GenerateInitial extends GenerateState {
-  final int number;
 
-  const GenerateInitial({this.number=0});
+  GenerateInitial() : super();
 
-  @override
-  List<Object> get props => [number];
+
 }
 
 class GenerateGet extends GenerateState {
-  final int number;
-  const GenerateGet({required this.number});
-  @override
-  List<Object> get props=>[number];
+
+  const GenerateGet(int number) : super(number);
+
 }
 
 class GenerateStop extends GenerateState {
-  final int number;
-  const GenerateStop({required this.number});
-  @override
-  List<Object> get props=>[number];
+
+  const GenerateStop(int number) : super(number);
+
 }

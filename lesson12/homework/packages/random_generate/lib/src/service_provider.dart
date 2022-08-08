@@ -11,6 +11,5 @@ class ServiceProvider {
 
   void setup() {
     _getIt.registerLazySingleton<Generator>(() => RandomGenerate());
-
   }
 }
