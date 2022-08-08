@@ -6,7 +6,7 @@ abstract class GenerateEvent extends Equatable {
   @override
   List<Object> get props=>[];
 }
-class GenerateStartEvent extends GenerateEvent {
+class GenerateNextEvent extends GenerateEvent {
 
 }
 

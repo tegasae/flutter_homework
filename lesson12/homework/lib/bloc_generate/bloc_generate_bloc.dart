@@ -12,22 +12,28 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
   static final _getIt=GetIt.I;
   T get<T extends Object>()=>_getIt.get<T>();
   late Generator generator;
-  GenerateBloc() : super(GenerateInitial()) {
+  GenerateBloc() : super(const GenerateState.init()) {
     ServiceProvider.instance.setup();
     generator=_getIt.get<Generator>();
-    on<GenerateStartEvent>(_onStart);
+    on<GenerateNextEvent>(_onNext);
     on<GenerateStopEvent>(_onStop);
     on<GenerateStreamEvent>(_onStream);
   }
 
-  void _onStart(GenerateEvent event, Emitter<GenerateState> emitter) {
-
+  void _onNext(GenerateEvent event, Emitter<GenerateState> emitter) {
+    
   }
   void _onStop(GenerateEvent event,Emitter<GenerateState> emitter) {
 
   }
 
-  _onStream(GenerateEvent event, Emitter<GenerateState> emitter) {
+  void _onStream(GenerateEvent event, Emitter<GenerateState> emitter) {
 
+  }
+
+  @override
+  Future<void> close() {
+    generator.dispose();
+    return super.close();
   }
 }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:homework/bloc_generate/bloc_generate_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,13 +38,22 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Text('123'),
-        TextButton(onPressed: () {}, child: const Text('Get next')),
-        TextButton(onPressed: () {}, child: const Text('Go!')),
-      ],
+    return BlocProvider(
+      create: (context) => GenerateBloc(),
+      child: BlocBuilder<GenerateBloc, GenerateState>(
+        buildWhen: (prev,state)=>prev.runtimeType!=state.runtimeType,
+        builder: (context, state) {
+          return Column(
+            children: [
+              const Text('123'),
+              TextButton(onPressed: () {context.read<GenerateBloc>().add(GenerateNextEvent());}, child: const Text('Get next')),
+              TextButton(onPressed: () {context.read<GenerateBloc>().add(GenerateStreamEvent());}, child: const Text('Go!')),
+              TextButton(onPressed: () {context.read<GenerateBloc>().add(GenerateStopEvent());}, child: const Text('Stop!')),
+            ],
 
+          );
+        },
+      ),
     );
   }
 }
