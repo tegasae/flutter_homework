@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 abstract class Generator {
   final StreamController<int> controller=StreamController<int>();
@@ -15,3 +16,5 @@ abstract class Generator {
     controller.close();
   }
 }
+
+
