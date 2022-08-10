@@ -40,13 +40,14 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_)=>RandomBloc(),
+      create: (_)=>GenerateBloc(),
       child: Scaffold(
         appBar: AppBar(title: const Text('Random')),
         body: Column(
-          children: [
-            const RandomView(),
-            const Buttons()
+          children: const [
+            RandomView(),
+            Buttons(),
+            Message()
           ],
         ),
       ),
@@ -61,15 +62,32 @@ class Buttons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RandomBloc,GenerateState>(
-      buildWhen: (prev,state) =>prev.runtimeType != state.runtimeType,
+    IconData iconsRun=Icons.pause;
+    print('1');
+    return BlocBuilder<GenerateBloc,GenerateState>(
+      buildWhen: (prev,state) =>prev.status != state.status,
       builder: (context, state) {
         print(state);
+
         return Column(children: [
-        ElevatedButton(onPressed: () =>context.read<RandomBloc>().add(const GenerateStartedEvent()), child: const Text('Start')),
-        ElevatedButton(onPressed: () =>context.read<RandomBloc>().add(const GeneratePausedEvent()), child: const Text('Pause')),
-        ElevatedButton(onPressed: () =>context.read<RandomBloc>().add(const GenerateResumedEvent()), child: const Text('Resume')),
-        ElevatedButton(onPressed: () =>context.read<RandomBloc>().add(const GenerateStoppedEvent()), child: const Text('Stop'),)
+        IconButton(onPressed: () {
+
+          if (state.status==GenerateStatus.initial) {
+            iconsRun=Icons.play_arrow;
+            context.read<GenerateBloc>().add(const GenerateStartedEvent());
+          } else if (state.status==GenerateStatus.run) {
+
+            iconsRun=Icons.pause;
+            context.read<GenerateBloc>().add(const GenerateStartedEvent());
+          } else {
+            iconsRun=Icons.add;
+          }
+
+
+          }, icon: Icon(iconsRun)),
+        ElevatedButton(onPressed: () =>context.read<GenerateBloc>().add(const GeneratePausedEvent()), child: const Text('Pause')),
+        ElevatedButton(onPressed: () =>context.read<GenerateBloc>().add(const GenerateResumedEvent()), child: const Text('Resume')),
+        ElevatedButton(onPressed: () =>context.read<GenerateBloc>().add(const GenerateStoppedEvent()), child: const Text('Stop'),)
       ],);}
     );
   }
@@ -80,7 +98,25 @@ class RandomView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String value = context.select((RandomBloc bloc) => bloc.state.value.getStr());
-    return Text(value);
+    print('2');
+    GenerateState state=context.select((GenerateBloc bloc) => bloc.state);
+
+    if ((state.status==GenerateStatus.run)||(state.status==GenerateStatus.pause)) {
+      final String value = state.value.getStr();
+      return Text(value);
+    } else {
+      return Text('');
+    }
+
+  }
+}
+
+class Message extends StatelessWidget {
+  const Message({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    print('3');
+    return Text('123');
   }
 }

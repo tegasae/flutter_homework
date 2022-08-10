@@ -8,12 +8,12 @@ import '../data/random_int.dart';
 part 'generate_event.dart';
 part 'generate_state.dart';
 
-class RandomBloc extends Bloc<GenerateEvent, GenerateState> {
+class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
   final Generate _generate;
 
   StreamSubscription<ContainerData>? _generateSubscription;
 
-  RandomBloc()
+  GenerateBloc()
       : _generate = RandomStream(),
         super(const GenerateState.initial()) {
     on<GenerateStartedEvent>(_onStarted);
@@ -35,6 +35,8 @@ class RandomBloc extends Bloc<GenerateEvent, GenerateState> {
     emit(GenerateState.run(ContainerData.empty));
 
     _generateSubscription?.cancel();
+    _generate.flag=true;
+    print(_generate.flag);
     _generateSubscription = _generate
         .get()
         .listen((value) =>add(GenerateRunnedEvent(value: value)));
@@ -57,11 +59,17 @@ class RandomBloc extends Bloc<GenerateEvent, GenerateState> {
 
   void _onStopped(GenerateStoppedEvent event, Emitter<GenerateState> emit) {
     _generateSubscription?.cancel();
-    emit(GenerateState.initial());
+    emit(GenerateState.stop());
   }
 
   void _onRunned(GenerateRunnedEvent event, Emitter<GenerateState> emit) {
-    emit(GenerateState.run(event.value));
+    if (_generate.flag) {
+      emit(GenerateState.run(event.value));
+
+    } else {
+      emit(GenerateState.stop());
+    }
+
 
   }
 }

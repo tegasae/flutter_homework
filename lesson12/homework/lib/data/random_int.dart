@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/material.dart';
+
 
 class ContainerData {
   final int value;
@@ -34,5 +34,19 @@ class RandomStream extends Generate {
   }
 
 
+
+}
+
+class SecuenceStream extends Generate {
+  int start=0;
+  @override
+  ContainerData value() {
+    start+=1;
+    if (start>=2) {
+      flag=false;
+      start=0;
+    }
+    return ContainerData(start);
+  }
 }
 
