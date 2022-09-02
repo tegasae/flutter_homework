@@ -62,7 +62,7 @@ class Buttons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    IconData iconsRun=Icons.pause;
+    IconData iconsRun=Icons.play_arrow;
     print('1');
     return BlocBuilder<GenerateBloc,GenerateState>(
       buildWhen: (prev,state) =>prev.status != state.status,
@@ -73,21 +73,24 @@ class Buttons extends StatelessWidget {
         IconButton(onPressed: () {
 
           if (state.status==GenerateStatus.initial) {
-            iconsRun=Icons.play_arrow;
+            iconsRun=Icons.pause;
             context.read<GenerateBloc>().add(const GenerateStartedEvent());
           } else if (state.status==GenerateStatus.run) {
 
-            iconsRun=Icons.pause;
-            context.read<GenerateBloc>().add(const GenerateStartedEvent());
+            iconsRun=Icons.play_arrow;
+            context.read<GenerateBloc>().add(const GeneratePausedEvent());
           } else {
-            iconsRun=Icons.add;
+            iconsRun=Icons.pause;
+            context.read<GenerateBloc>().add(const GenerateResumedEvent());
           }
 
 
           }, icon: Icon(iconsRun)),
-        ElevatedButton(onPressed: () =>context.read<GenerateBloc>().add(const GeneratePausedEvent()), child: const Text('Pause')),
-        ElevatedButton(onPressed: () =>context.read<GenerateBloc>().add(const GenerateResumedEvent()), child: const Text('Resume')),
-        ElevatedButton(onPressed: () =>context.read<GenerateBloc>().add(const GenerateStoppedEvent()), child: const Text('Stop'),)
+        //ElevatedButton(onPressed: () =>context.read<GenerateBloc>().add(const GeneratePausedEvent()), child: const Text('Pause')),
+        //ElevatedButton(onPressed: () =>context.read<GenerateBloc>().add(const GenerateResumedEvent()), child: const Text('Resume')),
+        IconButton(onPressed: state.status!=GenerateStatus.run?null:() {context.read<GenerateBloc>().add(const GenerateStoppedEvent());},
+        icon: const Icon(Icons.stop)),
+        //ElevatedButton(onPressed: () =>context.read<GenerateBloc>().add(const GenerateStoppedEvent()), child: const Text('Stop'),)
       ],);}
     );
   }

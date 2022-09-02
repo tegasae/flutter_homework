@@ -14,7 +14,7 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
   StreamSubscription<ContainerData>? _generateSubscription;
 
   GenerateBloc()
-      : _generate = RandomStream(),
+      : _generate = SecuenceStream(),
         super(const GenerateState.initial()) {
     on<GenerateStartedEvent>(_onStarted);
     on<GeneratePausedEvent>(_onPaused);
@@ -67,7 +67,7 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
       emit(GenerateState.run(event.value));
 
     } else {
-      emit(GenerateState.stop());
+      emit(const GenerateState.stop());
     }
 
 

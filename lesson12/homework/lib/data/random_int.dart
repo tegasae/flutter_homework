@@ -39,14 +39,17 @@ class RandomStream extends Generate {
 
 class SecuenceStream extends Generate {
   int start=0;
+
   @override
   ContainerData value() {
+    int v;
     start+=1;
+    v=start;
     if (start>=2) {
       flag=false;
       start=0;
     }
-    return ContainerData(start);
+    return ContainerData(v);
   }
 }
 
