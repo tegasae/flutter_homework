@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homework/bloc/generate_bloc.dart';
+import 'package:random_generate/random_generate.dart';
 
 import 'data/random_int.dart';
 
 
 void main() {
+  ServiceProvider.instance.setup();
   runApp(const MyApp());
 }
 
@@ -50,6 +52,7 @@ class HomePage extends StatelessWidget {
             Message()
           ],
         ),
+        endDrawer: _EndDrawer(),
       ),
     );
   }
@@ -121,5 +124,49 @@ class Message extends StatelessWidget {
   Widget build(BuildContext context) {
     print('3');
     return Text('123');
+  }
+}
+
+class _EndDrawer extends StatefulWidget {
+  const _EndDrawer({Key? key}) : super(key: key);
+
+  @override
+  State<_EndDrawer> createState() => _EndDrawerState();
+}
+
+class _EndDrawerState extends State<_EndDrawer> {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          DrawerHeader(child: Text('Выберите нужный генератор')),
+          Text('123'),
+          ...SelectGenerator().getList()
+        ],
+      ),
+    );
+  }
+}
+
+class SelectGenerator {
+  Map<String,String> nameItem={'value1':'item1','value2':'item2'};
+  String? defaultValue='value1';
+  List<Widget> getList() {
+    List<Widget> widgets=[];
+    nameItem.forEach((key, value) {widgets.add(listItem(key));});
+    return widgets;
+  }
+  Widget listItem(String key) {
+    return ListTile(
+      title:Text(nameItem[key]!),
+      leading: Radio<String>(
+        groupValue: defaultValue,
+        value: key,
+        onChanged: (String? value) {defaultValue=key;print("$key $defaultValue");setState() {}},
+      ),
+    );
   }
 }

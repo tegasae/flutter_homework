@@ -2,20 +2,30 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:get_it/get_it.dart';
 
-import '../data/random_int.dart';
+//import '../data/random_int.dart';
 
+import 'package:random_generate/random_generate.dart';
 part 'generate_event.dart';
 part 'generate_state.dart';
 
 class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
+  //static final _getIt=GetIt.I;
+  //T get<T extends Object>()=>_getIt.get<T>();
   final Generate _generate;
+  //late Generator _generate;
 
   StreamSubscription<ContainerData>? _generateSubscription;
 
   GenerateBloc()
-      : _generate = SecuenceStream(),
-        super(const GenerateState.initial()) {
+      //: _generate = RandomStream(),
+      : _generate=ServiceProvider.instance.get(),
+    super(const GenerateState.initial())
+    {
+    //ServiceProvider.instance.setup();
+    //sp.setup();
+    //_generate=ServiceProvider.instance.get<Generate>();
     on<GenerateStartedEvent>(_onStarted);
     on<GeneratePausedEvent>(_onPaused);
     on<GenerateResumedEvent>(_onResumed);

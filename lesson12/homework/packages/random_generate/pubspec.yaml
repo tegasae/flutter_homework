@@ -6,4 +6,4 @@ environment:
 
 dependencies:
   get_it:
-  flutter_bloc:
+# flutter_bloc:
