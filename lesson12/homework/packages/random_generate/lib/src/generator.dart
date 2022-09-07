@@ -14,6 +14,9 @@ class ContainerData {
 
 abstract class Generate {
   bool flag=true;
+  final String name;
+
+  Generate(this.name);
 
   ContainerData value();
 
@@ -28,6 +31,10 @@ abstract class Generate {
 
 abstract class Generator {
   final StreamController<int> controller=StreamController<int>();
+
+
+
+
 
   Stream<int> value() async* {
     await Future<void>.delayed(const Duration(seconds: 1));
