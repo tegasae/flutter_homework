@@ -1,4 +1,4 @@
-import '../random_generate.dart';
+import '../../random_generate.dart';
 
 class SequenceGenerate extends Generate {
   int start=0;

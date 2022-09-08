@@ -7,7 +7,8 @@ import 'data/random_int.dart';
 
 
 void main() {
-  ServiceProvider.instance.setup();
+  //ServiceProvider.instance.setup();
+  Provider.simple();
   runApp(const MyApp());
 }
 
@@ -66,7 +67,7 @@ class Buttons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     IconData iconsRun=Icons.play_arrow;
-    print('1');
+    print('11');
     return BlocBuilder<GenerateBloc,GenerateState>(
       buildWhen: (prev,state) =>prev.status != state.status,
       builder: (context, state) {
@@ -137,36 +138,34 @@ class _EndDrawer extends StatefulWidget {
 class _EndDrawerState extends State<_EndDrawer> {
   @override
   Widget build(BuildContext context) {
+    String listServices=Provider.simple().services.getNames().toString();
     return Drawer(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           DrawerHeader(child: Text('Выберите нужный генератор')),
+          Text(listServices),
           Text('123'),
-          ...SelectGenerator().getList()
+          Expanded(child: ListServices())
         ],
       ),
     );
   }
 }
 
-class SelectGenerator {
-  Map<String,String> nameItem={'value1':'item1','value2':'item2'};
-  String? defaultValue='value1';
-  List<Widget> getList() {
-    List<Widget> widgets=[];
-    nameItem.forEach((key, value) {widgets.add(listItem(key));});
-    return widgets;
-  }
-  Widget listItem(String key) {
-    return ListTile(
-      title:Text(nameItem[key]!),
-      leading: Radio<String>(
-        groupValue: defaultValue,
-        value: key,
-        onChanged: (String? value) {defaultValue=key;print("$key $defaultValue");setState() {}},
-      ),
+class ListServices extends StatelessWidget {
+  const ListServices({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: Provider.simple().countServices(),
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            title: Text("$index"),
+          );
+        }
     );
   }
 }

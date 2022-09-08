@@ -20,7 +20,8 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
 
   GenerateBloc()
       //: _generate = RandomStream(),
-      : _generate=ServiceProvider.instance.get(),
+      //: _generate=ServiceProvider.instance.get<Generate>(),
+      :_generate=Provider.simple().services.currentService(),
     super(const GenerateState.initial())
     {
     //ServiceProvider.instance.setup();

@@ -1,7 +1,6 @@
 
 import 'package:get_it/get_it.dart';
-import 'random_generate.dart';
-import 'sequence_generate.dart';
+
 
 import 'generator.dart';
 
@@ -9,21 +8,17 @@ import 'generator.dart';
 
 class Services {
   List<Generate> listServices=[];
-  int? index;
+  int index=0;
 
-  Services({this.listServices=const []}) {
-    if (listServices.isNotEmpty) {
-      index=0;
-    }
-  }
+  Services({this.listServices=const []});
 
   List<String> getNames() {
     List<String> names=[];
     listServices.forEach((element) {names.add(element.name);});
     return names;
   }
-  Generate? currentService() {
-    return index!=null?listServices[index!]:null;
+  Generate currentService() {
+    return listServices[index];
   }
 
 
@@ -32,17 +27,14 @@ class Services {
 class ServiceProvider {
   static final _getIt=GetIt.I;
   T get<T extends Object>() => _getIt.get<T>();
-  static final instance=ServiceProvider();
+  //static final instance=ServiceProvider();
 
-  void setup<T>(T service) {
-    _getIt.registerLazySingleton<Generate>(() => SequenceGenerate('sequence'));
+  void setup<T extends Object>(T service) {
+    //_getIt.registerLazySingleton<Generate>(() => SequenceGenerate('sequence'));
+    print('123');
+    _getIt.registerLazySingleton<T>(() => service);
     print('get it');
   }
 }
 
 
-class Provider {
-  Services services=Services(listServices: [SequenceGenerate('sequence'),RandomGenerate('random')]);
-  late ServiceProvider serviceProvider;
-
-}
