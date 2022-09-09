@@ -123,12 +123,12 @@ class RandomView extends StatelessWidget {
     print('2');
     GenerateState state=context.select((GenerateBloc bloc) => bloc.state);
 
-    if ((state.status==GenerateStatus.run)||(state.status==GenerateStatus.pause)) {
+    //if ((state.status==GenerateStatus.run)||(state.status==GenerateStatus.pause)) {
       final String value = state.value.getStr();
       return Text(value);
-    } else {
-      return Text('');
-    }
+    //} else {
+    //  return Text('');
+    //}
 
   }
 }
