@@ -15,7 +15,7 @@ class Provider {
   }
 
   Provider._internal() {
-    services=Services(listServices: [SequenceGenerate('sequence'),RandomGenerate('random')]);
+    services=Services(listServices: [RandomGenerate('random'),SequenceGenerate('sequence')]);
     serviceProvider=ServiceProvider();
 
     serviceProvider.setup<Generate>(services.currentService());

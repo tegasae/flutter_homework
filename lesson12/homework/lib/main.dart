@@ -1,9 +1,12 @@
+
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homework/bloc/generate_bloc.dart';
 import 'package:random_generate/random_generate.dart';
 
-import 'data/random_int.dart';
 
 
 void main() {
@@ -32,23 +35,34 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: SafeArea(child: const HomePage()),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  @override
   Widget build(BuildContext context) {
+    setState(() {
+      print('123');
+      print(Provider.simple().services.currentService().name);
+    });
     return BlocProvider(
       create: (_)=>GenerateBloc(),
       child: Scaffold(
         appBar: AppBar(title: const Text('Random')),
         body: Column(
-          children: const [
-            RandomView(),
+          children: [
+            Text(Provider.simple().services.currentService().name),
+            const RandomView(),
             Buttons(),
             Message()
           ],
@@ -74,6 +88,7 @@ class Buttons extends StatelessWidget {
         print(state);
 
         return Column(children: [
+
         IconButton(onPressed: () {
 
           if (state.status==GenerateStatus.initial) {
@@ -123,7 +138,7 @@ class Message extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('3');
+    print('123456789');
     return Text('123');
   }
 }
@@ -145,8 +160,6 @@ class _EndDrawerState extends State<_EndDrawer> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           DrawerHeader(child: Text('Выберите нужный генератор')),
-          Text(listServices),
-          Text('123'),
           Expanded(child: ListServices())
         ],
       ),
@@ -154,16 +167,40 @@ class _EndDrawerState extends State<_EndDrawer> {
   }
 }
 
-class ListServices extends StatelessWidget {
+class ListServices extends StatefulWidget {
   const ListServices({Key? key}) : super(key: key);
 
+  @override
+  State<ListServices> createState() => _ListServicesState();
+}
+
+class _ListServicesState extends State<ListServices> {
+  late int currentIndex;
+  @override
+  void initState() {
+    super.initState();
+    currentIndex=Provider.simple().services.index;
+  }
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: Provider.simple().countServices(),
         itemBuilder: (BuildContext context, int index) {
+
           return ListTile(
-            title: Text("$index"),
+            leading: currentIndex==index?Icon(Icons.check_box):Icon(Icons.check_box_outline_blank),
+            selected: true,
+            title: Text(Provider.simple().services.listServices[index].name),
+            onTap: () {
+              currentIndex=index;
+              Provider.simple().services.index=index;
+
+              setState(() {
+                print(Provider.simple().services.currentService().name);
+              });
+              Navigator.of(context).pop();
+
+            },
           );
         }
     );
