@@ -1,7 +1,4 @@
 
-
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homework/bloc/generate_bloc.dart';
@@ -87,29 +84,33 @@ class Buttons extends StatelessWidget {
       builder: (context, state) {
         print(state);
 
+        print('rebuild');
         return Column(children: [
 
         IconButton(onPressed: () {
 
-          if (state.status==GenerateStatus.initial) {
+          if (state.status==GenerateStatus.start) {
             iconsRun=Icons.pause;
-            context.read<GenerateBloc>().add(const GenerateStartedEvent());
-          } else if (state.status==GenerateStatus.run) {
-
+            context.read<GenerateBloc>().add(GeneratePlaying(value: state.value));
+            return;
+          }
+          if (state.status==GenerateStatus.play) {
             iconsRun=Icons.play_arrow;
-            context.read<GenerateBloc>().add(const GeneratePausedEvent());
-          } else {
+            context.read<GenerateBloc>().add(const GeneratePausing());
+            return;
+          }
+          if (state.status==GenerateStatus.pause) {
             iconsRun=Icons.pause;
-            context.read<GenerateBloc>().add(const GenerateResumedEvent());
+            context.read<GenerateBloc>().add(GeneratePlaying(value: state.value));
           }
 
 
+
           }, icon: Icon(iconsRun)),
-        //ElevatedButton(onPressed: () =>context.read<GenerateBloc>().add(const GeneratePausedEvent()), child: const Text('Pause')),
-        //ElevatedButton(onPressed: () =>context.read<GenerateBloc>().add(const GenerateResumedEvent()), child: const Text('Resume')),
-        IconButton(onPressed: state.status!=GenerateStatus.run?null:() {context.read<GenerateBloc>().add(const GenerateStoppedEvent());},
+
+        IconButton(onPressed: state.status!=GenerateStatus.play?null:() {context.read<GenerateBloc>().add(const GenerateStopping());},
         icon: const Icon(Icons.stop)),
-        //ElevatedButton(onPressed: () =>context.read<GenerateBloc>().add(const GenerateStoppedEvent()), child: const Text('Stop'),)
+
       ],);}
     );
   }
@@ -123,12 +124,9 @@ class RandomView extends StatelessWidget {
     print('2');
     GenerateState state=context.select((GenerateBloc bloc) => bloc.state);
 
-    //if ((state.status==GenerateStatus.run)||(state.status==GenerateStatus.pause)) {
+
       final String value = state.value.getStr();
       return Text(value);
-    //} else {
-    //  return Text('');
-    //}
 
   }
 }

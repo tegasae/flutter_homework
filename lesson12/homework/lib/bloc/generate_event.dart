@@ -7,29 +7,21 @@ abstract class GenerateEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GenerateStartedEvent extends GenerateEvent {
-  final ContainerData value=ContainerData.empty;
-  const GenerateStartedEvent();
-  @override
-  List<Object> get props => [value];
-}
 
-class GeneratePausedEvent extends GenerateEvent {
-  const GeneratePausedEvent();
-}
 
-class GenerateResumedEvent extends GenerateEvent {
-  const GenerateResumedEvent();
-}
-
-class GenerateStoppedEvent extends GenerateEvent {
-  const GenerateStoppedEvent();
+class GeneratePausing extends GenerateEvent {
+  const GeneratePausing();
 }
 
 
-class GenerateRunnedEvent extends GenerateEvent {
+class GenerateStopping extends GenerateEvent {
+  const GenerateStopping();
+}
+
+
+class GeneratePlaying extends GenerateEvent {
   final ContainerData value;
-  const GenerateRunnedEvent({required this.value});
+  const GeneratePlaying({required this.value});
 
 
   @override

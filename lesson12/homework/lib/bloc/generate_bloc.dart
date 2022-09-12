@@ -19,19 +19,16 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
   StreamSubscription<ContainerData>? _generateSubscription;
 
   GenerateBloc()
-      //: _generate = RandomStream(),
-      //: _generate=ServiceProvider.instance.get<Generate>(),
+
       :_generate=Provider.simple().services.currentService(),
-    super(const GenerateState.initial())
+      //:_generate=Provider.simple().services.listServices[1],
+    super(const GenerateState.start())
     {
-    //ServiceProvider.instance.setup();
-    //sp.setup();
-    //_generate=ServiceProvider.instance.get<Generate>();
-    on<GenerateStartedEvent>(_onStarted);
-    on<GeneratePausedEvent>(_onPaused);
-    on<GenerateResumedEvent>(_onResumed);
-    on<GenerateStoppedEvent>(_onStopped);
-    on<GenerateRunnedEvent>(_onRunned);
+
+    on<GeneratePlaying>(_onPlay);
+    on<GeneratePausing>(_onPause);
+    on<GenerateStopping>(_onStop);
+
 
   }
 
@@ -42,47 +39,87 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
     return super.close();
   }
 
-  void _onStarted(GenerateStartedEvent event, Emitter<GenerateState> emit) {
-    emit(GenerateState.run(ContainerData.empty));
+  void _onPlay(GeneratePlaying event,Emitter<GenerateState> emit) {
+    if (state.status==GenerateStatus.start) {
+      _generateSubscription?.cancel();
+      _generate.flag=true;
+      _generateSubscription = _generate
+          .get()
+          .listen((value) =>add(GeneratePlaying(value: value)));
+      emit(GenerateState.play(state.value));
+      return;
+    }
 
-    _generateSubscription?.cancel();
-    _generate.flag=true;
-    print(_generate.flag);
-    _generateSubscription = _generate
-        .get()
-        .listen((value) =>add(GenerateRunnedEvent(value: value)));
+    if (state.status==GenerateStatus.pause) {
+      _generateSubscription?.resume();
+      emit(GenerateState.play(state.value));
+      return;
+    }
+    if (state.status==GenerateStatus.play) {
+      if (_generate.flag) {
+          emit(GenerateState.play(event.value));
+        } else {
+          emit(const GenerateState.start());
+        }
+    }
+
+
   }
 
-  void _onPaused(GeneratePausedEvent event, Emitter<GenerateState> emit) {
-
-    if (state.status==GenerateStatus.run) {
+  void _onPause(GeneratePausing event,Emitter<GenerateState> emit) {
+    if (state.status == GenerateStatus.play) {
       _generateSubscription?.pause();
       emit(GenerateState.pause(state.value));
     }
   }
 
-  void _onResumed(GenerateResumedEvent resume, Emitter<GenerateState> emit) {
-    if (state.status==GenerateStatus.pause) {
-      _generateSubscription?.resume();
-      emit(GenerateState.run(state.value));
-    }
-  }
-
-  void _onStopped(GenerateStoppedEvent event, Emitter<GenerateState> emit) {
+  void _onStop(GenerateStopping event,Emitter<GenerateState> emit) {
     _generateSubscription?.cancel();
-    emit(GenerateState.stop());
+    _generate.flag=false;
+    emit(GenerateState.start());
   }
 
-  void _onRunned(GenerateRunnedEvent event, Emitter<GenerateState> emit) {
-    if (_generate.flag) {
-      emit(GenerateState.run(event.value));
+  //void _onStarted(GenerateStartedEvent event, Emitter<GenerateState> emit) {
+  //  emit(GenerateState.run(ContainerData.empty));
+  //
+  //  _generateSubscription?.cancel();
+  //  _generate.flag=true;
+  //  print(_generate.flag);
+  //  _generateSubscription = _generate
+  //      .get()
+  //      .listen((value) =>add(GenerateRunnedEvent(value: value)));
+  //}
 
-    } else {
-      emit(const GenerateState.stop());
-    }
+  //void _onPaused(GeneratePausedEvent event, Emitter<GenerateState> emit) {
+  //
+  //  if (state.status==GenerateStatus.run) {
+  //    _generateSubscription?.pause();
+  //    emit(GenerateState.pause(state.value));
+  //  }
+  //}
+
+  //void _onResumed(GenerateResumedEvent resume, Emitter<GenerateState> emit) {
+  //  if (state.status==GenerateStatus.pause) {
+  //    _generateSubscription?.resume();
+  //    emit(GenerateState.run(state.value));
+  //  }
+  //}
+
+  //void _onStopped(GenerateStoppedEvent event, Emitter<GenerateState> emit) {
+  //  _generateSubscription?.cancel();
+  //  emit(GenerateState.stop());
+  //}
+
+  //void _onRunned(GenerateRunnedEvent event, Emitter<GenerateState> emit) {
+  //  if (_generate.flag) {
+  //    emit(GenerateState.run(event.value));
+  //
+  //  } else {
+  //    emit(const GenerateState.stop());
+  //  }
 
 
-  }
+  //}
 }
 
 
