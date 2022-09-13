@@ -82,6 +82,9 @@ class Buttons extends StatelessWidget {
     return BlocBuilder<GenerateBloc,GenerateState>(
       buildWhen: (prev,state) =>prev.status != state.status,
       builder: (context, state) {
+        if (state.status==GenerateStatus.start) {
+          iconsRun=Icons.play_arrow;
+        }
         print(state);
 
         print('rebuild');
@@ -108,7 +111,7 @@ class Buttons extends StatelessWidget {
 
           }, icon: Icon(iconsRun)),
 
-        IconButton(onPressed: state.status!=GenerateStatus.play?null:() {context.read<GenerateBloc>().add(const GenerateStopping());},
+        IconButton(onPressed: state.status==GenerateStatus.start?null:() {context.read<GenerateBloc>().add(const GenerateStopping());},
         icon: const Icon(Icons.stop)),
 
       ],);}
