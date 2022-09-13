@@ -17,3 +17,7 @@ class GenerateState extends Equatable {
   List<Object> get props => [value, status];
 }
 
+class GenerateStateStart extends GenerateState {
+
+  GenerateStateStart() : super.pause(null);
+}
