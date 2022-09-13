@@ -10,7 +10,7 @@ class SequenceGenerate extends Generate {
     int v;
     start+=1;
     v=start;
-    if (start>=2) {
+    if (start>=10) {
       flag=false;
       start=0;
     }

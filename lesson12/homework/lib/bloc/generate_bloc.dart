@@ -20,7 +20,7 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
 
       :_generate=Provider.simple().services.currentService(),
       //:_generate=Provider.simple().services.listServices[1],
-    super(const GenerateState.start())
+    super(GenerateStateStart(ContainerData.empty))
     {
 
     on<GeneratePlaying>(_onPlay);
@@ -38,26 +38,27 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
   }
 
   void _onPlay(GeneratePlaying event,Emitter<GenerateState> emit) {
-    if (state.status==GenerateStatus.start) {
+    if (state is GenerateStateStart) {
       _generateSubscription?.cancel();
+
       _generate.flag=true;
       _generateSubscription = _generate
           .get()
           .listen((value) =>add(GeneratePlaying(value: value)));
-      emit(GenerateState.play(state.value));
+      emit(GenerateStatePlay(state.value));
       return;
     }
 
-    if (state.status==GenerateStatus.pause) {
+    if (state is GenerateStatePause) {
       _generateSubscription?.resume();
-      emit(GenerateState.play(state.value));
+      emit(GenerateStatePlay(state.value));
       return;
     }
-    if (state.status==GenerateStatus.play) {
+    if (state is GenerateStatePlay) {
       if (_generate.flag) {
-          emit(GenerateState.play(event.value));
+          emit(GenerateStatePlay(event.value));
         } else {
-          emit(const GenerateState.start());
+          emit(GenerateStateStart(ContainerData.empty));
         }
     }
 
@@ -65,16 +66,16 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
   }
 
   void _onPause(GeneratePausing event,Emitter<GenerateState> emit) {
-    if (state.status == GenerateStatus.play) {
+    if (state is GenerateStatePlay) {
       _generateSubscription?.pause();
-      emit(GenerateState.pause(state.value));
+      emit(GenerateStatePause(state.value));
     }
   }
 
   void _onStop(GenerateStopping event,Emitter<GenerateState> emit) {
     _generateSubscription?.cancel();
     _generate.flag=false;
-    emit(GenerateState.start());
+    emit(GenerateStateStart(ContainerData.empty));
   }
 
   //void _onStarted(GenerateStartedEvent event, Emitter<GenerateState> emit) {

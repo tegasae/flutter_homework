@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:random_generate/random_generate.dart';
 
 
 class ContainerData {
@@ -17,12 +16,19 @@ class ContainerData {
 abstract class Generate {
   bool flag=true;
   final String name;
+  late Stream<ContainerData> stream;
 
-  Generate(this.name);
+  Generate(this.name) {
+    //stream=Stream.periodic(const Duration(seconds: 1), (x) =>value())
+    //    .takeWhile((element) => flag);
+
+  }
 
   ContainerData value();
 
+
   Stream<ContainerData> get() {
+    //return stream;
     return Stream.periodic(const Duration(seconds: 1), (x) =>value())
         .takeWhile((element) => flag);
   }
