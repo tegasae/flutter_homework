@@ -59,6 +59,7 @@ class _HomePageState extends State<HomePage> {
         body: Column(
           children: [
             Text(Provider.simple().services.currentService().name),
+            NameGenerator(),
             RandomView(),
             Buttons(),
             Message()
@@ -70,6 +71,39 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+class NameGenerator extends StatefulWidget {
+  const NameGenerator({Key? key}) : super(key: key);
+
+  @override
+  State<NameGenerator> createState() => _NameGeneratorState();
+}
+
+class _NameGeneratorState extends State<NameGenerator> {
+  @override
+  Widget build(BuildContext context) {
+    String text='';
+    setState(() {
+
+    });
+    return BlocConsumer<GenerateBloc,GenerateState>(
+
+        listener: (context,state) {
+          if (state is GenerateStateStart) {
+            Text('1234');
+          }
+        },
+        buildWhen: (prev,state)=>((state.runtimeType==GenerateStateStart) ||(prev.runtimeType==GenerateStateStart)),
+        builder: (context,state){
+      if (state is GenerateStateStart) {
+        text=Provider.simple().services.currentService().name;
+      }
+
+      print("=== $text $state");
+      return Text(text);
+    },
+    );
+  }
+}
 
 
 class Buttons extends StatelessWidget {
@@ -199,12 +233,23 @@ class _ListServicesState extends State<ListServices> {
             selected: true,
             title: Text(Provider.simple().services.listServices[index].name),
             onTap: () {
-              currentIndex=index;
-              Provider.simple().services.index=index;
+              if (currentIndex!=index) {
+                print('1234');
+                BlocProvider.of<GenerateBloc>(context).add(GenerateChanning());
+                currentIndex = index;
+                Provider
+                    .simple()
+                    .services
+                    .index = index;
 
-              setState(() {
-                print(Provider.simple().services.currentService().name);
-              });
+                setState(() {
+                  print(Provider
+                      .simple()
+                      .services
+                      .currentService()
+                      .name);
+                });
+              }
               Navigator.of(context).pop();
 
             },

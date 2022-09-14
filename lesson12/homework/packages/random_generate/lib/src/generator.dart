@@ -19,7 +19,7 @@ abstract class Generate {
   late Stream<ContainerData> stream;
 
   Generate(this.name) {
-    //stream=Stream.periodic(const Duration(seconds: 1), (x) =>value())
+    //stream=Stream.periodic(const Duration(seconds: 1), (x) =>value());
     //    .takeWhile((element) => flag);
 
   }
@@ -31,6 +31,7 @@ abstract class Generate {
     //return stream;
     return Stream.periodic(const Duration(seconds: 1), (x) =>value())
         .takeWhile((element) => flag);
+    //return stream.takeWhile((element) => flag);
   }
   //Stream<ContainerData> get() async* {
   //  while(flag) {

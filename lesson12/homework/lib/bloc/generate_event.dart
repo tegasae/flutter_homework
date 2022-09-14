@@ -27,3 +27,7 @@ class GeneratePlaying extends GenerateEvent {
   @override
   List<Object> get props => [value];
 }
+
+class GenerateChanning extends GenerateEvent {
+  const GenerateChanning();
+}

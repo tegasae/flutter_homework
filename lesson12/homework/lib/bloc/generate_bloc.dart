@@ -11,7 +11,7 @@ part 'generate_state.dart';
 class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
   //static final _getIt=GetIt.I;
   //T get<T extends Object>()=>_getIt.get<T>();
-  final Generate _generate;
+  Generate _generate;
   //late Generator _generate;
 
   StreamSubscription<ContainerData>? _generateSubscription;
@@ -26,7 +26,7 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
     on<GeneratePlaying>(_onPlay);
     on<GeneratePausing>(_onPause);
     on<GenerateStopping>(_onStop);
-
+    on<GenerateChanning>(_onChange);
 
   }
 
@@ -38,6 +38,8 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
   }
 
   void _onPlay(GeneratePlaying event,Emitter<GenerateState> emit) {
+
+
     if (state is GenerateStateStart) {
       _generateSubscription?.cancel();
 
@@ -78,6 +80,11 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
     emit(GenerateStateStart(ContainerData.empty));
   }
 
+  void _onChange(GenerateChanning event,Emitter<GenerateState> emit) {
+    _generateSubscription?.cancel();
+    _generate=Provider.simple().services.currentService();
+    emit(GenerateStateStart(ContainerData.empty));
+  }
   //void _onStarted(GenerateStartedEvent event, Emitter<GenerateState> emit) {
   //  emit(GenerateState.run(ContainerData.empty));
   //
