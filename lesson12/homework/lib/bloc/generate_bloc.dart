@@ -15,12 +15,12 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
   //late Generator _generate;
 
   StreamSubscription<ContainerData>? _generateSubscription;
-
+  late Stream<ContainerData> streamContainerData;
   GenerateBloc()
 
       :_generate=Provider.simple().services.currentService(),
       //:_generate=Provider.simple().services.listServices[1],
-    super(GenerateStateStart(ContainerData.empty))
+    super(const GenerateStateStart(ContainerData.empty))
     {
 
     on<GeneratePlaying>(_onPlay);
@@ -42,28 +42,23 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
 
     if (state is GenerateStateStart) {
       _generateSubscription?.cancel();
-
+      print('start');
       _generate.flag=true;
-      _generateSubscription = _generate
-          .get()
-          .listen((value) =>add(GeneratePlaying(value: value)));
-      emit(GenerateStatePlay(state.value));
-      return;
+      //Provider.simple().services.currentService().flag
+
+      streamContainerData=_generate.get();
+
+      _generateSubscription = streamContainerData.listen((value) =>add(GeneratePlaying(value: value)),onDone: ()=>add(const GenerateStopping()));
+
+
     }
 
     if (state is GenerateStatePause) {
       _generateSubscription?.resume();
-      emit(GenerateStatePlay(state.value));
-      return;
-    }
-    if (state is GenerateStatePlay) {
-      if (_generate.flag) {
-          emit(GenerateStatePlay(event.value));
-        } else {
-          emit(GenerateStateStart(ContainerData.empty));
-        }
+
     }
 
+    emit(GenerateStatePlay(event.value));
 
   }
 
@@ -75,15 +70,26 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
   }
 
   void _onStop(GenerateStopping event,Emitter<GenerateState> emit) {
-    _generateSubscription?.cancel();
+
     _generate.flag=false;
-    emit(GenerateStateStart(ContainerData.empty));
+    _generate.stream.takeWhile((element) => false);
+
+    _generateSubscription?.cancel();
+
+
+
+    emit(const GenerateStateStart(ContainerData.empty));
+    //emit(GenerateStateStart(await streamContainerData.first));
   }
 
   void _onChange(GenerateChanning event,Emitter<GenerateState> emit) {
+
     _generateSubscription?.cancel();
     _generate=Provider.simple().services.currentService();
-    emit(GenerateStateStart(ContainerData.empty));
+
+    emit(const GenerateStateChange(ContainerData.empty));
+    emit(const GenerateStateStart(ContainerData.empty));
+
   }
   //void _onStarted(GenerateStartedEvent event, Emitter<GenerateState> emit) {
   //  emit(GenerateState.run(ContainerData.empty));

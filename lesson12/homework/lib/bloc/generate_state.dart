@@ -1,6 +1,6 @@
 part of 'generate_bloc.dart';
 
-enum _GenerateStatus {start,play,pause}
+enum _GenerateStatus {start,play,pause,change}
 class GenerateState extends Equatable {
   final ContainerData value;
   final _GenerateStatus status;
@@ -31,3 +31,10 @@ class GenerateStatePlay extends GenerateState {
 class GenerateStatePause extends GenerateState {
   const GenerateStatePause(ContainerData containerData):super(value: containerData,status: _GenerateStatus.pause);
 }
+
+class GenerateStateChange extends GenerateState {
+
+
+  const GenerateStateChange(ContainerData containerData):super(value: containerData,status: _GenerateStatus.change);
+}
+
