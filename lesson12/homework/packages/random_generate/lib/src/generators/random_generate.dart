@@ -8,6 +8,12 @@ class RandomGenerate extends Generate {
 
   RandomGenerate(super.name);
   @override
+  void init() {
+    super.init();
+    random=Random();
+  }
+
+  @override
   ContainerData value() {
     return ContainerData(random.nextInt(100));
   }

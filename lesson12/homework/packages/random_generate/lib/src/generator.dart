@@ -2,6 +2,8 @@ import 'dart:async';
 
 
 
+
+
 class ContainerData {
   final int value;
 
@@ -14,35 +16,75 @@ class ContainerData {
 }
 
 abstract class Generate {
-  bool flag=true;
   final String name;
-  late Stream<ContainerData> stream;
+  late StreamController<ContainerData> controller;
+  Timer? timer;
 
+
+  final int interval=1;
+  bool flag=true;
 
   Generate(this.name) {
-    //stream=Stream.periodic(const Duration(seconds: 1), (x) =>value());
-    //    .takeWhile((element) => flag);
+
 
   }
 
 
+  Future<void> startGenerator() async {
+    init();
 
+
+      flag=true;
+      timer = Timer.periodic(Duration(seconds: interval), tick);
+
+
+
+  }
+
+  void tick(_) {
+    if (flag==false) {
+      controller.close();
+      timer?.cancel();
+    }
+    if (!controller.isClosed) {
+      controller.add(value()); // Ask stream to send counter values as event.
+    }
+
+  }
+
+  void pauseGenerator() {
+    print('pause');
+    timer?.cancel();
+    flag=false;
+  }
+
+  void resumeGenerator() {
+    print('resume');
+    timer = Timer.periodic(Duration(seconds: interval), tick);
+    flag=true;
+  }
+  void stopGenerator() {
+    dispose();
+    flag=false;
+    timer?.cancel();
+    controller.close();
+  }
+
+  void init() {}
+  void dispose() {}
   ContainerData value();
 
 
-  Stream<ContainerData> get() {
-    //return stream;
-    print('get');
-    stream=Stream.periodic(const Duration(seconds: 1), (x) =>value());
-    //return Stream.periodic(const Duration(seconds: 1), (x) =>value())
-    //    .takeWhile((element) => flag);
-    return stream.takeWhile((element) => flag);
+  Stream<ContainerData> getController() {
+    //flag=true;
+    controller = StreamController<ContainerData>(
+        onListen: startGenerator,
+        onPause: pauseGenerator,
+        onResume: resumeGenerator,
+        onCancel: stopGenerator);
+    return controller.stream;
   }
-  //Stream<ContainerData> get() async* {
-  //  while(flag) {
-  //    yield value();
-  //  }
-  //}
+
 }
 
 

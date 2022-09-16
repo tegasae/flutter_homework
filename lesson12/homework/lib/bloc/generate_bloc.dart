@@ -43,10 +43,10 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
     if (state is GenerateStateStart) {
       _generateSubscription?.cancel();
       print('start');
-      _generate.flag=true;
-      //Provider.simple().services.currentService().flag
+      //_generate.flag=true;
 
-      streamContainerData=_generate.get();
+
+      streamContainerData=_generate.getController();
 
       _generateSubscription = streamContainerData.listen((value) =>add(GeneratePlaying(value: value)),onDone: ()=>add(const GenerateStopping()));
 
@@ -71,15 +71,14 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
 
   void _onStop(GenerateStopping event,Emitter<GenerateState> emit) {
 
-    _generate.flag=false;
-    _generate.stream.takeWhile((element) => false);
+
 
     _generateSubscription?.cancel();
 
 
 
     emit(const GenerateStateStart(ContainerData.empty));
-    //emit(GenerateStateStart(await streamContainerData.first));
+
   }
 
   void _onChange(GenerateChanning event,Emitter<GenerateState> emit) {
