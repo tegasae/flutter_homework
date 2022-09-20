@@ -1,19 +1,10 @@
 import 'dart:async';
 
+import 'package:models/models.dart';
 
 
 
 
-class ContainerData {
-  final int value;
-
-  const ContainerData(this.value);
-  static const empty=ContainerData(0);
-
-  String getStr() {
-    return value.toString();
-  }
-}
 
 abstract class Generate {
   final String name;

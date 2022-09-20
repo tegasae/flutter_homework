@@ -2,9 +2,12 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:models/models.dart';
 
 
 import 'package:random_generate/random_generate.dart';
+
+
 part 'generate_event.dart';
 part 'generate_state.dart';
 
@@ -20,7 +23,7 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
 
       :_generate=Provider.simple().services.currentService(),
       //:_generate=Provider.simple().services.listServices[1],
-    super(const GenerateStateStart(ContainerData.empty))
+    super(const GenerateStateStart(ContainerData.empty()))
     {
 
     on<GeneratePlaying>(_onPlay);
@@ -77,7 +80,7 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
 
 
 
-    emit(const GenerateStateStart(ContainerData.empty));
+    emit(const GenerateStateStart(ContainerData.empty()));
 
   }
 
@@ -86,8 +89,8 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
     _generateSubscription?.cancel();
     _generate=Provider.simple().services.currentService();
 
-    emit(const GenerateStateChange(ContainerData.empty));
-    emit(const GenerateStateStart(ContainerData.empty));
+    emit(const GenerateStateChange(ContainerData.empty()));
+    emit(const GenerateStateStart(ContainerData.empty()));
 
   }
   //void _onStarted(GenerateStartedEvent event, Emitter<GenerateState> emit) {

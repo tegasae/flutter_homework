@@ -1,3 +1,5 @@
+import 'package:models/models.dart';
+
 import '../../random_generate.dart';
 
 class SequenceGenerate extends Generate {

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:models/models.dart';
 import 'package:random_generate/src/generator.dart';
 
 class RandomGenerate extends Generate {

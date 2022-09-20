@@ -6,4 +6,6 @@ environment:
 
 dependencies:
   get_it:
+  models:
+    path: ../models
 # flutter_bloc:
