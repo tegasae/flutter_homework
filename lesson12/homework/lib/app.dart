@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           subtitle1: (TextStyle(fontSize: 18, color: Colors.black)),
 
           button: TextStyle(fontSize: 12,color: Colors.black),

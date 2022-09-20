@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
 
-            children: [
+            children: const [
               NameGenerator(),
               Expanded(child: RandomView()),
               Center(child: Buttons()),
