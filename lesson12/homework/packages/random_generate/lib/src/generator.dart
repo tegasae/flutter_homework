@@ -15,10 +15,8 @@ abstract class Generate {
   final int interval=1;
   bool flag=true;
 
-  Generate(this.name) {
+  Generate(this.name);
 
-
-  }
 
 
   Future<void> startGenerator() async {
@@ -32,7 +30,7 @@ abstract class Generate {
 
   }
 
-  void tick(_) {
+  void tick(Timer _) {
     if (flag==false) {
       controller.close();
       timer?.cancel();

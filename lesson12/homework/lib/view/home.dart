@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:random_generate/random_generate.dart';
+
 
 import '../bloc/generate_bloc.dart';
 import 'visual/end_drawer.dart';

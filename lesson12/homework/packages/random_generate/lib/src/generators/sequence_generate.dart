@@ -22,7 +22,7 @@ class SequenceGenerate extends Generate {
       flag=false;
     }
     count+=1;
-    return ContainerData(count);
+    return ContainerData(value: count);
   }
 }
 

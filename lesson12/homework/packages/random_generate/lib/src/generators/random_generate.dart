@@ -16,7 +16,7 @@ class RandomGenerate extends Generate {
 
   @override
   ContainerData value() {
-    return ContainerData(random.nextInt(100));
+    return ContainerData(value: random.nextInt(100));
   }
 }
 

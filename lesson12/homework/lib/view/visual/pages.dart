@@ -85,7 +85,7 @@ class RandomView extends StatelessWidget {
     GenerateState state = context.select((GenerateBloc bloc) => bloc.state);
     //getValue(state);
 
-    final String value = state.value.toString();
+    final String value = state.value.value.toString();
     return Text(value);
   }
 

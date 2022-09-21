@@ -23,7 +23,7 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
 
       :_generate=Provider.simple().services.currentService(),
       //:_generate=Provider.simple().services.listServices[1],
-    super(const GenerateStateStart(ContainerData.empty()))
+    super(const GenerateStateStart(ContainerData()))
     {
 
     on<GeneratePlaying>(_onPlay);
@@ -80,7 +80,7 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
 
 
 
-    emit(const GenerateStateStart(ContainerData.empty()));
+    emit(const GenerateStateStart(ContainerData()));
 
   }
 
@@ -89,8 +89,8 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
     _generateSubscription?.cancel();
     _generate=Provider.simple().services.currentService();
 
-    emit(const GenerateStateChange(ContainerData.empty()));
-    emit(const GenerateStateStart(ContainerData.empty()));
+    emit(const GenerateStateChange(ContainerData()));
+    emit(const GenerateStateStart(ContainerData()));
 
   }
   //void _onStarted(GenerateStartedEvent event, Emitter<GenerateState> emit) {
