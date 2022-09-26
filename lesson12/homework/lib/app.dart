@@ -22,9 +22,9 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
         textTheme: const TextTheme(
-          subtitle1: (TextStyle(fontSize: 18, color: Colors.black)),
-
-          button: TextStyle(fontSize: 12,color: Colors.black),
+          subtitle1: (TextStyle(fontSize: 24, color: Colors.grey)),
+          headline1: (TextStyle(fontSize: 50, color: Colors.black,fontWeight: FontWeight.bold)),
+          button: TextStyle(fontSize: 48,color: Colors.black),
 
         )
       ),

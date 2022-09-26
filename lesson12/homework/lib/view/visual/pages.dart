@@ -27,7 +27,7 @@ class Buttons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    IconData iconsRun = Icons.play_arrow;
+    var iconsRun = Icons.play_arrow;
 
     return BlocBuilder<GenerateBloc, GenerateState>(
         buildWhen: (prev, state) => prev.runtimeType != state.runtimeType,
@@ -59,7 +59,7 @@ class Buttons extends StatelessWidget {
                           .add(GeneratePlaying(value: state.value));
                     }
                   },
-                  icon: Icon(iconsRun)),
+                  icon: Icon(iconsRun,size: 70)),
               IconButton(
                   onPressed: state is GenerateStateStart
                       ? null
@@ -68,7 +68,7 @@ class Buttons extends StatelessWidget {
                         .read<GenerateBloc>()
                         .add(const GenerateStopping());
                   },
-                  icon: const Icon(Icons.stop)),
+                  icon: const Icon(Icons.stop, size: 70)),
             ],
           );
         });
@@ -82,11 +82,11 @@ class RandomView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    GenerateState state = context.select((GenerateBloc bloc) => bloc.state);
+    var state = context.select((GenerateBloc bloc) => bloc.state);
     //getValue(state);
 
-    final String value = state.value.value.toString();
-    return Text(value);
+    final value = state.value.value.toString();
+    return Text(value,style: Theme.of(context).textTheme.headline1);
   }
 
 
