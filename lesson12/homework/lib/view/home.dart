@@ -20,14 +20,22 @@ class HomePage extends StatelessWidget {
         appBar: AppBar(title: const Text('Генерация чисел')),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
+          child: Container(
+            height: 200,
+            margin: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(3.0),
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.blueAccent)
+            ),
+            child: Column(
 
-            children: const [
-              NameGenerator(),
-              Expanded(child: RandomView()),
-              Center(child: Buttons()),
-              //Message()
-            ],
+              children: const [
+                NameGenerator(),
+                Expanded(child: RandomView()),
+                Buttons(),
+                //Message()
+              ],
+            ),
           ),
         ),
         endDrawer: const EndDrawer(),
