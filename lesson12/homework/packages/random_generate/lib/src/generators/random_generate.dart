@@ -1,17 +1,17 @@
-
 import 'dart:math';
 
 import 'package:models/models.dart';
 import 'package:random_generate/src/generator.dart';
 
 class RandomGenerate extends Generate {
-  Random random=Random();
+  Random random = Random();
 
   RandomGenerate(super.name);
+
   @override
   void init() {
     super.init();
-    random=Random();
+    random = Random();
   }
 
   @override
@@ -19,4 +19,3 @@ class RandomGenerate extends Generate {
     return ContainerData(value: random.nextInt(100));
   }
 }
-

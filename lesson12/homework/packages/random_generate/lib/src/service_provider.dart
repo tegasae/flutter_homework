@@ -1,32 +1,31 @@
-
 import 'package:get_it/get_it.dart';
-
 
 import 'generator.dart';
 
-
-
 class Services {
-  List<Generate> listServices=[];
-  int index=0;
+  List<Generate> listServices = [];
+  int index = 0;
 
-  Services({this.listServices=const []});
+  Services({this.listServices = const []});
 
   List<String> getNames() {
-    List<String> names=[];
-    listServices.forEach((element) {names.add(element.name);});
+    List<String> names = [];
+    listServices.forEach((element) {
+      names.add(element.name);
+    });
     return names;
   }
+
   Generate currentService() {
     return listServices[index];
   }
-
-
 }
 
 class ServiceProvider {
-  static final _getIt=GetIt.I;
+  static final _getIt = GetIt.I;
+
   T get<T extends Object>() => _getIt.get<T>();
+
   //static final instance=ServiceProvider();
 
   void setup<T extends Object>(T service) {
@@ -36,5 +35,3 @@ class ServiceProvider {
     print('get it');
   }
 }
-
-

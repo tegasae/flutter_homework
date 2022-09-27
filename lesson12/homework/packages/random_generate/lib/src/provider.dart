@@ -6,8 +6,7 @@ import 'service_provider.dart';
 class Provider {
   late Services services;
   late ServiceProvider serviceProvider;
-  static final Provider _provider=Provider._internal();
-
+  static final Provider _provider = Provider._internal();
 
   Provider(this.services, this.serviceProvider) {
     serviceProvider.setup<Generate>(SequenceGenerate('sequence'));
@@ -15,12 +14,14 @@ class Provider {
   }
 
   Provider._internal() {
-    services=Services(listServices: [RandomGenerate('random'),SequenceGenerate('sequence')]);
-    serviceProvider=ServiceProvider();
+    services = Services(
+        listServices: [RandomGenerate('random'), SequenceGenerate('sequence')]);
+    serviceProvider = ServiceProvider();
 
     serviceProvider.setup<Generate>(services.currentService());
     serviceProvider.setup<Services>(services);
   }
+
   factory Provider.simple() {
     return _provider;
   }
@@ -28,5 +29,4 @@ class Provider {
   int countServices() {
     return services.listServices.length;
   }
-
 }

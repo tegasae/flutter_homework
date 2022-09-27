@@ -33,8 +33,8 @@ class _ListServicesState extends State<ListServices> {
             title: Text(Provider.simple().services.listServices[index].name),
             onTap: () {
               if (currentIndex != index) {
-
-                BlocProvider.of<GenerateBloc>(context).add(const GenerateChanning());
+                BlocProvider.of<GenerateBloc>(context)
+                    .add(const GenerateChanning());
                 currentIndex = index;
                 Provider.simple().services.index = index;
 

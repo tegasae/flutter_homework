@@ -9,14 +9,12 @@ class NameGenerator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     return BlocBuilder<GenerateBloc, GenerateState>(
       buildWhen: (previous, current) =>
-      current.runtimeType == GenerateStateStart,
+          current.runtimeType == GenerateStateStart,
       builder: (context, state) {
-
-        return Text(Provider.simple().services.currentService().name,style: Theme.of(context).textTheme.subtitle1);
+        return Text(Provider.simple().services.currentService().name,
+            style: Theme.of(context).textTheme.subtitle1);
       },
     );
   }
@@ -37,38 +35,55 @@ class Buttons extends StatelessWidget {
           }
 
           return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+            //crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              IconButton(
-                  onPressed: () {
-                    if (state is GenerateStateStart) {
-                      iconsRun = Icons.pause;
-                      context
-                          .read<GenerateBloc>()
-                          .add(GeneratePlaying(value: state.value));
-                      return;
-                    }
-                    if (state is GenerateStatePlay) {
-                      iconsRun = Icons.play_arrow;
-                      context.read<GenerateBloc>().add(const GeneratePausing());
-                      return;
-                    }
-                    if (state is GenerateStatePause) {
-                      iconsRun = Icons.pause;
-                      context
-                          .read<GenerateBloc>()
-                          .add(GeneratePlaying(value: state.value));
-                    }
-                  },
-                  icon: Icon(iconsRun,size: 70)),
-              IconButton(
-                  onPressed: state is GenerateStateStart
-                      ? null
-                      : () {
-                    context
-                        .read<GenerateBloc>()
-                        .add(const GenerateStopping());
-                  },
-                  icon: const Icon(Icons.stop, size: 70)),
+              Container(
+                alignment: Alignment.topCenter,
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+                child: IconButton(
+                    iconSize: 70,
+                    onPressed: () {
+                      if (state is GenerateStateStart) {
+                        iconsRun = Icons.pause;
+                        context
+                            .read<GenerateBloc>()
+                            .add(GeneratePlaying(value: state.value));
+                        return;
+                      }
+                      if (state is GenerateStatePlay) {
+                        iconsRun = Icons.play_arrow;
+                        context
+                            .read<GenerateBloc>()
+                            .add(const GeneratePausing());
+                        return;
+                      }
+                      if (state is GenerateStatePause) {
+                        iconsRun = Icons.pause;
+                        context
+                            .read<GenerateBloc>()
+                            .add(GeneratePlaying(value: state.value));
+                      }
+                    },
+                    icon: Icon(iconsRun)),
+              ),
+              Container(
+                alignment: Alignment.topCenter,
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+                child: IconButton(
+                    iconSize: 70,
+                    onPressed: state is GenerateStateStart
+                        ? null
+                        : () {
+                            context
+                                .read<GenerateBloc>()
+                                .add(const GenerateStopping());
+                          },
+                    icon: const Icon(Icons.stop)),
+              ),
             ],
           );
         });
@@ -78,18 +93,14 @@ class Buttons extends StatelessWidget {
 class RandomView extends StatelessWidget {
   const RandomView({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
-
     var state = context.select((GenerateBloc bloc) => bloc.state);
     //getValue(state);
 
     final value = state.value.value.toString();
-    return Text(value,style: Theme.of(context).textTheme.headline1);
+    return Text(value, style: Theme.of(context).textTheme.headline1);
   }
-
-
 }
 
 class Message extends StatelessWidget {
@@ -101,5 +112,3 @@ class Message extends StatelessWidget {
     return const Text('123');
   }
 }
-
-
