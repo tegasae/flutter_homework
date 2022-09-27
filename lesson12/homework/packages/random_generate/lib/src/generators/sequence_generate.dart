@@ -7,7 +7,7 @@ class SequenceGenerate extends Generate {
   int count = 0;
 
   SequenceGenerate(super.name);
-
+ 
   @override
   void init() {
     super.init();
