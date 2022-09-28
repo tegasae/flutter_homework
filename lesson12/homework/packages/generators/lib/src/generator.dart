@@ -3,7 +3,27 @@ import 'dart:async';
 import 'package:models/models.dart';
 
 
+class Services {
+  List<Generate> listServices = [];
+  int index = 0;
 
+  Services({this.listServices = const []});
+
+  List<String> getNames() {
+    List<String> names = [];
+    listServices.forEach((element) {
+      names.add(element.name);
+    });
+    return names;
+  }
+
+  int getLength() {
+    return listServices.length;
+  }
+  Generate currentService() {
+    return listServices[index];
+  }
+}
 
 
 abstract class Generate {

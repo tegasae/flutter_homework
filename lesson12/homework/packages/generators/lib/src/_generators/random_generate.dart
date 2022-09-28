@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:models/models.dart';
-import 'package:random_generate/src/generator.dart';
+
+import '../../generators.dart';
+
 
 class RandomGenerate extends Generate {
   Random random = Random();

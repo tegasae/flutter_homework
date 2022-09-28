@@ -1,13 +1,13 @@
 import 'package:models/models.dart';
 
-import '../../random_generate.dart';
+import '../../generators.dart';
 
 class SequenceGenerate extends Generate {
   final int maxCount = 15;
   int count = 0;
 
   SequenceGenerate(super.name);
- 
+
   @override
   void init() {
     super.init();

@@ -12,7 +12,7 @@ class EndDrawer extends StatefulWidget {
 class _EndDrawerState extends State<EndDrawer> {
   @override
   Widget build(BuildContext context) {
-    //String listServices = Provider.simple().services.getNames().toString();
+
     return Drawer(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

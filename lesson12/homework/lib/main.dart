@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:random_generate/random_generate.dart';
+import 'package:generators/generators.dart';
 
 import 'app.dart';
 
 void main() {
 
-  Provider.simple();
+  //Provider.simple();
   runApp(const MyApp());
 }
 

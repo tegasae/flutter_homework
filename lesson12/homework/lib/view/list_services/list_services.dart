@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:random_generate/random_generate.dart';
+import 'package:generators/generators.dart';
 
 import '../../bloc/generate_bloc.dart';
 
@@ -13,33 +13,42 @@ class ListServices extends StatefulWidget {
 
 class _ListServicesState extends State<ListServices> {
   late int currentIndex;
-
+  late Services services;
+  late Generate generate;
   @override
   void initState() {
     super.initState();
-    currentIndex = Provider.simple().services.index;
+    services=Provider.simple().serviceProvider.get<Services>();
+    generate=Provider.simple().serviceProvider.get<Generate>();
+    currentIndex = services.index;
+
   }
 
   @override
   Widget build(BuildContext context) {
+
     return ListView.builder(
-        itemCount: Provider.simple().countServices(),
+        itemCount: services.getLength(),
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
             leading: currentIndex == index
                 ? const Icon(Icons.check_box)
                 : const Icon(Icons.check_box_outline_blank),
             selected: true,
-            title: Text(Provider.simple().services.listServices[index].name),
+            title: Text(generate.name),
+
             onTap: () {
               if (currentIndex != index) {
                 BlocProvider.of<GenerateBloc>(context)
                     .add(const GenerateChanning());
                 currentIndex = index;
-                Provider.simple().services.index = index;
 
+                services.index=index;
+
+                Provider.simple().serviceProvider.setup<Generate>(services.currentService());
                 setState(() {
-                  print(Provider.simple().services.currentService().name);
+
+                  print(generate.name);
                 });
               }
               Navigator.of(context).pop();

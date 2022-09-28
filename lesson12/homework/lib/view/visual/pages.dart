@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:random_generate/random_generate.dart';
+import 'package:generators/generators.dart';
 
 import '../../bloc/generate_bloc.dart';
 
@@ -13,7 +13,7 @@ class NameGenerator extends StatelessWidget {
       buildWhen: (previous, current) =>
           current.runtimeType == GenerateStateStart,
       builder: (context, state) {
-        return Text(Provider.simple().services.currentService().name,
+        return Text(Provider.simple().serviceProvider.get<Generate>().name,
             style: Theme.of(context).textTheme.subtitle1);
       },
     );
@@ -41,8 +41,8 @@ class Buttons extends StatelessWidget {
             children: [
               Container(
                 alignment: Alignment.topCenter,
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+                //decoration:
+                //    BoxDecoration(border: Border.all(color: Colors.blueAccent)),
                 child: IconButton(
                     iconSize: 70,
                     onPressed: () {
@@ -71,8 +71,8 @@ class Buttons extends StatelessWidget {
               ),
               Container(
                 alignment: Alignment.topCenter,
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+                //decoration:
+                //    BoxDecoration(border: Border.all(color: Colors.blueAccent)),
                 child: IconButton(
                     iconSize: 70,
                     onPressed: state is GenerateStateStart
@@ -103,12 +103,3 @@ class RandomView extends StatelessWidget {
   }
 }
 
-class Message extends StatelessWidget {
-  const Message({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    print('123456789');
-    return const Text('123');
-  }
-}

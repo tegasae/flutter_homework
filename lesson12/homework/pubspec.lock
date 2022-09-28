@@ -172,6 +172,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  generators:
+    dependency: "direct main"
+    description:
+      path: "packages/generators"
+      relative: true
+    source: path
+    version: "0.0.0"
   get_it:
     dependency: "direct main"
     description:
@@ -284,13 +291,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.1"
-  random_generate:
-    dependency: "direct main"
-    description:
-      path: "packages/random_generate"
-      relative: true
-    source: path
-    version: "0.0.0"
   sky_engine:
     dependency: transitive
     description: flutter

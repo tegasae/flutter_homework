@@ -1,4 +1,4 @@
-name: random_generate
+name: generators
 publish_to: none
 
 environment:

@@ -4,26 +4,26 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:models/models.dart';
 
-import 'package:random_generate/random_generate.dart';
+import 'package:generators/generators.dart';
 
 part 'generate_event.dart';
 
 part 'generate_state.dart';
 
 class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
-  //static final _getIt=GetIt.I;
-  //T get<T extends Object>()=>_getIt.get<T>();
-  Generate _generate;
-
-  //late Generator _generate;
+  
+  late Generate _generate;
+  final Provider _provider;
+  
 
   StreamSubscription<ContainerData>? _generateSubscription;
-  late Stream<ContainerData> streamContainerData;
+  late Stream<ContainerData> _streamContainerData;
 
   GenerateBloc()
-      : _generate = Provider.simple().services.currentService(),
-        //:_generate=Provider.simple().services.listServices[1],
+      : 
+        _provider=Provider.simple(),
         super(const GenerateStateStart(ContainerData())) {
+    _generate=_provider.serviceProvider.get<Generate>();
     on<GeneratePlaying>(_onPlay);
     on<GeneratePausing>(_onPause);
     on<GenerateStopping>(_onStop);
@@ -42,9 +42,9 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
       print('start');
       //_generate.flag=true;
 
-      streamContainerData = _generate.getController();
+      _streamContainerData = _generate.getController();
 
-      _generateSubscription = streamContainerData.listen(
+      _generateSubscription = _streamContainerData.listen(
           (value) => add(GeneratePlaying(value: value)),
           onDone: () => add(const GenerateStopping()));
     }
@@ -71,7 +71,8 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
 
   void _onChange(GenerateChanning event, Emitter<GenerateState> emit) {
     _generateSubscription?.cancel();
-    _generate = Provider.simple().services.currentService();
+    //_generate = Provider.simple().services.currentService();
+    _generate = _provider.serviceProvider.get<Generate>();
 
     emit(const GenerateStateChange(ContainerData()));
     emit(const GenerateStateStart(ContainerData()));
