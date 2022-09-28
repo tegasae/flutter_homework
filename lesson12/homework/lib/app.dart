@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'view/home.dart';
+import 'package:homework/view/home.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
+  Widget build(BuildContext context) => MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
           // This is the theme of your application.
           //
           // Try running your application with "flutter run". You'll see the
@@ -22,19 +21,24 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
           textTheme: const TextTheme(
-            subtitle1: (TextStyle(
-                fontSize: 24,
-                color: Colors.black,
-                fontWeight: FontWeight.bold)),
-            headline1: (TextStyle(
-                fontSize: 100,
-                color: Colors.blueAccent,
-                fontWeight: FontWeight.normal,
-                fontFamily: 'digitalFont')),
+            subtitle1: TextStyle(
+              fontSize: 24,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+            headline1: TextStyle(
+              fontSize: 100,
+              color: Colors.blueAccent,
+              fontWeight: FontWeight.normal,
+              fontFamily: 'digitalFont',
+            ),
             button: TextStyle(
-                fontSize: 48, color: Colors.black, fontWeight: FontWeight.bold),
-          )),
-      home: const SafeArea(child: HomePage()),
-    );
-  }
+              fontSize: 48,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        home: const SafeArea(child: HomePage()),
+      );
 }

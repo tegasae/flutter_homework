@@ -1,10 +1,14 @@
 #include: package:lints/recommended.yaml
-include: package:pedantic/analysis_options.yaml
+#include: package:pedantic/analysis_options.yaml
+include: package:analysis_options/analysis_options.yaml
 analyzer:
   exclude: [build/**]
+
   language:
     strict-casts: true
     strict-raw-types: true
+
+
   strong-mode:
     implicit-casts: false
     implicit-dynamic: false
@@ -13,6 +17,7 @@ analyzer:
 
 linter:
   rules:
+  #public_member_api_docs: false
     - cancel_subscriptions
     - always_declare_return_types
     - close_sinks
@@ -22,6 +27,7 @@ linter:
     - package_api_docs
     - prefer_final_in_for_each
     - prefer_single_quotes
+    - always_use_package_imports
 
 
 dart_code_metrics:
@@ -42,4 +48,3 @@ dart_code_metrics:
     - prefer-trailing-comma
     - prefer-conditional-expressions
     - no-equal-then-else
-    -

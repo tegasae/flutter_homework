@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "49.0.0"
+  analysis_options:
+    dependency: "direct dev"
+    description:
+      name: analysis_options
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   analyzer:
     dependency: transitive
     description:

@@ -16,9 +16,9 @@ class GenerateStopping extends GenerateEvent {
 }
 
 class GeneratePlaying extends GenerateEvent {
-  final ContainerData value;
 
   const GeneratePlaying({required this.value});
+  final ContainerData value;
 
   @override
   List<Object> get props => [value];
