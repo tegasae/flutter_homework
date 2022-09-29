@@ -1,0 +1,13 @@
+name: rules
+description: analysis
+version: 0.0.1
+environment:
+  sdk: '>=2.18.1 <3.0.0'
+
+#dependencies:
+#  pedantic:
+
+dev_dependencies:
+  #analysis_options: any
+  #flutter_lints: ^2.0.0
+  pedantic:

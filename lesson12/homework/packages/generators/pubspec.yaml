@@ -8,4 +8,6 @@ dependencies:
   get_it:
   models:
     path: ../models
+  rules:
+    path: ../rules
 # flutter_bloc:

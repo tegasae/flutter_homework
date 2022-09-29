@@ -8,13 +8,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "49.0.0"
-  analysis_options:
-    dependency: "direct dev"
-    description:
-      name: analysis_options
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   analyzer:
     dependency: transitive
     description:
@@ -153,13 +146,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "8.1.1"
-  flutter_lints:
-    dependency: "direct dev"
-    description:
-      name: flutter_lints
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -207,13 +193,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.7.0"
-  lints:
-    dependency: transitive
-    description:
-      name: lints
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   logging:
     dependency: transitive
     description:
@@ -271,7 +250,7 @@ packages:
     source: hosted
     version: "1.8.2"
   pedantic:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: pedantic
       url: "https://pub.dartlang.org"
@@ -298,6 +277,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.1"
+  rules:
+    dependency: "direct dev"
+    description:
+      path: "packages/rules"
+      relative: true
+    source: path
+    version: "0.0.1"
   sky_engine:
     dependency: transitive
     description: flutter
