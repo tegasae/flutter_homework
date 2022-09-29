@@ -46,8 +46,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  rules:
-    path: ./packages/rules
+  #rules:
+  #  path: ./packages/rules
+  #lints1:
+  #  path: ./packages/lints1
   #pedantic:
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

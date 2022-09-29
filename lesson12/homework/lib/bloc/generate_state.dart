@@ -1,13 +1,13 @@
 part of 'generate_bloc.dart';
 
-enum _GenerateStatus { start, play, pause, change }
+enum GenerateStatus { start, play, pause, change }
 
 class GenerateState extends Equatable {
 
   const GenerateState(
-      {required this.value, this.status = _GenerateStatus.start,});
+      {required this.value, this.status = GenerateStatus.start,});
   final ContainerData value;
-  final _GenerateStatus status;
+  final GenerateStatus status;
 
 
 
@@ -21,15 +21,15 @@ class GenerateStateStart extends GenerateState {
 
 class GenerateStatePlay extends GenerateState {
   const GenerateStatePlay(ContainerData containerData)
-      : super(value: containerData, status: _GenerateStatus.play);
+      : super(value: containerData, status: GenerateStatus.play);
 }
 
 class GenerateStatePause extends GenerateState {
   const GenerateStatePause(ContainerData containerData)
-      : super(value: containerData, status: _GenerateStatus.pause);
+      : super(value: containerData, status: GenerateStatus.pause);
 }
 
 class GenerateStateChange extends GenerateState {
   const GenerateStateChange(ContainerData containerData)
-      : super(value: containerData, status: _GenerateStatus.change);
+      : super(value: containerData, status: GenerateStatus.change);
 }

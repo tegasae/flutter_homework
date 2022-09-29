@@ -1,2 +1,1 @@
-#include: package:lints/recommended.yaml
-#include: package:rules/options.yaml
+include: package:rules/options.yaml

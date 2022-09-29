@@ -15,7 +15,7 @@ class ServiceProvider {
     print('setup');
     if (_getIt.isRegistered<T>()) {
       _getIt.unregister<T>();
-    };
+    }
 
     //_getIt.registerLazySingleton<Generate>(() => SequenceGenerate('sequence'));
     print('123');

@@ -2,4 +2,4 @@
 #include: package:pedantic/options.yaml
 #include: package:analysis_options/options.yaml
 include: package:rules/options.yaml
-#include: package:lints1/core.yaml
+#include: package:lints1/recommended.yaml

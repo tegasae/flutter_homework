@@ -11,9 +11,9 @@ class Services {
 
   List<String> getNames() {
     List<String> names = [];
-    listServices.forEach((element) {
+    for (var element in listServices) {
       names.add(element.name);
-    });
+    }
     return names;
   }
 
