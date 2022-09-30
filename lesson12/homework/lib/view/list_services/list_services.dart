@@ -26,28 +26,27 @@ class _ListServicesState extends State<ListServices> {
 
   @override
   Widget build(BuildContext context) => ListView.builder(
-      itemCount: _services.getLength(),
-      itemBuilder: (context, index) => ListTile(
-            leading: _currentIndex == index
-                ? const Icon(Icons.check_box)
-                : const Icon(Icons.check_box_outline_blank),
-            selected: true,
-            title: Text(generate.name),
-            onTap: () {
-              if (_currentIndex != index) {
-                BlocProvider.of<GenerateBloc>(context)
-                    .add(const GenerateChanning());
-                _currentIndex = index;
+        itemCount: _services.getLength(),
+        itemBuilder: (context, index) => ListTile(
+          leading: _currentIndex == index
+              ? const Icon(Icons.check_box)
+              : const Icon(Icons.check_box_outline_blank),
+          selected: true,
+          title: Text(_services.listServices[index].name),
+          onTap: () {
+            if (_currentIndex != index) {
+              BlocProvider.of<GenerateBloc>(context)
+                  .add(const GenerateChanning());
+              _currentIndex = index;
 
-                _services.index = index;
+              _services.index = index;
 
-                Provider.simple()
-                    .serviceProvider
-                    .setup<Generate>(_services.currentService());
-
-              }
-              Navigator.of(context).pop();
-            },
-          ),);
-
+              Provider.simple()
+                  .serviceProvider
+                  .setup<Generate>(_services.currentService());
+            }
+            Navigator.of(context).pop();
+          },
+        ),
+      );
 }

@@ -10,4 +10,6 @@ environment:
 dev_dependencies:
   #analysis_options: any
   #flutter_lints: ^2.0.0
-  pedantic:
+  #pedantic:
+  dart_code_metrics:
+

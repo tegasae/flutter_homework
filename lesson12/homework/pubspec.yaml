@@ -46,11 +46,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  #rules:
-  #  path: ./packages/rules
-  #lints1:
-  #  path: ./packages/lints1
-  #pedantic:
+  rules:
+    path: ./packages/rules
+  dart_code_metrics:
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `options.yaml` file located at the root of your

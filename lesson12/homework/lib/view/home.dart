@@ -9,31 +9,29 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider(
-      create: (_) => GenerateBloc(),
-      child: Scaffold(
-        appBar: AppBar(title: const Text('Генерация чисел')),
-        body: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const SizedBox(
-                  //decoration: BoxDecoration(
-                  //    border: Border.all(color: Colors.blueAccent)),
+        create: (_) => GenerateBloc(),
+        child: Scaffold(
+          appBar: AppBar(title: const Text('Генерация чисел')),
+          body: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(
                   height: 50,
-                  child: NameGenerator(),),
-              const RandomView(),
-              Expanded(
+                  child: NameGenerator(),
+                ),
+                const RandomView(),
+                Expanded(
                   child: Container(
-                      alignment: Alignment.topCenter,
-                      //decoration: BoxDecoration(
-                      //    border: Border.all(color: Colors.blueAccent)),
-                      child: const Buttons(),),),
-              //Message()
-            ],
+                    alignment: Alignment.topCenter,
+                    child: const Buttons(),
+                  ),
+                ),
+              ],
+            ),
           ),
+          endDrawer: const EndDrawer(),
         ),
-        endDrawer: const EndDrawer(),
-      ),
-    );
+      );
 }

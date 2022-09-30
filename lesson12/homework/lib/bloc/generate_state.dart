@@ -3,13 +3,13 @@ part of 'generate_bloc.dart';
 enum GenerateStatus { start, play, pause, change }
 
 class GenerateState extends Equatable {
+  const GenerateState({
+    required this.value,
+    this.status = GenerateStatus.start,
+  });
 
-  const GenerateState(
-      {required this.value, this.status = GenerateStatus.start,});
   final ContainerData value;
   final GenerateStatus status;
-
-
 
   @override
   List<Object> get props => [value, status];

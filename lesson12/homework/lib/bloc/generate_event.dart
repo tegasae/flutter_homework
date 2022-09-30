@@ -16,8 +16,8 @@ class GenerateStopping extends GenerateEvent {
 }
 
 class GeneratePlaying extends GenerateEvent {
-
   const GeneratePlaying({required this.value});
+
   final ContainerData value;
 
   @override

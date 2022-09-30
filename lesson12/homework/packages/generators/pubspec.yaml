@@ -10,4 +10,5 @@ dependencies:
     path: ../models
   rules:
     path: ../rules
+  dart_code_metrics:
 # flutter_bloc:

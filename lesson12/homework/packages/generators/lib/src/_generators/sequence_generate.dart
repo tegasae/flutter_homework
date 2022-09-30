@@ -11,7 +11,7 @@ class SequenceGenerate extends Generate {
   @override
   void init() {
     super.init();
-    print('init');
+
     count = 0;
   }
 
@@ -21,6 +21,7 @@ class SequenceGenerate extends Generate {
       flag = false;
     }
     count += 1;
+
     return ContainerData(value: count);
   }
 }

@@ -1,13 +1,14 @@
-#include: package:lints/recommended.yaml
-#include: package:pedantic/options.yaml
-#include: package:analysis_options/options.yaml
+
 analyzer:
-  exclude: [build/**]
+  exclude:
+    - build/**
+  plugins:
+    - dart_code_metrics
 
   language:
     strict-casts: true
     strict-raw-types: true
-
+    strict-inference: true
 
   strong-mode:
     implicit-casts: false
@@ -15,8 +16,22 @@ analyzer:
 
 
 
+
 linter:
   rules:
+    - avoid_unnecessary_containers
+    - avoid_web_libraries_in_flutter
+    - no_logic_in_create_state
+    - prefer_const_constructors
+    - prefer_const_constructors_in_immutables
+    - prefer_const_declarations
+    - prefer_const_literals_to_create_immutables
+    - sized_box_for_whitespace
+    - sort_child_properties_last
+    - use_build_context_synchronously
+    - use_full_hex_values_for_flutter_colors
+    - use_key_in_widget_constructors
+    - avoid_print
     - avoid_empty_else
     - avoid_relative_lib_imports
     - avoid_shadowing_type_parameters
@@ -101,24 +116,43 @@ linter:
     - unnecessary_this
     - use_function_type_syntax_for_parameters
     - use_rethrow_when_possible
-
-
+    - cancel_subscriptions
+    - avoid_dynamic_calls
+    - avoid_returning_null_for_future
+    - always_declare_return_types
+    - avoid_redundant_argument_values
+    - avoid_returning_null
+    - cascade_invocations
+    - eol_at_end_of_file
+    - require_trailing_commas
+    - use_string_buffers
+    - use_raw_strings
+    - use_colored_box
 
 dart_code_metrics:
   anti-patterns:
     - long-method
     - long-parameter-list
+
   metrics:
     cyclomatic-complexity: 20
     maximum-nesting-level: 5
     number-of-parameters: 4
     source-lines-of-code: 50
+    number-of-methods: 5
   metrics-exclude:
     - test/**
+    - lib/src/*.freezed.dart
   rules:
     - newline-before-return
     - no-boolean-literal-compare
-    - no-empty-block
-    - prefer-trailing-comma
     - prefer-conditional-expressions
     - no-equal-then-else
+    - avoid-collection-methods-with-unrelated-types
+    - avoid-duplicate-exports
+    - avoid-dynamic
+      - lib/**.freezed.dart
+    - avoid-global-state
+    - always-remove-listener
+
+    #- prefer-trailing-comma

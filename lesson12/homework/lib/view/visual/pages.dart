@@ -50,11 +50,13 @@ class Buttons extends StatelessWidget {
                     context
                         .read<GenerateBloc>()
                         .add(GeneratePlaying(value: state.value));
+
                     return;
                   }
                   if (state is GenerateStatePlay) {
                     iconsRun = Icons.play_arrow;
                     context.read<GenerateBloc>().add(const GeneratePausing());
+
                     return;
                   }
                   if (state is GenerateStatePause) {
@@ -97,6 +99,7 @@ class RandomView extends StatelessWidget {
     //getValue(state);
 
     final value = state.value.value.toString();
+
     return Text(value, style: Theme.of(context).textTheme.headline1);
   }
 }

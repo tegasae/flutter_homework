@@ -8,26 +8,18 @@ class Provider {
   late ServiceProvider serviceProvider;
   static final Provider _provider = Provider._internal();
 
-  //Provider(this.services, this.serviceProvider) {
-  //  serviceProvider.setup<Generate>(SequenceGenerate('sequence'));
-  //  serviceProvider.setup<Services>(services);
-  //}
-
   Provider._internal() {
     _services = Services(
-        listServices: [RandomGenerate('random'), SequenceGenerate('sequence')]);
+      listServices: [RandomGenerate('Случайные числа'), SequenceGenerate('Последовательность')],
+    );
     serviceProvider = ServiceProvider();
 
-    serviceProvider.setup<Generate>(_services.currentService());
-    serviceProvider.setup<Services>(_services);
-
+    serviceProvider
+      ..setup<Generate>(_services.currentService())
+      ..setup<Services>(_services);
   }
 
   factory Provider.simple() {
-
     return _provider;
-
   }
-
-
 }

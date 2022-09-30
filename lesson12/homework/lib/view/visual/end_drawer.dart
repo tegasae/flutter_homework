@@ -12,11 +12,11 @@ class EndDrawer extends StatefulWidget {
 class _EndDrawerState extends State<EndDrawer> {
   @override
   Widget build(BuildContext context) => Drawer(
-      child: Column(
-        children: const [
-          DrawerHeader(child: Text('Выберите нужный генератор')),
-          Expanded(child: ListServices())
-        ],
-      ),
-    );
+        child: Column(
+          children: const [
+            DrawerHeader(child: Text('Выберите нужный генератор')),
+            Expanded(child: ListServices())
+          ],
+        ),
+      );
 }

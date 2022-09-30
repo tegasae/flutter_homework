@@ -6,24 +6,22 @@ import 'package:generators/generators.dart';
 import 'package:models/models.dart';
 
 part 'generate_event.dart';
+
 part 'generate_state.dart';
 
 class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
-
   GenerateBloc()
-      :
-        _provider=Provider.simple(),
+      : _provider = Provider.simple(),
         super(const GenerateStateStart(ContainerData())) {
-    _generate=_provider.serviceProvider.get<Generate>();
+    _generate = _provider.serviceProvider.get<Generate>();
     on<GeneratePlaying>(_onPlay);
     on<GeneratePausing>(_onPause);
     on<GenerateStopping>(_onStop);
     on<GenerateChanning>(_onChange);
   }
-  
+
   late Generate _generate;
   final Provider _provider;
-  
 
   StreamSubscription<ContainerData>? _generateSubscription;
   late Stream<ContainerData> _streamContainerData;
@@ -31,6 +29,7 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
   @override
   Future<void> close() {
     _generateSubscription?.cancel();
+
     return super.close();
   }
 
@@ -43,8 +42,9 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
       _streamContainerData = _generate.getController();
 
       _generateSubscription = _streamContainerData.listen(
-          (value) => add(GeneratePlaying(value: value)),
-          onDone: () => add(const GenerateStopping()),);
+        (value) => add(GeneratePlaying(value: value)),
+        onDone: () => add(const GenerateStopping()),
+      );
     }
 
     if (state is GenerateStatePause) {
