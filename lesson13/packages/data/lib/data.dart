@@ -43,6 +43,11 @@ class CatalogModel {
     // is also its id.
     return getById(position);
   }
+
+  //add method
+  void add(String name) {
+    itemNames.add(name);
+  }
 }
 
 @immutable
