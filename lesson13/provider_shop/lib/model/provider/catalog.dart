@@ -9,12 +9,10 @@ String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
     length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
 class CatalogModelNotifier extends ChangeNotifier {
-  late CatalogModel catalogModel;
+  CatalogModel catalogModel;
 
-  CatalogModelNotifier() {
-    catalogModel=CatalogModel();
 
-  }
+  CatalogModelNotifier(this.catalogModel);
 
   void add() {
 

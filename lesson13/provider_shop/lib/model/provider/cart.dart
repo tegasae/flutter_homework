@@ -8,10 +8,11 @@ import 'package:flutter/foundation.dart';
 
 
 class CartModelNotifier extends ChangeNotifier {
-  late CartModel cartModel;
-  CartModelNotifier() {
-    cartModel=CartModel();
-  }
+  CartModel cartModel;
+
+
+  CartModelNotifier(this.cartModel);
+
   bool inCart(Item item) {
     return cartModel.items.contains(item);
   }

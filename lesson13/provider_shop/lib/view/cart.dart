@@ -6,7 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:provider_shop/model/cart.dart';
+import 'package:provider_shop/model/provider/cart.dart';
 
 
 class MyCart extends StatelessWidget {

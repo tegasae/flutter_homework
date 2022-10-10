@@ -6,8 +6,8 @@
 import 'package:data/data.dart' show Item ;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:provider_shop/model/cart.dart';
-import 'package:provider_shop/model/catalog.dart';
+import 'package:provider_shop/model/provider/cart.dart';
+import 'package:provider_shop/model/provider/catalog.dart';
 
 
 class MyCatalog extends StatelessWidget {

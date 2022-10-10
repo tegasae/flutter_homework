@@ -1,8 +1,9 @@
 //import 'package:data/data.dart';
+import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:provider_shop/model/cart.dart';
-import 'package:provider_shop/model/catalog.dart';
+import 'package:provider_shop/model/provider/cart.dart';
+import 'package:provider_shop/model/provider/catalog.dart';
 
 import 'view/cart.dart';
 import 'view/catalog.dart';
@@ -18,9 +19,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
-      ChangeNotifierProvider(create: (context)=>CatalogModelNotifier()),
+      ChangeNotifierProvider(create: (context)=>CatalogModelNotifier(CatalogModel())),
       ChangeNotifierProxyProvider<CatalogModelNotifier, CartModelNotifier>(
-        create: (context) => CartModelNotifier(),
+        create: (context) => CartModelNotifier(CartModel()),
         update: (context, catalog, cart) {
           print('$catalog');
           if (cart == null) throw ArgumentError.notNull('cart');
