@@ -50,5 +50,9 @@ class CatalogModel {
     itemNames.insert(0, name);
     //itemNames.add(name);
   }
+
+  List<String> getList() {
+    return itemNames;
+  }
 }
 

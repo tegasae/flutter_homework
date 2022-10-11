@@ -56,7 +56,7 @@ class GenerateBloc extends Bloc<GenerateEvent, GenerateState> {
 
   void _onPause(GeneratePausing event, Emitter<GenerateState> emit) {
     if (state is GenerateStatePlay) {
-      _generateSubscription?.pause();
+       _generateSubscription?.pause();
       emit(GenerateStatePause(state.value));
     }
   }

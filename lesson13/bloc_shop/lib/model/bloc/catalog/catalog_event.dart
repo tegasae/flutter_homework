@@ -8,5 +8,5 @@ abstract class CatalogEvent extends Equatable {
 }
 
 class CatalogAdding extends CatalogEvent {
-  const CatalogAdding();
+
 }
