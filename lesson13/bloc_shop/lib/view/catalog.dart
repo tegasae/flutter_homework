@@ -17,12 +17,11 @@ class MyCatalog extends StatelessWidget {
         slivers: [
           _MyAppBar(),
           const SliverToBoxAdapter(child: SizedBox(height: 12)),
-          BlocBuilder<CatalogBloc,CatalogState>(
-            builder: (context,state)=>SliverList(
-                delegate: SliverChildBuilderDelegate(
-              (context, index) => _MyListItem(index),
-            )),
-          ),
+          SliverList(
+              delegate: SliverChildBuilderDelegate(
+            (context, index) => BlocBuilder<CatalogBloc, CatalogState>(
+                builder: (context, state) => _MyListItem(index)),
+          )),
         ],
       ),
     );
@@ -85,12 +84,12 @@ class _MyAppBar extends StatelessWidget {
       pinned: true,
       actions: [
         BlocBuilder<CatalogBloc, CatalogState>(
-          //buildWhen: (previous,current)=>previous.runtimeType!=current.runtimeType,
+          //buildWhen: (previous,current)=>current.runtimeType==CatalogSucsess,
           builder: (context, state) {
             return IconButton(
                 icon: const Icon(Icons.add),
                 onPressed: () {
-                  CatalogBloc catalogBloc=context.read<CatalogBloc>();
+                  CatalogBloc catalogBloc = context.read<CatalogBloc>();
                   catalogBloc.add(CatalogAdding());
                   //CatalogModelNotifier catalog=context.read<CatalogModelNotifier>();
                   //catalog.add();

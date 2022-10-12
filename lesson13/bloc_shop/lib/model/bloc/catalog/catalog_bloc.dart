@@ -28,6 +28,7 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
     print(state);
     //print(catalogModel.getList());
     catalogModel.add(getRandomString(10));
+    emit(CatalogInitial());
     emit(CatalogSucsess());
   }
 }
