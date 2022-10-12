@@ -10,3 +10,7 @@ abstract class CatalogEvent extends Equatable {
 class CatalogAdding extends CatalogEvent {
 
 }
+
+class CatalogViewing extends CatalogEvent {
+
+}

@@ -14,3 +14,7 @@ class CatalogInitial extends CatalogState {
 class CatalogSucsess extends CatalogState {
 
 }
+
+class CatalogAdd extends CatalogState {
+
+}

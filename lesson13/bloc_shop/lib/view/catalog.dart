@@ -20,7 +20,14 @@ class MyCatalog extends StatelessWidget {
           SliverList(
               delegate: SliverChildBuilderDelegate(
             (context, index) => BlocBuilder<CatalogBloc, CatalogState>(
-                builder: (context, state) => _MyListItem(index)),
+                builder: (context, state) {
+                  if (state is CatalogAdd) {
+                    print('state');
+                    CatalogBloc catalogBloc = context.read<CatalogBloc>();
+                    catalogBloc.add(CatalogViewing());
+                  }
+                  return _MyListItem(index);
+                }),
           )),
         ],
       ),
@@ -35,7 +42,7 @@ class _AddButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('add button');
+    //print('add button');
     // The context.select() method will let you listen to changes to
     // a *part* of a model. You define a function that "selects" (i.e. returns)
     // the part you're interested in, and the provider package will not rebuild
@@ -119,7 +126,7 @@ class _MyListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('item');
+    print('item1');
     CatalogModel catalog = RepositoryProvider.of<CatalogModel>(context);
     var item = catalog.getByPosition(index);
     //var item = context.select<CatalogModelNotifier, Item>(

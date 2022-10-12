@@ -21,14 +21,24 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
     print('-----');
     print(catalogModel.getList());
     on<CatalogAdding>(_onAdd);
+    on<CatalogViewing>(_onView);
   }
 
   void _onAdd(CatalogAdding event, Emitter<CatalogState> emit) {
-    print('adding 1');
+    print('_onAdd');
     print(state);
-    //print(catalogModel.getList());
+
+    print('adding');
     catalogModel.add(getRandomString(10));
-    emit(CatalogInitial());
+    emit(CatalogAdd());
+
+  }
+
+  void _onView(CatalogViewing event, Emitter<CatalogState> emit) {
+    print('_onView');
+    print(state);
+
     emit(CatalogSucsess());
+
   }
 }
