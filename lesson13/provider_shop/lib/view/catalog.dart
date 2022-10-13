@@ -6,6 +6,7 @@
 import 'package:data/data.dart' show CartModel, Item ;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:provider_shop/model/provider/cart.dart';
 
 import 'package:provider_shop/model/provider/catalog.dart';
 
@@ -44,10 +45,12 @@ class _AddButton extends StatelessWidget {
     // this widget unless that particular part of the model changes.
     //
     // This can lead to significant performance improvements.
-    var isInCart = context.select<CatalogModelNotifier, bool>(
+    var isInCart = context.select<CartModelNotifier, bool>(
       // Here, we are only interested whether [item] is inside the cart.
-          (catalog) => catalog.inCart(item),
+          (cart) => cart.inCart(item),
     );
+    //var catalog=context.watch<CatalogModelNotifier>();
+    //var isInCart=catalog.inCart(item);
     print('${item.name}');
     print('$isInCart');
 

@@ -28,7 +28,10 @@ class CartModelNotifier extends ChangeNotifier {
     cartModel.remove(cartModel.items[index]);
     notifyListeners();
   }
+  bool inCart(Item item) {
 
+    return cartModel.inCart(item);
+  }
   void removeAll() {
     //funny
     for (var i in cartModel.items) {
