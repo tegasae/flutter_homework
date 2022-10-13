@@ -5,13 +5,14 @@
 
 
 import '../data.dart';
-import 'catalog.dart';
-import 'item.dart';
+
 
 
 class CartModel {
   /// The private field backing [catalog].
   late CatalogModel catalog;
+
+  CartModel(this.catalog);
 
   /// Internal, private state of the cart. Stores the ids of each item.
   final List<int> _itemIds = [];

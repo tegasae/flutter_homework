@@ -3,6 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'item.dart';
@@ -33,6 +35,12 @@ class CatalogModel {
     'Currying',
   ];
 
+
+  static const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  final Random _rnd = Random();
+
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
   /// Get item by [id].
   ///
   /// In this sample, the catalog is infinite, looping over [itemNames].
@@ -53,6 +61,10 @@ class CatalogModel {
 
   List<String> getList() {
     return itemNames;
+  }
+
+  void addRandom() {
+    itemNames.insert(0, getRandomString(10));
   }
 }
 

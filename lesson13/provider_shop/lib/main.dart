@@ -18,17 +18,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final CatalogModel catalogModel = CatalogModel();
+    final CartModel cartModel = CartModel(catalogModel);
+    final catalogModelNotifier=CatalogModelNotifier(catalogModel,cartModel);
+    final cartModelNotifier=CartModelNotifier(cartModel);
     return MultiProvider(providers: [
-      ChangeNotifierProvider(create: (context)=>CatalogModelNotifier(CatalogModel())),
-      ChangeNotifierProxyProvider<CatalogModelNotifier, CartModelNotifier>(
-        create: (context) => CartModelNotifier(CartModel()),
-        update: (context, catalog, cart) {
-          print('$catalog');
-          if (cart == null) throw ArgumentError.notNull('cart');
-          cart.newCatalog(catalog.catalogModel);
-          return cart;
-        },
-      ),
+      ChangeNotifierProvider.value(value: catalogModelNotifier),
+      ChangeNotifierProvider.value(value: cartModelNotifier)
+
     ],
       child: MaterialApp(
         title: 'Provider Demo',

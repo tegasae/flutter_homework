@@ -3,10 +3,10 @@
 // found in the LICENSE file.
 
 
-import 'package:data/data.dart' show Item ;
+import 'package:data/data.dart' show CartModel, Item ;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:provider_shop/model/provider/cart.dart';
+
 import 'package:provider_shop/model/provider/catalog.dart';
 
 
@@ -23,6 +23,7 @@ class MyCatalog extends StatelessWidget {
           SliverList(
             delegate: SliverChildBuilderDelegate(
                     (context, index) => Consumer<CatalogModelNotifier>(builder:(context,catalog,child){print(index);return _MyListItem(index);}))),
+
         ],
       ),
     );
@@ -43,10 +44,12 @@ class _AddButton extends StatelessWidget {
     // this widget unless that particular part of the model changes.
     //
     // This can lead to significant performance improvements.
-    var isInCart = context.select<CartModelNotifier, bool>(
+    var isInCart = context.select<CatalogModelNotifier, bool>(
       // Here, we are only interested whether [item] is inside the cart.
-          (cart) => cart.cartModel.inCart(item),
+          (catalog) => catalog.inCart(item),
     );
+    print('${item.name}');
+    print('$isInCart');
 
     return TextButton(
       onPressed: isInCart
@@ -56,8 +59,8 @@ class _AddButton extends StatelessWidget {
         // We are using context.read() here because the callback
         // is executed whenever the user taps the button. In other
         // words, it is executed outside the build method.
-        var cart = context.read<CartModelNotifier>();
-        cart.add(item);
+        var catalog = context.read<CatalogModelNotifier>();
+        catalog.addCart(item);
 
       },
       style: ButtonStyle(
@@ -96,8 +99,8 @@ class _MyAppBar extends StatelessWidget {
           icon: const Icon(Icons.remove_shopping_cart),
           onPressed: () {
 
-            CartModelNotifier cartModelNotifier=context.read<CartModelNotifier>();
-            cartModelNotifier.removeAll();
+            CatalogModelNotifier catalogModelNotifier=context.read<CatalogModelNotifier>();
+            catalogModelNotifier.removeAllCart();
           },
         ),
       ],

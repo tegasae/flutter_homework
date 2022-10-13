@@ -17,13 +17,14 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
-  final CatalogModel catalogModel = CatalogModel();
-  final CartModel cartModel = CartModel();
+
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    cartModel.catalog = catalogModel;
+    final CatalogModel catalogModel = CatalogModel();
+    final CartModel cartModel = CartModel(catalogModel);
+
     return MultiRepositoryProvider(
       providers: [RepositoryProvider.value(value: cartModel)],
       child: MultiBlocProvider(

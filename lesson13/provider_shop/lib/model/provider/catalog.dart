@@ -1,22 +1,35 @@
 import 'package:data/data.dart';
 import 'package:flutter/cupertino.dart';
-import 'dart:math';
 
-const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-Random _rnd = Random();
 
-String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
-    length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
 class CatalogModelNotifier extends ChangeNotifier {
   CatalogModel catalogModel;
+  CartModel cartModel;
 
-
-  CatalogModelNotifier(this.catalogModel);
+  CatalogModelNotifier(this.catalogModel,this.cartModel);
 
   void add() {
 
-    catalogModel.add(getRandomString(10));
+    catalogModel.addRandom();
     notifyListeners();
+  }
+
+  bool inCart(Item item) {
+
+    return cartModel.inCart(item);
+  }
+
+  void addCart(Item item) {
+    cartModel.add(item);
+    print(cartModel.items);
+    notifyListeners();
+  }
+
+  void removeAllCart() {
+    cartModel.removeAll();
+    notifyListeners();
+
+
   }
 }
