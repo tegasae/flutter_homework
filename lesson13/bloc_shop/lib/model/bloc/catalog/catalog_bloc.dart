@@ -17,7 +17,7 @@ String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
 class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
 
   late CatalogModel catalogModel;
-  CatalogBloc(this.catalogModel) : super(CatalogInitial()) {
+  CatalogBloc(this.catalogModel) : super(CatalogInitial(catalogModel)) {
     print('-----');
     print(catalogModel.getList());
     on<CatalogAdding>(_onAdd);
@@ -30,7 +30,7 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
 
     print('adding');
     catalogModel.add(getRandomString(10));
-    emit(CatalogAdd());
+    emit(CatalogAdd(catalogModel));
 
   }
 
@@ -38,7 +38,7 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
     print('_onView');
     print(state);
 
-    emit(CatalogSucsess());
+    emit(CatalogSucsess(catalogModel));
 
   }
 }

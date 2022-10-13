@@ -2,8 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:bloc_shop/model/bloc/cart/cart_bloc.dart';
 import 'package:bloc_shop/model/bloc/catalog/catalog_bloc.dart';
-import 'package:data/data.dart' show CatalogModel, Item;
+import 'package:data/data.dart' show Item;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -49,11 +50,16 @@ class _AddButton extends StatelessWidget {
     // this widget unless that particular part of the model changes.
     //
     // This can lead to significant performance improvements.
+    //CartModel cart=RepositoryProvider.of<CartModel>(context);
+    //var isInCart=context.select(() => )
     //var isInCart = context.select<CartModelNotifier, bool>(
     //  // Here, we are only interested whether [item] is inside the cart.
     //      (cart) => cart.inCart(item),
     //);
-    var isInCart = true;
+    //var isInCart = true;
+    final state=context.select((CartBloc bloc) => bloc.state);
+    final isInCart=state.cartModel.inCart(item);
+
 
     return TextButton(
       onPressed: isInCart
@@ -64,7 +70,14 @@ class _AddButton extends StatelessWidget {
               // is executed whenever the user taps the button. In other
               // words, it is executed outside the build method.
               //var cart = context.read<CartModelNotifier>();
+
+
+              CartBloc bloc=context.read<CartBloc>();
+              bloc.add(CartAdding(item));
+              CatalogBloc catalogBloc=context.read<CatalogBloc>();
+              catalogBloc.emit(CatalogAdd(catalogBloc.catalogModel));
               //cart.add(item);
+            //var cart;
             },
       style: ButtonStyle(
         overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
@@ -110,6 +123,7 @@ class _MyAppBar extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.remove_shopping_cart),
           onPressed: () {
+
             //CartModelNotifier cartModelNotifier=context.read<CartModelNotifier>();
             //cartModelNotifier.removeAll();
           },
@@ -126,9 +140,12 @@ class _MyListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('item1');
-    CatalogModel catalog = RepositoryProvider.of<CatalogModel>(context);
-    var item = catalog.getByPosition(index);
+
+    //var item = RepositoryProvider.of<CatalogModel>(context).getByPosition(index);
+    final state=context.select((CatalogBloc bloc) => bloc.state);
+    final item=state.catalogModel.getByPosition(index);
+    print(state);
+    //print('${item.name}');
     //var item = context.select<CatalogModelNotifier, Item>(
     //  // Here, we are only interested in the item at [index]. We don't care
     //  // about any other change.

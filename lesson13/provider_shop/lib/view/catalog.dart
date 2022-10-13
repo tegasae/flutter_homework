@@ -45,7 +45,7 @@ class _AddButton extends StatelessWidget {
     // This can lead to significant performance improvements.
     var isInCart = context.select<CartModelNotifier, bool>(
       // Here, we are only interested whether [item] is inside the cart.
-          (cart) => cart.inCart(item),
+          (cart) => cart.cartModel.inCart(item),
     );
 
     return TextButton(
@@ -116,7 +116,7 @@ class _MyListItem extends StatelessWidget {
     var item = context.select<CatalogModelNotifier, Item>(
       // Here, we are only interested in the item at [index]. We don't care
       // about any other change.
-          (catalog) => catalog.catalogModel.getByPosition(index),
+          (catalog) => catalog.catalogModel.getByPosition(index)
     );
     var textTheme = Theme.of(context).textTheme.titleLarge;
 

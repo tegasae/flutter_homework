@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'view/catalog.dart';
 
-
 //import 'view/cart.dart';
 //import 'view/catalog.dart';
 
@@ -19,23 +18,20 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
 
   final CatalogModel catalogModel = CatalogModel();
-  final CartModel cartModel=CartModel();
-  
+  final CartModel cartModel = CartModel();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    cartModel.catalog=catalogModel;
-    return RepositoryProvider.value(
-
-      value: catalogModel,
+    cartModel.catalog = catalogModel;
+    return MultiRepositoryProvider(
+      providers: [RepositoryProvider.value(value: cartModel)],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
             create: (context) => CatalogBloc(catalogModel),
           ),
-          BlocProvider(create: (context)=>CartBloc(cartModel))
-
+          BlocProvider(create: (context) => CartBloc(cartModel))
         ],
         child: MaterialApp(
           title: 'Provider Demo',
@@ -52,8 +48,7 @@ class MyApp extends StatelessWidget {
           ),
           initialRoute: '/',
           routes: {
-
-              '/': (context) => const MyCatalog(),
+            '/': (context) => const MyCatalog(),
             //  '/cart': (context) => const MyCart(),
           },
         ),
@@ -61,4 +56,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

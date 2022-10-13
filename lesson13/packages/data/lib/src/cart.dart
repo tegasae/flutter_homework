@@ -35,6 +35,9 @@ class CartModel {
     // depend on it.
 
   }
+  bool inCart(Item item) {
+    return items.contains(item);
+  }
 
   void remove(Item item) {
     _itemIds.remove(item.id);

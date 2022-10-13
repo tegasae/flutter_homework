@@ -4,6 +4,7 @@ import 'package:generators/generators.dart';
 
 import 'package:homework/bloc/generate_bloc.dart';
 
+
 class NameGenerator extends StatelessWidget {
   const NameGenerator({Key? key}) : super(key: key);
 

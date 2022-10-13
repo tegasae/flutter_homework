@@ -13,9 +13,7 @@ class CartModelNotifier extends ChangeNotifier {
 
   CartModelNotifier(this.cartModel);
 
-  bool inCart(Item item) {
-    return cartModel.items.contains(item);
-  }
+
   void newCatalog(CatalogModel catalog) {
     cartModel.catalog=catalog;
     notifyListeners();
