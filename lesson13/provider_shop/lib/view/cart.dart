@@ -46,8 +46,9 @@ class _CartList extends StatelessWidget {
     // This gets the current state of CartModel and also tells Flutter
     // to rebuild this widget when CartModel notifies listeners (in other words,
     // when it changes).
+    //provider
     var cart = context.watch<CartModelNotifier>();
-    print(cart.cartModel.items[0]);
+
     return ListView.builder(
       itemCount: cart.cartModel.items.length,
       itemBuilder: (context, index) => ListTile(

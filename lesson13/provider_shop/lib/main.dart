@@ -20,8 +20,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final CatalogModel catalogModel = CatalogModel();
     final CartModel cartModel = CartModel(catalogModel);
-    final catalogModelNotifier=CatalogModelNotifier(catalogModel,cartModel);
+    final catalogModelNotifier=CatalogModelNotifier(catalogModel);
     final cartModelNotifier=CartModelNotifier(cartModel);
+
+    //provider
     return MultiProvider(providers: [
       ChangeNotifierProvider.value(value: catalogModelNotifier),
       ChangeNotifierProvider.value(value: cartModelNotifier)

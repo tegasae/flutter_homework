@@ -21,10 +21,11 @@ class MyCatalog extends StatelessWidget {
         slivers: [
           _MyAppBar(),
           const SliverToBoxAdapter(child: SizedBox(height: 12)),
+          //provider
           SliverList(
             delegate: SliverChildBuilderDelegate(
                     (context, index) => Consumer<CatalogModelNotifier>(builder:(context,catalog,child){print(index);return _MyListItem(index);}))),
-                    //(context, index) =>  _MyListItem(index))),
+
 
         ],
       ),
@@ -46,6 +47,8 @@ class _AddButton extends StatelessWidget {
     // this widget unless that particular part of the model changes.
     //
     // This can lead to significant performance improvements.
+
+    //provider
     var isInCart = context.select<CartModelNotifier, bool>(
       // Here, we are only interested whether [item] is inside the cart.
           (cart) => cart.inCart(item),
@@ -65,6 +68,7 @@ class _AddButton extends StatelessWidget {
         // words, it is executed outside the build method.
         //var catalog = context.read<CatalogModelNotifier>();
         //catalog.addCart(item);
+        //provider
         var cart = context.read<CartModelNotifier>();
         cart.add(item);
 
@@ -93,20 +97,23 @@ class _MyAppBar extends StatelessWidget {
       floating: true,
       pinned: true,
       actions: [
+        //provider
         IconButton(icon: const Icon(Icons.add),onPressed: (){
           CatalogModelNotifier catalog=context.read<CatalogModelNotifier>();
           catalog.add();
         }),
+        //provider
         IconButton(
         icon: const Icon(Icons.shopping_cart),
         onPressed: () => Navigator.pushNamed(context, '/cart'),
       ),
+        //provider
         IconButton(
           icon: const Icon(Icons.remove_shopping_cart),
           onPressed: () {
 
-            CatalogModelNotifier catalogModelNotifier=context.read<CatalogModelNotifier>();
-            catalogModelNotifier.removeAllCart();
+            CartModelNotifier cartModelNotifier=context.read<CartModelNotifier>();
+            cartModelNotifier.removeAll();
           },
         ),
       ],
@@ -122,6 +129,7 @@ class _MyListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('item');
+    //provider
     var item = context.select<CatalogModelNotifier, Item>(
       // Here, we are only interested in the item at [index]. We don't care
       // about any other change.
