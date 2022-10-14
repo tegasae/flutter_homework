@@ -18,6 +18,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     state.cartModel.add(event.item);
     print(cartModel.items);
     emit(CartChange(cartModel));
+    emit(CartSuccess(cartModel));
 
   }
 

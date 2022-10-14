@@ -20,13 +20,13 @@ class MyCatalog extends StatelessWidget {
           const SliverToBoxAdapter(child: SizedBox(height: 12)),
           SliverList(
               delegate: SliverChildBuilderDelegate(
-            (context, index) => BlocBuilder<CatalogBloc, CatalogState>(
+            (context, index) => BlocBuilder<CartBloc, CartState>(
                 builder: (context, state) {
-                  if (state is CatalogAdd) {
-                    print('state');
-                    CatalogBloc catalogBloc = context.read<CatalogBloc>();
-                    catalogBloc.add(CatalogViewing());
-                  }
+                  //if (state is CatalogAdd) {
+                  //  print('state');
+                  //  CatalogBloc catalogBloc = context.read<CatalogBloc>();
+                  //  catalogBloc.add(CatalogViewing());
+                  //}
                   return _MyListItem(index);
                 }),
           )),
@@ -61,6 +61,7 @@ class _AddButton extends StatelessWidget {
     final isInCart=state.cartModel.inCart(item);
 
 
+
     return TextButton(
       onPressed: isInCart
           ? null
@@ -72,11 +73,13 @@ class _AddButton extends StatelessWidget {
               //var cart = context.read<CartModelNotifier>();
 
 
-              CartBloc bloc=context.read<CartBloc>();
-              bloc.add(CartAdding(item));
-              CatalogBloc catalogBloc=context.read<CatalogBloc>();
-              catalogBloc.emit(CatalogAdd(catalogBloc.catalogModel));
+              //CartBloc bloc=context.read<CartBloc>();
+              //bloc.add(CartAdding(item));
+              //CatalogBloc catalogBloc=context.read<CatalogBloc>();
+              //catalogBloc.emit(CatalogAdd(catalogBloc.catalogModel));
               //cart.add(item);
+              var cart = context.read<CartBloc>();
+              cart.add(CartAdding(item));
             //var cart;
             },
       style: ButtonStyle(

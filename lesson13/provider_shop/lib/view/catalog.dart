@@ -51,7 +51,7 @@ class _AddButton extends StatelessWidget {
     //provider
     var isInCart = context.select<CartModelNotifier, bool>(
       // Here, we are only interested whether [item] is inside the cart.
-          (cart) => cart.inCart(item),
+          (cart) => cart.cartModel.inCart(item),
     );
     //var catalog=context.watch<CatalogModelNotifier>();
     //var isInCart=catalog.inCart(item);
