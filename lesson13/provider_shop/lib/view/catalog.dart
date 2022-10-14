@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 
-import 'package:data/data.dart' show CartModel, Item ;
+import 'package:data/data.dart' show Item ;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_shop/model/provider/cart.dart';
@@ -24,6 +24,7 @@ class MyCatalog extends StatelessWidget {
           SliverList(
             delegate: SliverChildBuilderDelegate(
                     (context, index) => Consumer<CatalogModelNotifier>(builder:(context,catalog,child){print(index);return _MyListItem(index);}))),
+                    //(context, index) =>  _MyListItem(index))),
 
         ],
       ),
@@ -62,8 +63,10 @@ class _AddButton extends StatelessWidget {
         // We are using context.read() here because the callback
         // is executed whenever the user taps the button. In other
         // words, it is executed outside the build method.
-        var catalog = context.read<CatalogModelNotifier>();
-        catalog.addCart(item);
+        //var catalog = context.read<CatalogModelNotifier>();
+        //catalog.addCart(item);
+        var cart = context.read<CartModelNotifier>();
+        cart.add(item);
 
       },
       style: ButtonStyle(
