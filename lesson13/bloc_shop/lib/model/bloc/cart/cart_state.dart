@@ -9,8 +9,6 @@ abstract class CartState extends Equatable {
 
 class CartInitial extends CartState {
   const CartInitial(super.cartModel);
-
-
 }
 
 class CartSuccess extends CartState {
@@ -20,7 +18,6 @@ class CartSuccess extends CartState {
 
 class CartChange extends CartState {
   const CartChange(super.cartModel);
-
 }
 
 

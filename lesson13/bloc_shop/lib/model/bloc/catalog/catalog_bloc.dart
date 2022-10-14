@@ -1,5 +1,5 @@
 
-import 'dart:math';
+
 
 import 'package:bloc/bloc.dart';
 import 'package:data/data.dart';
@@ -7,12 +7,6 @@ import 'package:equatable/equatable.dart';
 
 part 'catalog_event.dart';
 part 'catalog_state.dart';
-
-const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-Random _rnd = Random();
-
-String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
-    length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
 class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
 
@@ -29,9 +23,8 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
     print(state);
 
     print('adding');
-    catalogModel.add(getRandomString(10));
+    catalogModel.addRandom();
     emit(CatalogAdd(catalogModel));
-
   }
 
   void _onView(CatalogViewing event, Emitter<CatalogState> emit) {

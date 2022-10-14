@@ -23,7 +23,3 @@ class CatalogAdd extends CatalogState {
 
 }
 
-class CatalogAddCart extends CatalogState {
-  const CatalogAddCart(super.catalogModel);
-
-}
