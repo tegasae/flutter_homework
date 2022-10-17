@@ -20,16 +20,24 @@ class MyCatalog extends StatelessWidget {
           const SliverToBoxAdapter(child: SizedBox(height: 12)),
           SliverList(
               delegate: SliverChildBuilderDelegate(
-            (context, index) => BlocBuilder<CartBloc, CartState>(
-                builder: (context, state) {
+            (context, index) =>
                   //if (state is CatalogAdd) {
                   //  print('state');
                   //  CatalogBloc catalogBloc = context.read<CatalogBloc>();
                   //  catalogBloc.add(CatalogViewing());
                   //}
-                  return _MyListItem(index);
-                }),
+                   BlocConsumer<CatalogBloc, CatalogState>(
+  listener: (context, state) {
+    print('= = $state');
+  },
+  builder: (context, state) {
+    print(' = = = $state');
+    return _MyListItem(index);
+  },
+)
+                ,
           )),
+
         ],
       ),
     );

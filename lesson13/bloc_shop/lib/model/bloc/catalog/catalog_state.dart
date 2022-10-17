@@ -20,6 +20,7 @@ class CatalogSucsess extends CatalogState {
 
 class CatalogAdd extends CatalogState {
   const CatalogAdd(super.catalogModel);
-
+  @override
+  List<Object> get props => [catalogModel];
 }
 

@@ -15,7 +15,7 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
     print('-----');
     print(catalogModel.getList());
     on<CatalogAdding>(_onAdd);
-    on<CatalogViewing>(_onView);
+    //on<CatalogViewing>(_onView);
   }
 
   void _onAdd(CatalogAdding event, Emitter<CatalogState> emit) {
@@ -23,15 +23,19 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
     print(state);
 
     print('adding');
+    //CatalogModel c=CatalogModel();
+    //c.addRandom();
     catalogModel.addRandom();
-    emit(CatalogAdd(catalogModel));
+    CatalogModel c=catalogModel;
+    print(catalogModel.getList().length);
+    emit(CatalogAdd(c));
   }
 
-  void _onView(CatalogViewing event, Emitter<CatalogState> emit) {
-    print('_onView');
-    print(state);
+  //void _onView(CatalogViewing event, Emitter<CatalogState> emit) {
+  //  print('_onView');
+  //  print(state);
+  //
+  //  emit(CatalogSucsess(catalogModel));
 
-    emit(CatalogSucsess(catalogModel));
-
-  }
+ // }
 }

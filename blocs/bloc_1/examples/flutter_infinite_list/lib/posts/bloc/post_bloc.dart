@@ -34,6 +34,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     PostFetched event,
     Emitter<PostState> emit,
   ) async {
+    print('$state');
     if (state.hasReachedMax) return;
     try {
       if (state.status == PostStatus.initial) {
