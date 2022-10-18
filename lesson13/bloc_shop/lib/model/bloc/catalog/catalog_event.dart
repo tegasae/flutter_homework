@@ -11,6 +11,3 @@ class CatalogAdding extends CatalogEvent {
 
 }
 
-class CatalogViewing extends CatalogEvent {
-
-}

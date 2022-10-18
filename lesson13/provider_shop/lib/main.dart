@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
     final CartModel cartModel = CartModel(catalogModel);
 
     //provider
-    final catalogModelNotifier=CatalogModelNotifier(catalogModel);
-    final cartModelNotifier=CartModelNotifier(cartModel);
+    //final catalogModelNotifier=CatalogModelNotifier(catalogModel);
+    //final cartModelNotifier=CartModelNotifier(cartModel);
 
     //provider
     return MultiProvider(providers: [

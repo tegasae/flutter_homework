@@ -24,7 +24,7 @@ class MyCatalog extends StatelessWidget {
           //provider
           SliverList(
             delegate: SliverChildBuilderDelegate(
-                    (context, index) => Consumer<CatalogModelNotifier>(builder:(context,catalog,child){print(index);return _MyListItem(index);}))),
+                    (context, index) => Consumer<CatalogModelNotifier>(builder:(context,catalog,child){print(index);print(catalog.hashCode);return _MyListItem(index);}))),
 
 
         ],

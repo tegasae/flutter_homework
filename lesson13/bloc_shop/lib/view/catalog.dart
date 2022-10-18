@@ -21,23 +21,15 @@ class MyCatalog extends StatelessWidget {
           SliverList(
               delegate: SliverChildBuilderDelegate(
             (context, index) =>
-                  //if (state is CatalogAdd) {
-                  //  print('state');
-                  //  CatalogBloc catalogBloc = context.read<CatalogBloc>();
-                  //  catalogBloc.add(CatalogViewing());
-                  //}
-                   BlocConsumer<CatalogBloc, CatalogState>(
-  listener: (context, state) {
-    print('= = $state');
-  },
-  builder: (context, state) {
-    print(' = = = $state');
-    return _MyListItem(index);
-  },
-)
-                ,
-          )),
 
+                BlocBuilder<CatalogBloc, CatalogState>(
+              buildWhen: (prev,current) =>prev!=current,
+              builder: (context, state) {
+                print(' = = = $state');
+                return _MyListItem(index);
+              },
+            ),
+          )),
         ],
       ),
     );
@@ -65,10 +57,8 @@ class _AddButton extends StatelessWidget {
     //      (cart) => cart.inCart(item),
     //);
     //var isInCart = true;
-    final state=context.select((CartBloc bloc) => bloc.state);
-    final isInCart=state.cartModel.inCart(item);
-
-
+    final state = context.select((CartBloc bloc) => bloc.state);
+    final isInCart = state.cartModel.inCart(item);
 
     return TextButton(
       onPressed: isInCart
@@ -80,7 +70,6 @@ class _AddButton extends StatelessWidget {
               // words, it is executed outside the build method.
               //var cart = context.read<CartModelNotifier>();
 
-
               //CartBloc bloc=context.read<CartBloc>();
               //bloc.add(CartAdding(item));
               //CatalogBloc catalogBloc=context.read<CatalogBloc>();
@@ -88,7 +77,7 @@ class _AddButton extends StatelessWidget {
               //cart.add(item);
               var cart = context.read<CartBloc>();
               cart.add(CartAdding(item));
-            //var cart;
+              //var cart;
             },
       style: ButtonStyle(
         overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
@@ -134,9 +123,10 @@ class _MyAppBar extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.remove_shopping_cart),
           onPressed: () {
-
             //CartModelNotifier cartModelNotifier=context.read<CartModelNotifier>();
             //cartModelNotifier.removeAll();
+            var cart = context.read<CartBloc>();
+            cart.add(CartClearing());
           },
         ),
       ],
@@ -151,10 +141,9 @@ class _MyListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     //var item = RepositoryProvider.of<CatalogModel>(context).getByPosition(index);
-    final state=context.select((CatalogBloc bloc) => bloc.state);
-    final item=state.catalogModel.getByPosition(index);
+    final state = context.select((CatalogBloc bloc) => bloc.state);
+    final item = state.catalogModel.getByPosition(index);
     print(state);
     //print('${item.name}');
     //var item = context.select<CatalogModelNotifier, Item>(

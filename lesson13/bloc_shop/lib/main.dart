@@ -5,6 +5,7 @@ import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'view/cart.dart';
 import 'view/catalog.dart';
 
 //import 'view/cart.dart';
@@ -25,34 +26,31 @@ class MyApp extends StatelessWidget {
     final CatalogModel catalogModel = CatalogModel();
     final CartModel cartModel = CartModel(catalogModel);
 
-    return MultiRepositoryProvider(
-      providers: [RepositoryProvider.value(value: cartModel)],
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => CatalogBloc(catalogModel),
-          ),
-          BlocProvider(create: (context) => CartBloc(cartModel))
-        ],
-        child: MaterialApp(
-          title: 'Provider Demo',
-          theme: ThemeData(
-            primarySwatch: Colors.yellow,
-            textTheme: const TextTheme(
-              displayLarge: TextStyle(
-                //fontFamily: 'Corben',
-                fontWeight: FontWeight.w700,
-                fontSize: 24,
-                color: Colors.black,
-              ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => CatalogBloc(catalogModel),
+        ),
+        BlocProvider(create: (context) => CartBloc(cartModel))
+      ],
+      child: MaterialApp(
+        title: 'Provider Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.yellow,
+          textTheme: const TextTheme(
+            displayLarge: TextStyle(
+              //fontFamily: 'Corben',
+              fontWeight: FontWeight.w700,
+              fontSize: 24,
+              color: Colors.black,
             ),
           ),
-          initialRoute: '/',
-          routes: {
-            '/': (context) => const MyCatalog(),
-            //  '/cart': (context) => const MyCart(),
-          },
         ),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const MyCatalog(),
+            '/cart': (context) => const MyCart(),
+        },
       ),
     );
   }
