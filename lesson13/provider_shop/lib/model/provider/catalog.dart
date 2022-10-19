@@ -12,6 +12,7 @@ class CatalogModelNotifier extends ChangeNotifier {
   void add() {
 
     catalogModel.addRandom();
+    print(catalogModel.getList());
     notifyListeners();
   }
 

@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:provider_shop/main.dart';
 
 import 'package:provider_shop/model/provider/cart.dart';
 
@@ -48,6 +49,7 @@ class _CartList extends StatelessWidget {
     // when it changes).
     //provider
     var cart = context.watch<CartModelNotifier>();
+    print('${cart.cartModel.items}');
 
     return ListView.builder(
       itemCount: cart.cartModel.items.length,
@@ -56,11 +58,13 @@ class _CartList extends StatelessWidget {
         trailing: IconButton(
           icon: const Icon(Icons.remove_circle_outline),
           onPressed: () {
+
             cart.remove(index);
+            commonProvider.cartRemove(index);
           },
         ),
         title: Text(
-          cart.cartModel.items[index].name,
+          commonProvider.getItemIndex(index).name,
           style: itemNameStyle,
         ),
       ),
@@ -88,7 +92,8 @@ class _CartTotal extends StatelessWidget {
             // the rest of the widgets in this build method.
             Consumer<CartModelNotifier>(
                 builder: (context, cart, child) =>
-                    Text('\$${cart.cartModel.totalPrice}', style: hugeStyle)),
+                    //Text('\$${cart.cartModel.totalPrice}', style: hugeStyle)),
+                    Text('\$${commonProvider.getPrice()}', style: hugeStyle)),
             const SizedBox(width: 24),
             TextButton(
               onPressed: () {

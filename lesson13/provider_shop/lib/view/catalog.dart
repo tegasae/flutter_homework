@@ -6,6 +6,7 @@
 import 'package:data/data.dart' show Item ;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:provider_shop/main.dart';
 import 'package:provider_shop/model/provider/cart.dart';
 
 import 'package:provider_shop/model/provider/catalog.dart';
@@ -24,9 +25,9 @@ class MyCatalog extends StatelessWidget {
           //provider
           SliverList(
             delegate: SliverChildBuilderDelegate(
-                    (context, index) => Consumer<CatalogModelNotifier>(builder:(context,catalog,child){print(index);print(catalog.hashCode);return _MyListItem(index);}))),
-
-
+                    //(context, index) => Consumer<CatalogModelNotifier>(builder:(context,catalog,child){print(index);print('child=$child');return _MyListItem(index);}))),
+                    //(context, index) => commonProvider.generateItem(context, _MyListItem(index)))),
+                    (context, index) => commonProvider.generateItem(context, _MyListItem(index), index))),
         ],
       ),
     );
@@ -40,7 +41,7 @@ class _AddButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('add button');
+    print('add button1');
     // The context.select() method will let you listen to changes to
     // a *part* of a model. You define a function that "selects" (i.e. returns)
     // the part you're interested in, and the provider package will not rebuild
@@ -49,10 +50,11 @@ class _AddButton extends StatelessWidget {
     // This can lead to significant performance improvements.
 
     //provider
-    var isInCart = context.select<CartModelNotifier, bool>(
-      // Here, we are only interested whether [item] is inside the cart.
-          (cart) => cart.cartModel.inCart(item),
-    );
+    //var isInCart = context.select<CartModelNotifier, bool>(
+    //  // Here, we are only interested whether [item] is inside the cart.
+    //      (cart) => cart.cartModel.inCart(item),
+    //);
+    var isInCart=commonProvider.isInCart(item, context);
     //var catalog=context.watch<CatalogModelNotifier>();
     //var isInCart=catalog.inCart(item);
     print('${item.name}');
@@ -69,8 +71,9 @@ class _AddButton extends StatelessWidget {
         //var catalog = context.read<CatalogModelNotifier>();
         //catalog.addCart(item);
         //provider
-        var cart = context.read<CartModelNotifier>();
-        cart.add(item);
+        //var cart = context.read<CartModelNotifier>();
+        //cart.add(item);
+        commonProvider.cartAdd(item, context);
 
       },
       style: ButtonStyle(
@@ -99,8 +102,9 @@ class _MyAppBar extends StatelessWidget {
       actions: [
         //provider
         IconButton(icon: const Icon(Icons.add),onPressed: (){
-          CatalogModelNotifier catalog=context.read<CatalogModelNotifier>();
-          catalog.add();
+          //CatalogModelNotifier catalog=context.read<CatalogModelNotifier>();
+          //catalog.add();
+          commonProvider.catalogAdd(context);
         }),
         //provider
         IconButton(
@@ -112,8 +116,9 @@ class _MyAppBar extends StatelessWidget {
           icon: const Icon(Icons.remove_shopping_cart),
           onPressed: () {
 
-            CartModelNotifier cartModelNotifier=context.read<CartModelNotifier>();
-            cartModelNotifier.removeAll();
+            //CartModelNotifier cartModelNotifier=context.read<CartModelNotifier>();
+            //cartModelNotifier.removeAll();
+            commonProvider.removeAllCart(context);
           },
         ),
       ],
@@ -130,11 +135,12 @@ class _MyListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     print('item');
     //provider
-    var item = context.select<CatalogModelNotifier, Item>(
-      // Here, we are only interested in the item at [index]. We don't care
-      // about any other change.
-          (catalog) => catalog.catalogModel.getByPosition(index)
-    );
+    //var item = context.select<CatalogModelNotifier, Item>(
+    //  // Here, we are only interested in the item at [index]. We don't care
+    //  // about any other change.
+    //      (catalog) => catalog.catalogModel.getByPosition(index)
+    //);
+    var item=commonProvider.getItem(index,context);
     var textTheme = Theme.of(context).textTheme.titleLarge;
 
     return Padding(
