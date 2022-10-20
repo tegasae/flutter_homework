@@ -11,6 +11,8 @@ class CommonProvider {
   CatalogModel catalogModel;
   CartModel cartModel;
   Widget child;
+  late CartModelNotifier cartModelNotifier;
+
 
   CommonProvider(this.catalogModel, this.cartModel, this.child) {
     multiProvider=MultiProvider(providers: [
@@ -66,14 +68,34 @@ class CommonProvider {
    void cartRemove(int index) {
     //CartModelNotifier cart=;
     //cartModel.remove(item);
+     cartModelNotifier.remove(index);
    }
 
    Item getItemIndex(index) {
     return catalogModel.getByPosition(index);
    }
 
-   int getPrice() {
-      return 123;
-     //return cartModel.totalPrice;
+
+   void watchCart(BuildContext context) {
+    cartModelNotifier= context.watch<CartModelNotifier>();
    }
+
+   int getLenCart() {
+    return cartModelNotifier.cartModel.items.length;
+   }
+   int getPrice() {
+      print(cartModelNotifier.cartModel.totalPrice);
+      //return 123;
+
+     return cartModelNotifier.cartModel.totalPrice;
+   }
+
+  Widget generateCart(BuildContext context,Widget childItem) {
+
+    var consumer=Consumer<CartModelNotifier>(builder:(context,cart,child) {return childItem;});
+    return consumer.buildWithChild(context,childItem);
+
+    //return Consumer<CatalogModelNotifier>(builder:(context,catalog,child){return childItem;});
+  }
 }
+

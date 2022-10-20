@@ -14,10 +14,10 @@ class CartModelNotifier extends ChangeNotifier {
   CartModelNotifier(this.cartModel);
 
 
-  void newCatalog(CatalogModel catalog) {
-    cartModel.catalog=catalog;
-    notifyListeners();
-  }
+  //void newCatalog(CatalogModel catalog) {
+  //  cartModel.catalog=catalog;
+  //  notifyListeners();
+  //}
 
   void add(Item item) {
     cartModel.add(item);

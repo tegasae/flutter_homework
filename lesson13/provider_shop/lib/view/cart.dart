@@ -4,10 +4,10 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 import 'package:provider_shop/main.dart';
 
-import 'package:provider_shop/model/provider/cart.dart';
+//import 'package:provider_shop/model/provider/cart.dart';
 
 
 class MyCart extends StatelessWidget {
@@ -48,18 +48,20 @@ class _CartList extends StatelessWidget {
     // to rebuild this widget when CartModel notifies listeners (in other words,
     // when it changes).
     //provider
-    var cart = context.watch<CartModelNotifier>();
-    print('${cart.cartModel.items}');
+    //var cart = context.watch<CartModelNotifier>();
+    commonProvider.watchCart(context);
+    //print('${cart.cartModel.items}');
 
     return ListView.builder(
-      itemCount: cart.cartModel.items.length,
+      //itemCount: cart.cartModel.items.length,
+      itemCount: commonProvider.getLenCart(),
       itemBuilder: (context, index) => ListTile(
         leading: const Icon(Icons.done),
         trailing: IconButton(
           icon: const Icon(Icons.remove_circle_outline),
           onPressed: () {
 
-            cart.remove(index);
+            //cart.remove(index);
             commonProvider.cartRemove(index);
           },
         ),
@@ -90,10 +92,11 @@ class _CartTotal extends StatelessWidget {
             //
             // The important thing is that it will not rebuild
             // the rest of the widgets in this build method.
-            Consumer<CartModelNotifier>(
-                builder: (context, cart, child) =>
-                    //Text('\$${cart.cartModel.totalPrice}', style: hugeStyle)),
-                    Text('\$${commonProvider.getPrice()}', style: hugeStyle)),
+            commonProvider.generateCart(context, Text('\$${commonProvider.getPrice()}', style: hugeStyle)),
+            //Consumer<CartModelNotifier>(
+            //    builder: (context, cart, child) =>
+            //        //Text('\$${cart.cartModel.totalPrice}', style: hugeStyle)),
+            //        Text('\$${commonProvider.getPrice()}', style: hugeStyle)),
             const SizedBox(width: 24),
             TextButton(
               onPressed: () {

@@ -3,11 +3,9 @@
 // found in the LICENSE file.
 
 
-import 'package:data/data.dart' show Item ;
+import 'package:data/data.dart' show Item;
 import 'package:flutter/material.dart';
-
-import 'package:provider_shop/main.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyCatalog extends StatelessWidget {
   const MyCatalog({super.key});
@@ -19,12 +17,18 @@ class MyCatalog extends StatelessWidget {
         slivers: [
           _MyAppBar(),
           const SliverToBoxAdapter(child: SizedBox(height: 12)),
-          //provider
           SliverList(
-            delegate: SliverChildBuilderDelegate(
-                    //(context, index) => Consumer<CatalogModelNotifier>(builder:(context,catalog,child){print(index);print('child=$child');return _MyListItem(index);}))),
-                    //(context, index) => commonProvider.generateItem(context, _MyListItem(index)))),
-                    (context, index) => commonProvider.generateItem(context, _MyListItem(index), index))),
+              delegate: SliverChildBuilderDelegate(
+                    (context, index) =>
+
+                    BlocBuilder<CatalogBloc, CatalogState>(
+                      buildWhen: (prev,current) =>prev!=current,
+                      builder: (context, state) {
+                        print(' = = = $state');
+                        return _MyListItem(index);
+                      },
+                    ),
+              )),
         ],
       ),
     );
@@ -38,24 +42,22 @@ class _AddButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('add button1');
+    //print('add button');
     // The context.select() method will let you listen to changes to
     // a *part* of a model. You define a function that "selects" (i.e. returns)
     // the part you're interested in, and the provider package will not rebuild
     // this widget unless that particular part of the model changes.
     //
     // This can lead to significant performance improvements.
-
-    //provider
+    //CartModel cart=RepositoryProvider.of<CartModel>(context);
+    //var isInCart=context.select(() => )
     //var isInCart = context.select<CartModelNotifier, bool>(
     //  // Here, we are only interested whether [item] is inside the cart.
-    //      (cart) => cart.cartModel.inCart(item),
+    //      (cart) => cart.inCart(item),
     //);
-    var isInCart=commonProvider.isInCart(item, context);
-    //var catalog=context.watch<CatalogModelNotifier>();
-    //var isInCart=catalog.inCart(item);
-    print('${item.name}');
-    print('$isInCart');
+    //var isInCart = true;
+    final state = context.select((CartBloc bloc) => bloc.state);
+    final isInCart = state.cartModel.inCart(item);
 
     return TextButton(
       onPressed: isInCart
@@ -65,13 +67,16 @@ class _AddButton extends StatelessWidget {
         // We are using context.read() here because the callback
         // is executed whenever the user taps the button. In other
         // words, it is executed outside the build method.
-        //var catalog = context.read<CatalogModelNotifier>();
-        //catalog.addCart(item);
-        //provider
         //var cart = context.read<CartModelNotifier>();
-        //cart.add(item);
-        commonProvider.cartAdd(item, context);
 
+        //CartBloc bloc=context.read<CartBloc>();
+        //bloc.add(CartAdding(item));
+        //CatalogBloc catalogBloc=context.read<CatalogBloc>();
+        //catalogBloc.emit(CatalogAdd(catalogBloc.catalogModel));
+        //cart.add(item);
+        var cart = context.read<CartBloc>();
+        cart.add(CartAdding(item));
+        //var cart;
       },
       style: ButtonStyle(
         overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
@@ -97,25 +102,30 @@ class _MyAppBar extends StatelessWidget {
       floating: true,
       pinned: true,
       actions: [
-        //provider
-        IconButton(icon: const Icon(Icons.add),onPressed: (){
-          //CatalogModelNotifier catalog=context.read<CatalogModelNotifier>();
-          //catalog.add();
-          commonProvider.catalogAdd(context);
-        }),
-        //provider
+        BlocBuilder<CatalogBloc, CatalogState>(
+          //buildWhen: (previous,current)=>current.runtimeType==CatalogSucsess,
+          builder: (context, state) {
+            return IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: () {
+                  CatalogBloc catalogBloc = context.read<CatalogBloc>();
+                  catalogBloc.add(CatalogAdding());
+                  //CatalogModelNotifier catalog=context.read<CatalogModelNotifier>();
+                  //catalog.add();
+                });
+          },
+        ),
         IconButton(
-        icon: const Icon(Icons.shopping_cart),
-        onPressed: () => Navigator.pushNamed(context, '/cart'),
-      ),
-        //provider
+          icon: const Icon(Icons.shopping_cart),
+          onPressed: () => Navigator.pushNamed(context, '/cart'),
+        ),
         IconButton(
           icon: const Icon(Icons.remove_shopping_cart),
           onPressed: () {
-
             //CartModelNotifier cartModelNotifier=context.read<CartModelNotifier>();
             //cartModelNotifier.removeAll();
-            commonProvider.removeAllCart(context);
+            var cart = context.read<CartBloc>();
+            cart.add(CartClearing());
           },
         ),
       ],
@@ -130,14 +140,17 @@ class _MyListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('item');
-    //provider
+    //var item = RepositoryProvider.of<CatalogModel>(context).getByPosition(index);
+    final state = context.select((CatalogBloc bloc) => bloc.state);
+    final item = state.catalogModel.getByPosition(index);
+    print(state);
+    //print('${item.name}');
     //var item = context.select<CatalogModelNotifier, Item>(
     //  // Here, we are only interested in the item at [index]. We don't care
     //  // about any other change.
-    //      (catalog) => catalog.catalogModel.getByPosition(index)
+    //      (catalog) => catalog.catalogModel.getByPosition(index),
+
     //);
-    var item=commonProvider.getItem(index,context);
     var textTheme = Theme.of(context).textTheme.titleLarge;
 
     return Padding(
