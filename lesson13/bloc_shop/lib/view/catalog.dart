@@ -20,10 +20,8 @@ class MyCatalog extends StatelessWidget {
           const SliverToBoxAdapter(child: SizedBox(height: 12)),
           SliverList(
               delegate: SliverChildBuilderDelegate(
-            (context, index) =>
-
-                BlocBuilder<CatalogBloc, CatalogState>(
-              buildWhen: (prev,current) =>prev!=current,
+            (context, index) => BlocBuilder<CatalogBloc, CatalogState>(
+              buildWhen: (prev, current) => prev != current,
               builder: (context, state) {
                 print(' = = = $state');
                 return _MyListItem(index);

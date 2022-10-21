@@ -3,9 +3,13 @@
 // found in the LICENSE file.
 
 
+import 'package:cubit_shop/model/cubit/cart_cubit.dart';
 import 'package:data/data.dart' show Item;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../model/cubit/catalog_cubit.dart';
+
 
 class MyCatalog extends StatelessWidget {
   const MyCatalog({super.key});
@@ -21,8 +25,8 @@ class MyCatalog extends StatelessWidget {
               delegate: SliverChildBuilderDelegate(
                     (context, index) =>
 
-                    BlocBuilder<CatalogBloc, CatalogState>(
-                      buildWhen: (prev,current) =>prev!=current,
+                    BlocBuilder<CatalogCubit, CatalogState>(
+                      //buildWhen: (prev,current) =>prev!=current,
                       builder: (context, state) {
                         print(' = = = $state');
                         return _MyListItem(index);
@@ -56,9 +60,11 @@ class _AddButton extends StatelessWidget {
     //      (cart) => cart.inCart(item),
     //);
     //var isInCart = true;
-    final state = context.select((CartBloc bloc) => bloc.state);
-    final isInCart = state.cartModel.inCart(item);
 
+    final state = context.select((CartCubit cubit) => cubit.state.cartModel);
+    //print(state.cartModel.inCart(item));
+    final bool isInCart = state.inCart(item);
+    //var isInCart=true;
     return TextButton(
       onPressed: isInCart
           ? null
@@ -74,8 +80,8 @@ class _AddButton extends StatelessWidget {
         //CatalogBloc catalogBloc=context.read<CatalogBloc>();
         //catalogBloc.emit(CatalogAdd(catalogBloc.catalogModel));
         //cart.add(item);
-        var cart = context.read<CartBloc>();
-        cart.add(CartAdding(item));
+        var cart = context.read<CartCubit>();
+        cart.add(item);
         //var cart;
       },
       style: ButtonStyle(
@@ -102,14 +108,14 @@ class _MyAppBar extends StatelessWidget {
       floating: true,
       pinned: true,
       actions: [
-        BlocBuilder<CatalogBloc, CatalogState>(
+        BlocBuilder<CatalogCubit, CatalogState>(
           //buildWhen: (previous,current)=>current.runtimeType==CatalogSucsess,
           builder: (context, state) {
             return IconButton(
                 icon: const Icon(Icons.add),
                 onPressed: () {
-                  CatalogBloc catalogBloc = context.read<CatalogBloc>();
-                  catalogBloc.add(CatalogAdding());
+                  var catalogCubit = context.read<CatalogCubit>();
+                  catalogCubit.catalogAdd();
                   //CatalogModelNotifier catalog=context.read<CatalogModelNotifier>();
                   //catalog.add();
                 });
@@ -124,8 +130,8 @@ class _MyAppBar extends StatelessWidget {
           onPressed: () {
             //CartModelNotifier cartModelNotifier=context.read<CartModelNotifier>();
             //cartModelNotifier.removeAll();
-            var cart = context.read<CartBloc>();
-            cart.add(CartClearing());
+            //var cart = context.read<CartBloc>();
+            //cart.add(CartClearing());
           },
         ),
       ],
@@ -141,9 +147,9 @@ class _MyListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //var item = RepositoryProvider.of<CatalogModel>(context).getByPosition(index);
-    final state = context.select((CatalogBloc bloc) => bloc.state);
-    final item = state.catalogModel.getByPosition(index);
-    print(state);
+    final cubit = context.select((CatalogCubit bloc) => bloc.state);
+    final item = cubit.catalogModel.getByPosition(index);
+    print(cubit);
     //print('${item.name}');
     //var item = context.select<CatalogModelNotifier, Item>(
     //  // Here, we are only interested in the item at [index]. We don't care

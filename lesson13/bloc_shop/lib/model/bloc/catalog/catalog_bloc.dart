@@ -29,7 +29,8 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
       cs=CatalogAdd(catalogModel);
     }
 
-    emit(cs);
+    //emit(cs);
+    //emit(CatalogAdd(catalogModel));
   }
 
 

@@ -1,12 +1,31 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+
+
 import 'package:data/data.dart';
 
-class CatalogCubit extends Cubit<CatalogModel> {
-  CatalogModel catalogModel;
+part 'catalog_state.dart';
 
-  CatalogCubit(this.catalogModel) : super(catalogModel);
+class CatalogCubit extends Cubit<CatalogState> {
+  late CatalogModel catalogModel;
+  CatalogCubit(this.catalogModel) : super(CatalogSuccess(catalogModel));
   void catalogAdd() {
-    state.addRandom();
-    emit(state);
+    late CatalogState cs;
+    catalogModel.addRandom();
+
+    if (state is CatalogAdd) {
+      cs=CatalogSuccess(catalogModel);
+    }
+    if (state is CatalogSuccess) {
+      cs=CatalogAdd(catalogModel);
+    }
+
+    emit(cs);
   }
+
+
 }
+
+
+
+

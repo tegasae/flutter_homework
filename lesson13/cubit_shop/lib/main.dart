@@ -6,6 +6,8 @@ import 'package:data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'view/catalog.dart';
+
 //import 'view/cart.dart';
 //import 'view/catalog.dart';
 
