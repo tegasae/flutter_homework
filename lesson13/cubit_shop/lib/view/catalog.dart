@@ -61,10 +61,14 @@ class _AddButton extends StatelessWidget {
     //);
     //var isInCart = true;
 
+    //final state = context.select((CatalogCubit cubit) => cubit.state.catalogModel);
     final state = context.select((CartCubit cubit) => cubit.state.cartModel);
+
+    print(state);
     //print(state.cartModel.inCart(item));
     final bool isInCart = state.inCart(item);
-    //var isInCart=true;
+
+
     return TextButton(
       onPressed: isInCart
           ? null
@@ -80,6 +84,7 @@ class _AddButton extends StatelessWidget {
         //CatalogBloc catalogBloc=context.read<CatalogBloc>();
         //catalogBloc.emit(CatalogAdd(catalogBloc.catalogModel));
         //cart.add(item);
+        //state.add(item);
         var cart = context.read<CartCubit>();
         cart.add(item);
         //var cart;
@@ -92,11 +97,14 @@ class _AddButton extends StatelessWidget {
           return null; // Defer to the widget's default.
         }),
       ),
+
       child: isInCart
           ? const Icon(Icons.check, semanticLabel: 'ADDED')
           : const Text('ADD'),
     );
   }
+
+
 }
 
 class _MyAppBar extends StatelessWidget {
@@ -132,6 +140,11 @@ class _MyAppBar extends StatelessWidget {
             //cartModelNotifier.removeAll();
             //var cart = context.read<CartBloc>();
             //cart.add(CartClearing());
+            var cart=context.read<CartCubit>();
+
+            cart.clear();
+
+
           },
         ),
       ],

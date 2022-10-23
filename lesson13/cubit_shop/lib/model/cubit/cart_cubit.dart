@@ -10,14 +10,18 @@ class CartCubit extends Cubit<CartState> {
 
   void add(Item item) {
     cartModel.add(item);
+    print('add');
     print(state);
+    print(state==CartAdd(cartModel,item));
     emit(CartAdd(cartModel,item));
 
   }
 
   void clear() {
+    print(state);
     state.cartModel.removeAll();
     emit(CartInitial(cartModel));
+    print(state);
   }
 
   void remove(int index) {
