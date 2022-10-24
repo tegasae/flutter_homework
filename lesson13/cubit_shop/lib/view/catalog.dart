@@ -4,12 +4,10 @@
 
 
 import 'package:cubit_shop/model/cubit/cart_cubit.dart';
+import 'package:cubit_shop/model/cubit/catalog_cubit.dart';
 import 'package:data/data.dart' show Item;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../model/cubit/catalog_cubit.dart';
-
 
 class MyCatalog extends StatelessWidget {
   const MyCatalog({super.key});
@@ -23,15 +21,13 @@ class MyCatalog extends StatelessWidget {
           const SliverToBoxAdapter(child: SizedBox(height: 12)),
           SliverList(
               delegate: SliverChildBuilderDelegate(
-                    (context, index) =>
-
-                    BlocBuilder<CatalogCubit, CatalogState>(
-                      //buildWhen: (prev,current) =>prev!=current,
-                      builder: (context, state) {
-                        print(' = = = $state');
-                        return _MyListItem(index);
-                      },
-                    ),
+                    (context, index) => BlocBuilder<CatalogCubit, CatalogState>(
+                  buildWhen: (prev, current) => prev != current,
+                  builder: (context, state) {
+                    print(' = = = $state');
+                    return _MyListItem(index);
+                  },
+                ),
               )),
         ],
       ),
@@ -60,14 +56,8 @@ class _AddButton extends StatelessWidget {
     //      (cart) => cart.inCart(item),
     //);
     //var isInCart = true;
-
-    //final state = context.select((CatalogCubit cubit) => cubit.state.catalogModel);
-    final state = context.select((CartCubit cubit) => cubit.state.cartModel);
-
-    print(state);
-    //print(state.cartModel.inCart(item));
-    final bool isInCart = state.inCart(item);
-
+    final state = context.select((CartCubit bloc) => bloc.state);
+    final isInCart = state.cartModel.inCart(item);
 
     return TextButton(
       onPressed: isInCart
@@ -84,7 +74,6 @@ class _AddButton extends StatelessWidget {
         //CatalogBloc catalogBloc=context.read<CatalogBloc>();
         //catalogBloc.emit(CatalogAdd(catalogBloc.catalogModel));
         //cart.add(item);
-        //state.add(item);
         var cart = context.read<CartCubit>();
         cart.add(item);
         //var cart;
@@ -97,14 +86,11 @@ class _AddButton extends StatelessWidget {
           return null; // Defer to the widget's default.
         }),
       ),
-
       child: isInCart
           ? const Icon(Icons.check, semanticLabel: 'ADDED')
           : const Text('ADD'),
     );
   }
-
-
 }
 
 class _MyAppBar extends StatelessWidget {
@@ -122,7 +108,7 @@ class _MyAppBar extends StatelessWidget {
             return IconButton(
                 icon: const Icon(Icons.add),
                 onPressed: () {
-                  var catalogCubit = context.read<CatalogCubit>();
+                  CatalogCubit catalogCubit = context.read<CatalogCubit>();
                   catalogCubit.catalogAdd();
                   //CatalogModelNotifier catalog=context.read<CatalogModelNotifier>();
                   //catalog.add();
@@ -138,13 +124,8 @@ class _MyAppBar extends StatelessWidget {
           onPressed: () {
             //CartModelNotifier cartModelNotifier=context.read<CartModelNotifier>();
             //cartModelNotifier.removeAll();
-            //var cart = context.read<CartBloc>();
-            //cart.add(CartClearing());
-            var cart=context.read<CartCubit>();
-
+            var cart = context.read<CartCubit>();
             cart.clear();
-
-
           },
         ),
       ],
@@ -160,9 +141,9 @@ class _MyListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //var item = RepositoryProvider.of<CatalogModel>(context).getByPosition(index);
-    final cubit = context.select((CatalogCubit bloc) => bloc.state);
-    final item = cubit.catalogModel.getByPosition(index);
-    print(cubit);
+    final state = context.select((CatalogCubit bloc) => bloc.state);
+    final item = state.catalogModel.getByPosition(index);
+    print(state);
     //print('${item.name}');
     //var item = context.select<CatalogModelNotifier, Item>(
     //  // Here, we are only interested in the item at [index]. We don't care

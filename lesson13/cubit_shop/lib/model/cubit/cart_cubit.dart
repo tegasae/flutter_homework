@@ -21,6 +21,7 @@ class CartCubit extends Cubit<CartState> {
     print(state);
     state.cartModel.removeAll();
     emit(CartInitial(cartModel));
+    emit(CartInitial(cartModel));
     print(state);
   }
 

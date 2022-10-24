@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'model/cubit/cart_cubit.dart';
+import 'view/cart.dart';
 import 'view/catalog.dart';
 
 //import 'view/cart.dart';
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => const MyCatalog(),
-          //  '/cart': (context) => const MyCart(),
+          '/cart': (context) => const MyCart(),
         },
       ),
     );
